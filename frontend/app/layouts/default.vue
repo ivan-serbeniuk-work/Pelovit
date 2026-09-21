@@ -195,7 +195,8 @@
               <li class="mb-2"><NuxtLink to="/opt" class="text-dark text-decoration-none">Опт закупівлі</NuxtLink></li>
               <li class="mb-2"><NuxtLink to="/masters" class="text-dark text-decoration-none">Майстрам</NuxtLink></li>
               <li class="mb-2"><NuxtLink to="/journal" class="text-dark text-decoration-none">МедЖурнал</NuxtLink></li>
-              <li><NuxtLink to="/contacts" class="text-dark text-decoration-none">Адреси магазинів</NuxtLink></li>
+              <li class="mb-2"><NuxtLink to="/contacts" class="text-dark text-decoration-none">Адреси магазинів</NuxtLink></li>
+              <li><NuxtLink to="/obmin-ta-povernennya" class="text-dark text-decoration-none">Обмін та повернення</NuxtLink></li>
             </ul>
           </div>
           <div class="col-md-6 col-lg-3">

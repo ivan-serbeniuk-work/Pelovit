@@ -13,6 +13,7 @@ export default defineEventHandler(async () => {
     { loc: '/masters',                 priority: '0.6', changefreq: 'monthly' },
     { loc: '/masters-category',        priority: '0.5', changefreq: 'monthly' },
     { loc: '/kontractne-vyrobnyctvo',  priority: '0.5', changefreq: 'monthly' },
+    { loc: '/obmin-ta-povernennya',    priority: '0.3', changefreq: 'yearly'  },
     // /catalog-journal навмисно відсутня — це 301-редирект на /journal
   ]
 
