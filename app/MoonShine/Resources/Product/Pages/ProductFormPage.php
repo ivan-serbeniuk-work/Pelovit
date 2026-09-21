@@ -98,7 +98,7 @@ class ProductFormPage extends FormPage
                     ])->columnSpan(6),
                 ]),
             ]),
-            Box::make('Зображення', [
+            Box::make('Зображення та відео', [
                 Image::make('Головне фото', 'image')
                     ->dir('products')
                     ->disk('public_root'),
@@ -106,6 +106,8 @@ class ProductFormPage extends FormPage
                     ->dir('products')
                     ->disk('public_root')
                     ->multiple(),
+                Text::make('Відео (YouTube)', 'video_url')
+                    ->hint('Посилання на ролик з YouTube, напр. https://www.youtube.com/watch?v=... або https://youtu.be/... Показується на сторінці товару.'),
             ]),
         ];
     }
@@ -122,7 +124,9 @@ class ProductFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'video_url' => ['nullable', 'url', 'regex:~(youtube(-nocookie)?\.com|youtu\.be)/~i'],
+        ];
     }
 
     /**

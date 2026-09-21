@@ -304,6 +304,21 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
             <div class="product-description" v-html="descriptionHtml" />
           </template>
 
+          <template v-if="product.youtube_id">
+            <h5 class="mt-5 mb-3">Відео</h5>
+            <div class="ratio ratio-16x9 product-video">
+              <iframe
+                :src="`https://www.youtube-nocookie.com/embed/${product.youtube_id}?rel=0`"
+                :title="`Відео: ${product.name}`"
+                loading="lazy"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+                class="rounded"
+              />
+            </div>
+          </template>
+
           <!-- Повний текст інструкції: склад, активи, спосіб застосування. -->
           <template v-if="instructionHtml">
             <button

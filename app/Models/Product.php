@@ -34,7 +34,7 @@ class Product extends Model
         'category_id', 'name', 'slug', 'description', 'instruction',
         'meta_title', 'meta_description', 'meta_keywords',
         'og_title', 'og_description', 'no_index',
-        'price', 'old_price', 'image', 'images',
+        'price', 'old_price', 'image', 'images', 'video_url',
         'brand', 'stock', 'is_active', 'is_featured',
     ];
 
@@ -47,7 +47,7 @@ class Product extends Model
         'old_price'   => 'decimal:2',
     ];
 
-    protected $appends = ['discount_percent'];
+    protected $appends = ['discount_percent', 'youtube_id'];
 
     public function category()
     {
@@ -59,5 +59,15 @@ class Product extends Model
         if (!$this->old_price || $this->old_price <= $this->price) return null;
 
         return (int) round((1 - $this->price / $this->old_price) * 100);
+    }
+
+    // ID ролика з будь-якого формату посилання: watch?v=, youtu.be/, shorts/, embed/.
+    public function getYoutubeIdAttribute(): ?string
+    {
+        if (!$this->video_url) return null;
+
+        preg_match('~(?:youtube(?:-nocookie)?\.com/(?:watch\?(?:.*&)?v=|shorts/|embed/|live/)|youtu\.be/)([\w-]{11})~', $this->video_url, $m);
+
+        return $m[1] ?? null;
     }
 }
