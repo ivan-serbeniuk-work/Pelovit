@@ -94,6 +94,12 @@ function postImg(post: any) {
       <ProductCard :product="heroProduct" class="hero-product-card" />
     </div>
   </div>
+  <!-- На мобільному оверлей приховано (перекривав би текст слайда); featured-товар
+       показуємо окремим блоком одразу під героєм, щоб перший екран не втрачав
+       картку з макета. d-lg-none — лише < 992px. -->
+  <div v-if="heroProduct" class="hero-product-mobile container d-lg-none">
+    <ProductCard :product="heroProduct" class="hero-product-card" />
+  </div>
 </section>
 
 <!-- Promotions -->
