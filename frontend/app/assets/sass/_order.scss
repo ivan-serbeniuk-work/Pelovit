@@ -229,3 +229,18 @@ body{
     }
   }
 }
+
+// Логотипи платіжних систем біля онлайн-оплати (компонент PaymentLogos)
+.payment-logos{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+
+  &__item{
+    width: 44px;
+    height: 28px;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+  }
+}

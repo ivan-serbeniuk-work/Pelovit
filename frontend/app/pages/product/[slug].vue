@@ -261,9 +261,9 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
 
       <div class="col-lg-7 right_content">
         <h1 class="fw-bold">{{ product.name }}</h1>
-        <div class="categories">
-          <p v-if="product.category" class="text-muted">{{ product.category.name }}</p>
-          <p v-if="product.brand" class="text-muted">{{ product.brand }}</p>
+        <div v-if="product.category || product.brand" class="categories">
+          <span v-if="product.category" class="product-tag">{{ product.category.name }}</span>
+          <span v-if="product.brand" class="product-tag">{{ product.brand }}</span>
         </div>
 
         <a
@@ -296,6 +296,8 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
             Отримай 10% знижки у застосунку
           </a>
         </div>
+
+        <TrustBadges />
 
         <div class="description_wrapper_dropdown">
           <template v-if="product.description">
