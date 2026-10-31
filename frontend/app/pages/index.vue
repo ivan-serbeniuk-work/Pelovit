@@ -12,6 +12,10 @@ const { data } = await useFetch<any>(`${config.public.apiBase}/home`)
 
 const promotions = computed(() => data.value?.promotions ?? [])
 const allProducts = computed(() => data.value?.allProducts ?? [])
+
+// Картка товару в герої (перенесено з макета): перший featured, інакше перший
+// зі списку. Показується оверлеєм у правій частині героя на десктопі.
+const heroProduct = computed(() => promotions.value[0] ?? allProducts.value[0] ?? null)
 const categories = computed(() => data.value?.categories ?? [])
 const latestPosts = computed(() => data.value?.latestPosts ?? [])
 const banners = computed(() => data.value?.banners ?? [])
@@ -77,6 +81,13 @@ function postImg(post: any) {
         <span class="carousel-control-next-icon"></span>
       </button>
     </template>
+  </div>
+  <!-- Картка featured-товару поверх фото (перенесено з макета). Оверлей у правій
+       частині; на мобільному приховується, щоб не перекривати текст слайда. -->
+  <div v-if="heroProduct" class="hero-product-overlay">
+    <div class="container">
+      <ProductCard :product="heroProduct" class="hero-product-card" />
+    </div>
   </div>
 </section>
 

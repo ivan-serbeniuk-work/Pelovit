@@ -44,3 +44,38 @@
   color: $light-bg;
   border-radius: $radius-md;
 }
+
+// Оверлей картки товару в герої (перенесено з макета).
+// Секція-носій має бути позиційним контейнером для абсолютного оверлея.
+.hero-carousel{
+  position: relative;
+}
+.hero-product-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none; // клики проходять до каруселі, крім самої картки
+
+  .container{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .hero-product-card{
+    pointer-events: auto;
+    width: 300px;
+    max-width: 40%;
+  }
+}
+
+// На мобільному картку ховаємо: текст слайда займає всю ширину, оверлей
+// перекривав би його. Герой лишається чистим, як було.
+@media (max-width: $bp-lg){
+  .hero-product-overlay{
+    display: none;
+  }
+}
