@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Faq extends Model
 {
     public const PAGES = [
+        'home'     => 'Головна',
         'contract' => 'Контрактне виробництво',
         'opt'      => 'Опт',
         'masters'  => 'Майстрам',

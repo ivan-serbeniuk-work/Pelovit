@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Category;
+use App\Models\Faq;
 use App\Models\Post;
 use App\Models\Product;
 use Illuminate\Http\JsonResponse;
@@ -38,6 +39,8 @@ class HomeApiController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        return response()->json(compact('promotions', 'allProducts', 'categories', 'latestPosts', 'banners'));
+        $faqs = Faq::active('home')->get(['id', 'question', 'answer']);
+
+        return response()->json(compact('promotions', 'allProducts', 'categories', 'latestPosts', 'banners', 'faqs'));
     }
 }
