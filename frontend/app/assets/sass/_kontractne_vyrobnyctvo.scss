@@ -925,6 +925,31 @@
       padding: 1.5rem;
     }
 
+    // Дропдауни калькулятора — під бренд, у тон із картками упаковки
+    // (золотий акцент) замість дефолтного синього фокусу Bootstrap.
+    .form-select {
+      appearance: none;
+      border: 2px solid $border-strong;
+      border-radius: $radius-md;
+      padding: 0.7rem 2.5rem 0.7rem 1rem;
+      color: $brown-700;
+      font-weight: 500;
+      background-color: $surface;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%23422928' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:hover {
+        border-color: $gold;
+      }
+      &:focus {
+        border-color: $gold;
+        box-shadow: 0 0 0 3px rgba($gold, 0.2);
+        outline: none;
+      }
+    }
+
     .packaging-card {
       border: 2px solid transparent;
       border-radius: $radius-md;
