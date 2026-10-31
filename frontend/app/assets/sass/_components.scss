@@ -4,6 +4,14 @@
   transition: $transition-default;
   overflow: hidden;
   border-radius: $radius-lg;
+  background: $surface;
+
+  // Картка піднімається й поглиблює тінь під курсором — живий відгук,
+  // якого раніше не було (був лише перехід без змін стану).
+  &:hover {
+    box-shadow: $shadow-raised;
+    transform: translateY(-3px);
+  }
 
   .tag_brown {
     position: absolute;
@@ -400,7 +408,7 @@
 
     &:focus {
       border-color: $brown-dark;
-      box-shadow: 0 0 0 3px rgba(105, 189, 219, .25);
+      box-shadow: 0 0 0 3px rgba($accent, .25);
     }
   }
 }

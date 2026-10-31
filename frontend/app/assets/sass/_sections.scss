@@ -20,6 +20,18 @@
   .catalog-head h2 {
     font-size: clamp(1.35rem, 5vw, 2rem);
     line-height: 1.2;
+
+    // Янтарна «іскра» — короткий рул під заголовком секції. Декоративний
+    // акцент фірмової гами (відкладення лиману), контраст тексту не зачіпає.
+    &::after {
+      content: '';
+      display: block;
+      width: 52px;
+      height: 3px;
+      margin-top: 0.6rem;
+      background: $amber;
+      border-radius: $radius-full;
+    }
   }
 
   .catalog-sidebar {
@@ -282,6 +294,11 @@
     display: flex;
     flex-direction: column;
 
+    &:hover {
+      box-shadow: $shadow-raised;
+      transform: translateY(-3px);
+    }
+
     h3 {
       margin-bottom: 0.75rem;
       font-weight: 500;
@@ -318,6 +335,16 @@
     font-size: $text-4xl;
     font-weight: 700;
     margin-bottom: 0.75rem;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 52px;
+      height: 3px;
+      margin: 0.75rem auto 0;
+      background: $amber;
+      border-radius: $radius-full;
+    }
   }
 
   p {

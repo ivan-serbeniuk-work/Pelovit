@@ -118,7 +118,8 @@
       overflow: hidden;
     }
     .hero-image img {
-      width: 1320px;
+      width: 100%;           // було 1320px: на телефоні показувався лише лівий край
+      max-width: 1320px;
       height: 502px;
       border-radius: $radius-lg;
       object-fit: cover;
@@ -287,7 +288,8 @@
       overflow: hidden;
     }
     .main-image img{
-      width: 1320px;
+      width: 100%;           // було 1320px: на телефоні показувався лише лівий край
+      max-width: 1320px;
       height: 450px;
       border-radius: $radius-lg;
       object-fit: cover;
