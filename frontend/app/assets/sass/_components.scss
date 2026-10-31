@@ -258,24 +258,26 @@
   }
 }
 
+// Пункт «Каталог» — тепер уся плашка (іконка + текст) є одним посиланням,
+// тож клік і hover працюють на весь блок, а не лише на слові.
 .navbar-nav .nav-item .wrapper {
   display: flex;
   align-items: center;
+  gap: 0.4rem;
   margin: 0 4px;
+  color: $white;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: inherit;
 
-  .nav-link {
+  &:hover, &.active {
     color: $white;
-    font-weight: 700;
-
-    &:hover, &.active {
-      color: $white;
-      background: rgba($surface, .15);
-    }
+    background: rgba($surface, .15);
   }
 }
 
 .cat-blue {
-  background-color: $primary-blue;
+  background-color: $accent; // не $primary-blue (#69BDDB): білий текст на ньому — 2.12:1
 }
 
 .radius { border-radius: $radius-md; }
