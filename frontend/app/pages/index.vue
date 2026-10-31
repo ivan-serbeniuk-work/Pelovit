@@ -16,6 +16,15 @@ const allProducts = computed(() => data.value?.allProducts ?? [])
 // Картка товару в герої (перенесено з макета): перший featured, інакше перший
 // зі списку. Показується оверлеєм у правій частині героя на десктопі.
 const heroProduct = computed(() => promotions.value[0] ?? allProducts.value[0] ?? null)
+
+// Запасний слайд, коли в базі немає жодного банера.
+const fallbackBanner = {
+  title: 'Краса починається зі здорової шкіри.',
+  subtitle: 'Відкрийте для себе догляд для обличчя, що поєднує ефективність сучасних формул і силу натуральних компонентів.',
+  image: null,
+  button_text: 'Дивитися товари',
+  link: '/catalog',
+}
 const categories = computed(() => data.value?.categories ?? [])
 const latestPosts = computed(() => data.value?.latestPosts ?? [])
 const banners = computed(() => data.value?.banners ?? [])
@@ -46,32 +55,27 @@ function postImg(post: any) {
 <!-- Hero Carousel -->
 <section class="hero-carousel">
   <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+    <!-- Активну точку задаємо статично на першій кнопці, а не реактивно (i===0):
+         реактивний :class конфліктує з каруселлю Bootstrap. Решта — через v-for. -->
     <div class="carousel-indicators" v-if="banners.length > 1">
-      <button v-for="(b, i) in banners" :key="b.id" type="button" data-bs-target="#heroCarousel" :data-bs-slide-to="i" :class="i===0?'active':''"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Слайд 1"></button>
+      <button v-for="(b, i) in banners.slice(1)" :key="b.id" type="button" data-bs-target="#heroCarousel" :data-bs-slide-to="i + 1" :aria-label="`Слайд ${i + 2}`"></button>
     </div>
     <div class="carousel-inner">
+      <!-- Якщо банерів нема — один статичний слайд, каруселі немає. -->
       <div v-if="banners.length === 0" class="carousel-item active">
-        <div class="hero text-white" :style="`background-image: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.08) 100%), url(${assetUrl('images/gl_face.png')});`">
-          <div class="container">
-            <div class="col-lg-6 mob">
-              <h1 class="display-3 fw-bold mb-4">Краса починається зі здорової шкіри.</h1>
-              <p class="lead mb-5">Відкрийте для себе догляд для обличчя, що поєднує ефективність сучасних формул і силу натуральних компонентів.</p>
-              <NuxtLink to="/catalog" class="btn btn-light btn-lg px-5 py-3 fw-medium rad-16">Дивитися товари</NuxtLink>
-            </div>
-          </div>
-        </div>
+        <HeroSlide :banner="fallbackBanner" />
       </div>
-      <div v-for="(banner, i) in banners" :key="banner.id" :class="['carousel-item', i === 0 ? 'active' : '']">
-        <div class="hero text-white" :style="banner.image ? `background-image: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.08) 100%), url(${assetUrl(banner.image)})` : `background-image: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.08) 100%), url(${assetUrl('images/gl_face.png')})`">
-          <div class="container">
-            <div class="col-lg-6 mob">
-              <h1 class="display-3 fw-bold mb-4">{{ banner.title }}</h1>
-              <p v-if="banner.subtitle" class="lead mb-5">{{ banner.subtitle }}</p>
-              <NuxtLink v-if="banner.button_text && banner.link" :to="banner.link" class="btn btn-light btn-lg px-5 py-3 fw-medium rad-16">{{ banner.button_text }}</NuxtLink>
-            </div>
-          </div>
+      <!-- Банери: `active` на першому слайді задаємо статичним класом, щоб Vue ним
+           не керував і не відкочував карусель на перший слайд. -->
+      <template v-else>
+        <div class="carousel-item active">
+          <HeroSlide :banner="banners[0]" />
         </div>
-      </div>
+        <div v-for="banner in banners.slice(1)" :key="banner.id" class="carousel-item">
+          <HeroSlide :banner="banner" />
+        </div>
+      </template>
     </div>
     <template v-if="banners.length > 1">
       <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
