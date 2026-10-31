@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
       <div class="container">
         <NuxtLink class="navbar-brand fw-bold" to="/">
-          <span style="color:#422928;">PELOVIT</span>
+          <span class="brand-wordmark">PELOVIT</span>
         </NuxtLink>
 
         <!-- Mobile-only: wishlist + cart always visible next to toggler -->

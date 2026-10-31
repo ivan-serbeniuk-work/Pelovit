@@ -47,7 +47,7 @@ function postImg(post: any) {
     </div>
     <div class="carousel-inner">
       <div v-if="banners.length === 0" class="carousel-item active">
-        <div class="hero text-white" :style="`background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${assetUrl('images/gl_face.png')});`">
+        <div class="hero text-white" :style="`background-image: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.08) 100%), url(${assetUrl('images/gl_face.png')});`">
           <div class="container">
             <div class="col-lg-6 mob">
               <h1 class="display-3 fw-bold mb-4">Краса починається зі здорової шкіри.</h1>
@@ -58,7 +58,7 @@ function postImg(post: any) {
         </div>
       </div>
       <div v-for="(banner, i) in banners" :key="banner.id" :class="['carousel-item', i === 0 ? 'active' : '']">
-        <div class="hero text-white" :style="banner.image ? `background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${assetUrl(banner.image)})` : `background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${assetUrl('images/gl_face.png')})`">
+        <div class="hero text-white" :style="banner.image ? `background-image: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.08) 100%), url(${assetUrl(banner.image)})` : `background-image: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.08) 100%), url(${assetUrl('images/gl_face.png')})`">
           <div class="container">
             <div class="col-lg-6 mob">
               <h1 class="display-3 fw-bold mb-4">{{ banner.title }}</h1>
@@ -81,7 +81,7 @@ function postImg(post: any) {
 </section>
 
 <!-- Promotions -->
-<section class="py-5 bg-light promotions">
+<section v-if="promotions.length" class="py-5 bg-light promotions">
   <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-bold">Акції</h2>

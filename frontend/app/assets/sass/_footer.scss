@@ -3,12 +3,12 @@
 // LOYALTY + FOOTER
 // =============================================
 .bg-beige {
-  background: #f9f3eb;
+  background: $surface-warm;
 }
 
 // Заголовки колонок футера — h3 заради ієрархії, розмір як у колишнього h6.
 .footer-heading {
-  font-size: 1rem;
+  font-size: $text-base;
   line-height: 1.2;
 }
 
@@ -16,9 +16,9 @@
   .form-control {
     background: rgba(211, 211, 211, 0.4);
     border: none;
-    border-radius: 12px;
+    border-radius: $radius-md;
     padding: 14px 18px;
-    font-size: 1.05rem;
+    font-size: $text-base;
 
     &::placeholder {
       color: rgba(58, 37, 33, 0.6);
@@ -26,18 +26,18 @@
 
     &:focus {
       background: white;
-      box-shadow: 0 0 0 3px rgba(66, 41, 40, 0.15);
+      box-shadow: $shadow-focus;
     }
   }
 
   button {
-    background: #422928;
+    background: $brown-700;
     color: white;
-    font-size: 1.1rem;
+    font-size: $text-lg;
     transition: all 0.3s;
 
     &:hover {
-      background: #2c1f1a;
+      background: $brown-900;
     }
   }
 }
@@ -55,15 +55,15 @@
   align-items: center;
   gap: 12px;
   padding: 12px 18px;
-  border-radius: 12px;
-  background: #422928;
-  color: #fff;
+  border-radius: $radius-md;
+  background: $brown-700;
+  color: $surface;
   text-decoration: none;
   transition: background .2s ease;
 
   &:hover {
-    background: #2c1f1a;
-    color: #fff !important;
+    background: $brown-900;
+    color: $surface !important;
     text-decoration: none !important;
   }
 
@@ -71,7 +71,7 @@
     display: flex;
     flex-direction: column;
     line-height: 1.15;
-    font-size: 1.05rem;
+    font-size: $text-base;
     font-weight: 600;
     white-space: nowrap;
 
@@ -96,34 +96,34 @@
 .loyalty-footer {
   background: rgba(238, 228, 223, 1);
   h6 {
-    font-size: 1.1rem;
+    font-size: $text-lg;
     letter-spacing: 0.5px;
   }
 
   ul {
-    font-size: 1.05rem;
+    font-size: $text-base;
   }
 
   a:hover {
-    color: #422928 !important;
+    color: $brown-700 !important;
     text-decoration: underline !important;
   }
 }
 
 /* Responsive */
-@media (max-width: 992px) {
+@media (max-width: $bp-lg) {
   .loyalty-footer h2 {
-    font-size: 2.2rem;
+    font-size: $text-4xl;
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $bp-sm) {
   .loyalty-footer {
     h2 { font-size: 1.6rem; }
 
     .loyalty-form .form-control {
       padding: 10px 14px;
-      font-size: .95rem;
+      font-size: $text-sm;
     }
   }
 }

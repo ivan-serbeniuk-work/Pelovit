@@ -5,7 +5,7 @@
 .masters-hero{
   margin: unset;
   border-radius: unset;
-  color: #fff;
+  color: $surface;
 }
 .stat-card{
   display: flex;
@@ -15,30 +15,30 @@
 }
 a.stat-card:hover{
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, .12);
+  box-shadow: $shadow-card;
 }
 .hero{
   a.btn{
     //max-width: 165px;
-    font-size: 1rem;
+    font-size: $text-base;
   }
 }
 
 .sidebar .nav-link {
-  color: #555;
+  color: $text-muted;
   padding: 14px 20px;
-  border-radius: 8px;
+  border-radius: $radius-sm;
   margin-bottom: 8px;
 }
 .sidebar .nav-link.active,
 .sidebar .nav-link:hover {
-  background-color: #f8f1eb;
-  color: #333;
+  background-color: $surface-warm;
+  color: $neutral-700;
   font-weight: 500;
 }
 .hero-video {
   position: relative;
-  border-radius: 16px;
+  border-radius: $radius-lg;
   overflow: hidden;
 }
 // Стан, коли відеопротокол ще не прив'язаний до процедури
@@ -47,7 +47,7 @@ a.stat-card:hover{
   align-items: center;
   justify-content: center;
   min-height: 260px;
-  background: #f8f1eb;
+  background: $surface-warm;
   text-align: center;
   padding: 1.5rem;
 }
@@ -63,7 +63,7 @@ a.stat-card:hover{
   transition: all 0.3s;
 }
 .product-card:hover {
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: $shadow-raised;
 }
 .master_category{
     .tab{
@@ -74,7 +74,7 @@ a.stat-card:hover{
     }
 
   .product_card_sm .cart-item{
-    border: 1px solid #FAF7F3;
+    border: 1px solid $surface-raised;
   }
 
   .content-product_card_sm{
@@ -86,7 +86,7 @@ a.stat-card:hover{
   }
 
   .like_box{
-    background-color: #FAF7F3;
+    background-color: $surface-raised;
   }
 
   .calculation .inner{
@@ -100,7 +100,7 @@ a.stat-card:hover{
     font-size: 2rem;
   }
   .calculation .inner .btn{
-    border-radius: 16px ;
+    border-radius: $radius-lg;
   }
 
   .categories{
@@ -114,7 +114,7 @@ a.stat-card:hover{
         position: absolute;
         width: -webkit-fill-available;
         color: white;
-        font-size: 1.5rem;
+        font-size: $text-2xl;
         font-weight: 500;
         height: -webkit-fill-available;
         display: flex;
@@ -125,7 +125,7 @@ a.stat-card:hover{
     .card-img-top{
       max-height: 200px;
       object-fit: cover;
-      border-radius: 16px;
+      border-radius: $radius-lg;
       filter: brightness(70%);
     }
   }

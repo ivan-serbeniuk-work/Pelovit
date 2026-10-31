@@ -1,36 +1,99 @@
-// Colors
-$primary-blue: rgba(105, 189, 219, 1);
-$blue-alt: #1A7B9E;
-$brown-dark: #422928;
-$brown-bg: #2C1A17;
-$light-bg: #FAF7F3;
-$white: #FFFEFC;
-$text-dark: #1A1A1A;
-$text-muted: #565454;
-$border-light: rgba(233, 232, 232, 1);
-$tag-bg: #422928;
-$buy-btn-bg: $primary-blue;
-$discount-line: rgba(118, 118, 118, 1);
+// Точка правды для цвета, типографики и ритма.
+// Новые значения не пишем литералами в партиалах — добавляем сюда.
+// Подключение в партиале: @use 'variables' as *;
 
-// Spacing
-$spacing-xs: 4px;
-$spacing-sm: 8px;
-$spacing-md: 16px;
-$spacing-lg: 24px;
-$spacing-xl: 36px;
+// ── Бренд: тёплый коричневый
+$brown-900: #2C1A17; // самые тёмные блоки (контрактное производство, подвал)
+$brown-700: #422928; // основной коричневый бренда
+$brown-600: #5E3F3E; // заголовки и подписи на кремовом
+$brown-500: #5C4A43; // приглушённый, вторичные подписи на тёмном
+$brown-300: #7B4F3A; // тёплый акцент, иконки и ссылки на светлом
+$brown-200: #CBBAB3; // светлый тёплый, границы и разделители на кремовом
+
+// ── Акцент: бирюзово-синий
+$accent:       #1A7B9E; // кнопки и активные состояния
+$accent-dark:  #14607B; // hover/active
+$accent-light: #69BDDB; // только декор: контраст с белым 2.12:1, текст поверх нельзя
+$accent-tint:  #E7F1F4; // светлая подложка блоков
+
+// ── Поверхности
+$surface:        #FFFFFF;
+$surface-raised: #FAF7F3; // карточки и секции на белом
+$surface-tint:   #F4F0E7; // кремовая секция
+$surface-warm:   #F8F1EB; // тёплая кремовая секция
+$surface-sand:   #FDF3D0; // песочная подложка акций и плашек
+
+// ── Текст и нейтрали
+$text:          #1A1A1A;
+$text-muted:    #565454; // 7.5:1 на белом
+$text-subtle:   #7A6A63; // тёплый серый, подписи
+$on-dark:       #FFFFFF;
+$border:        #E9E8E8;
+$border-strong: #DDDDDD;
+
+// ── Холодные нейтрали (там, где тёплый тон бренда неуместен)
+$neutral-700: #333333;
+$neutral-500: #8A8A8A;
+$neutral-300: #AAAAAA;
+
+// ── Статусы
+$danger:       #CC2229;
+$danger-muted: #B5423A; // приглушённый кирпичный: плашка скидки, ошибки на тёплом фоне
+$success:      #38A169;
+$warning:      #EAC13D;
+$gold:         #D4A017; // акцент на странице контрактного производства
+$star:         #FFD700; // звёзды рейтинга
+
+// ── Тени
+$shadow-card:   0 8px 25px rgba(0, 0, 0, .07);
+$shadow-raised: 0 12px 32px rgba(66, 41, 40, .09);
+$shadow-focus:  0 0 0 3px rgba(66, 41, 40, .15);
+
+// ── Типографика
+$text-xs:   0.8rem;
+$text-sm:   0.9rem;
+$text-base: 1rem;
+$text-lg:   1.1rem;
+$text-xl:   1.25rem;
+$text-2xl:  1.5rem;
+$text-3xl:  1.8rem;
+$text-4xl:  2.2rem;
+$text-5xl:  2.8rem;
+
+// ── Отступы
+$spacing-xs:  4px;
+$spacing-sm:  8px;
+$spacing-md:  16px;
+$spacing-lg:  24px;
+$spacing-xl:  36px;
 $spacing-2xl: 48px;
 
-// Border radius
-$radius-sm: 8px;
-$radius-md: 12px;
-$radius-lg: 16px;
-$radius-xl: 20px;
+// ── Радиусы
+$radius-sm:   8px;
+$radius-md:   12px;
+$radius-lg:   16px;
+$radius-xl:   24px;
+$radius-2xl:  32px;
 $radius-full: 9999px;
 
-// Transitions
+// ── Переходы
 $transition-default: all 0.3s ease;
 
-// Breakpoints
+// ── Брейкпоинты
 $bp-sm: 576px;
 $bp-md: 768px;
 $bp-lg: 992px;
+
+// ── Совместимость со старыми именами (используются в партиалах, которые уже
+//    подключали этот файл). Новый код пишем на токенах выше.
+$primary-blue:   $accent-light;
+$blue-alt:       $accent;
+$brown-dark:     $brown-700;
+$brown-bg:       $brown-900;
+$light-bg:       $surface-raised;
+$white:          $surface;
+$text-dark:      $text;
+$border-light:   $border;
+$tag-bg:         $brown-700;
+$buy-btn-bg:     $accent; // не $accent-light: тот давал контраст 2.12:1 при норме 4.5:1
+$discount-line:  $text-subtle;

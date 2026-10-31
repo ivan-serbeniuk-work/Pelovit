@@ -1,7 +1,7 @@
 @use 'variables' as *;
 
 .hero {
-  background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+  background: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.08) 100%),
   url('/app-images/gl_face.png') center/cover no-repeat;
   min-height: 85vh;
   display: flex;
@@ -17,7 +17,7 @@
   width: 4%;
 }
 .card-pelov .mt-3 {
-  font-size: 1rem;
+  font-size: $text-base;
   color: $brown-dark;
   width: 100%;
   text-align: justify;
@@ -34,13 +34,13 @@
 }
 
 .price {
-  font-size: 1rem;
-  color: #422928;
+  font-size: $text-base;
+  color: $brown-700;
 }
 
 .buy {
   padding: 7px 16px;
   background-color: $primary-blue;
   color: $light-bg;
-  border-radius: 12px;
+  border-radius: $radius-md;
 }

@@ -3,7 +3,7 @@
 .loyalty-section {
   background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
   url('/app-images/skincare_glow.png') center/cover no-repeat;
-  color: #fff;
+  color: $surface;
   padding: 6rem 0;
   position: relative;
 }
@@ -24,24 +24,24 @@
   margin-bottom: 1.25rem;
 }
 .loyalty-text p {
-  font-size: 1.15rem;
+  font-size: $text-lg;
   line-height: 1.55;
   opacity: 0.95;
   margin-bottom: 2rem;
 }
 .btn-register {
   padding: 1rem 2.25rem;
-  background: #fff;
-  color: #1a1a1a;
+  background: $surface;
+  color: $text;
   border: none;
-  border-radius: 9999px;
-  font-size: 1.05rem;
+  border-radius: $radius-full;
+  font-size: $text-base;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s;
 }
 .btn-register.rad-16 {
-  border-radius: 16px;
+  border-radius: $radius-lg;
 }
 .loyalty-benefits {
   flex: 1;
@@ -52,31 +52,31 @@
 // Спільна геометрія обох модифікаторів — раніше padding і вирівнювання
 // були лише в .white, тому бірюзова картка «випадала» з ряду.
 .benefit-card {
-  border-radius: 16px;
+  border-radius: $radius-lg;
   padding: 1.75rem 1.5rem;
   text-align: center;
   transition: transform 0.3s;
 }
 .benefit-card.white {
   background: rgba(255,255,255,0.95);
-  color: #1a1a1a;
+  color: $text;
 }
 .benefit-card.blue {
   background: #4ECDC4;
-  color: #fff;
+  color: $surface;
 }
 .benefit-card h3 {
-  font-size: 1.15rem;
+  font-size: $text-lg;
   font-weight: 600;
   margin: 0.75rem 0 0;
 }
 .benefit-card p {
-  font-size: 0.95rem;
+  font-size: $text-sm;
   margin-top: 0.5rem;
   opacity: 0.9;
 }
 .icon {
-  font-size: 2.2rem;
+  font-size: $text-4xl;
   margin-bottom: 0.75rem;
   display: block;
 }
@@ -88,5 +88,5 @@
   justify-content: center;
   text-align: center;
   padding: 40px 20px;
-  color: #422928;
+  color: $brown-700;
 }

@@ -283,18 +283,18 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
         </div>
 
         <div class="my-4 counter_cart_wrapper">
+          <button class="btn btn-dark btn-lg px-5 add_incart" @click="handleAddToCart">
+            {{ addedToCart ? 'Додано!' : 'Додати в кошик' }}
+          </button>
           <a
             v-if="!isApp"
             :href="appPromoHref"
             :target="storeUrl ? '_blank' : undefined"
             :rel="storeUrl ? 'noopener' : undefined"
-            class="btn btn-dark btn-lg px-5 me-3 add_incart"
+            class="btn btn-outline-dark btn-lg px-5 buy_in_oneclick"
           >
             Отримай 10% знижки у застосунку
           </a>
-          <button class="btn btn-outline-dark px-5 btn-lg buy_in_oneclick" @click="handleAddToCart">
-            {{ addedToCart ? 'Додано!' : 'Додати в кошик' }}
-          </button>
         </div>
 
         <div class="description_wrapper_dropdown">

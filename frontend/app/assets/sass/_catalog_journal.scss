@@ -1,4 +1,4 @@
-@use 'variables';
+@use 'variables' as *;
 
 
 
@@ -14,12 +14,12 @@
 
 .publications_box{
   .navbar-brand {
-    font-size: 1.75rem;
+    font-size: $text-3xl;
     font-weight: 700;
   }
   .card {
-    border: 1px solid #E9E8E8;
-    border-radius: 16px;
+    border: 1px solid $border;
+    border-radius: $radius-lg;
     overflow: hidden;
   }
 
@@ -34,12 +34,12 @@
     position: absolute;
     top: 2rem;
     left: 2rem;
-    border-radius: 12px;
+    border-radius: $radius-md;
   }
   .card-img-top{
     overflow: hidden;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: $radius-md;
   }
   .card-img-top_wrapper{
     padding: 1rem;
@@ -59,12 +59,12 @@
 .catalog_journal{
   .card {
     border: none;
-    border-radius: 16px;
+    border-radius: $radius-lg;
     overflow: hidden;
     transition: all 0.3s ease;
   }
   .card-img-top_wrapper{
-    border-radius: 12px;
+    border-radius: $radius-md;
     overflow: hidden;
   }
   .badge {
@@ -74,7 +74,7 @@
     position: absolute;
     top: 1rem;
     left: 1rem;
-    border-radius: 12px;
+    border-radius: $radius-md;
   }
 
   .card img {
@@ -83,7 +83,7 @@
   }
   .badge {
     background-color: rgba(255,255,255,0.95);
-    font-size: 0.85rem;
+    font-size: $text-xs;
     padding: 6px 14px;
   }
   .sidebar .nav-link {
@@ -98,9 +98,9 @@
   }
   .page-item.active .page-link{
     background-color: #9F8A4B1A;
-    border-radius: 6px;
-    color: #765655;
-    border: 1px solid #76544A !important;
+    border-radius: $radius-sm;
+    color: $brown-500;
+    border: 1px solid $brown-300 !important;
   }
 }
 
@@ -110,15 +110,15 @@
   width: 100%;
 
   .input-group {
-    border-radius: 16px;
-    border: 1px solid #DEDEDE;
+    border-radius: $radius-lg;
+    border: 1px solid $border-strong;
     overflow: hidden;
   }
 
   .input-group-text {
     background: transparent;
     border: none;
-    color: #6b6b6b;
+    color: $text-subtle;
   }
 
   .form-control {
@@ -130,10 +130,10 @@
 .catalog_journal {
   // Лічильник статей у сайдбарі
   .cat-count {
-    font-size: .78rem;
-    color: #8a8a8a;
-    background: #F4F0E7;
-    border-radius: 10px;
+    font-size: $text-xs;
+    color: $neutral-500;
+    background: $surface-tint;
+    border-radius: $radius-md;
     padding: 1px 8px;
     flex-shrink: 0;
   }
@@ -141,7 +141,7 @@
   // Категорії в сайдбарі — той самий вигляд, що й фільтри каталогу:
   // активний пункт залитий, ховер його не перебиває.
   .sidebar .nav-link {
-    border-radius: 8px;
+    border-radius: $radius-sm;
     padding: 6px 10px;
     transition: background .2s ease, color .2s ease;
 
@@ -150,19 +150,19 @@
     }
 
     &.active {
-      background: #422928;
-      color: #FFFEFC;
+      background: $brown-700;
+      color: $surface;
       font-weight: 500;
 
       &:hover {
-        background: #533634;
+        background: $brown-600;
       }
     }
   }
 
   .sidebar .nav-link.active .cat-count {
     background: rgba(255, 255, 255, .18);
-    color: #fff;
+    color: $surface;
   }
 
   // Чипи активних фільтрів
@@ -170,29 +170,29 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    border: 1px solid #DEDEDE;
-    background: #F4F0E7;
-    color: #422928;
-    border-radius: 999px;
+    border: 1px solid $border-strong;
+    background: $surface-tint;
+    color: $brown-700;
+    border-radius: $radius-full;
     padding: 4px 12px;
-    font-size: .85rem;
+    font-size: $text-xs;
     cursor: pointer;
     transition: background .2s ease;
 
     &:hover {
-      background: #e7ddd2;
+      background: $surface-tint;
     }
   }
 
   .journal-empty {
-    background: #F9F7F2;
-    border-radius: 16px;
+    background: $surface-raised;
+    border-radius: $radius-lg;
   }
 }
 
 // Анонс у картках: рівно три рядки, щоб картки лишались однакової висоти.
 .card-excerpt {
-  font-size: .88rem;
+  font-size: $text-sm;
   line-height: 1.45;
   margin-top: .5rem;
   display: -webkit-box;

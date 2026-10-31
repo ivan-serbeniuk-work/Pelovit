@@ -10,54 +10,54 @@
     width: fit-content;
     color: rgba(26, 123, 158, 1);
     padding: 0.8rem 1.5rem;
-    font-size: 1.3rem;
+    font-size: $text-xl;
   }
 
 }
 .kontractne_vyrobnyctvo_page{
   .sidebar .nav-link {
-    color: #565454;
+    color: $text-muted;
     padding: 14px 20px;
-    border: 1px solid #E9E8E8;
-    border-radius: 8px;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
     margin-bottom: 8px;
     transition: all 0.3s;
     display: block;
   }
   .sidebar .nav-link:hover {
-    background-color: #2C1A17;
-    color: #fff;
+    background-color: $brown-900;
+    color: $surface;
   }
   .sidebar .nav-link.active {
-    background-color: #f8f1eb;
-    color: #111;
-    border-color: #f8f1eb;
+    background-color: $surface-warm;
+    color: $text;
+    border-color: $surface-warm;
     font-weight: 500;
   }
   .product-card {
-    border-radius: 12px;
+    border-radius: $radius-md;
     overflow: hidden;
   }
   .product-img {
     height: 200px;
-    background-color: #f8f1eb;
+    background-color: $surface-warm;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: $radius-md;
   }
   .product-img img {
     max-height: 400px;
     object-fit: contain;
   }
   .tag_brand {
-    font-size: 0.82rem;
+    font-size: $text-xs;
     padding: 4px 12px;
-    border-radius: 30px;
-    background-color: #ffffff;
-    color: #ccc;
+    border-radius: $radius-2xl;
+    background-color: $surface;
+    color: $border-strong;
     position: unset;
     border: 1px solid;
     display: flex;
@@ -75,10 +75,10 @@
   .hero-section{
     padding: 80px 0 60px;
     .beige-box {
-      background-color: #f8f1eb;
-      color: #111;
+      background-color: $surface-warm;
+      color: $text;
       padding: 28px 32px;
-      border-radius: 16px;
+      border-radius: $radius-lg;
       font-size: 1.7rem;
       line-height: 1.4;
     }
@@ -86,8 +86,8 @@
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      font-size: 1.2rem;
-      color: #565454;
+      font-size: $text-xl;
+      color: $text-muted;
       font-weight: 400;
 
     }
@@ -109,18 +109,18 @@
     }
     .check-icon {
       color: #4ade80;
-      font-size: 1.3rem;
+      font-size: $text-xl;
       line-height: 1;
       margin-top: 2px;
     }
     .hero-image {
-      border-radius: 20px;
+      border-radius: $radius-xl;
       overflow: hidden;
     }
     .hero-image img {
       width: 1320px;
       height: 502px;
-      border-radius: 16px;
+      border-radius: $radius-lg;
       object-fit: cover;
     }
     h2 {
@@ -133,7 +133,7 @@
 
   .process-section{
     padding: 100px 0;
-    background-color: #F4F0E7;
+    background-color: $surface-tint;
 
     .process-grid {
       display: grid;
@@ -146,18 +146,18 @@
 
     .step-card {
       background: white;
-      border-radius: 16px;
+      border-radius: $radius-lg;
       padding: 32px 20px;
       text-align: center;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+      box-shadow: $shadow-card;
     }
 
 
     .step-number {
       width: 48px;
       height: 48px;
-      background-color: #f8f1eb;
-      color: #222;
+      background-color: $surface-warm;
+      color: $text;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -168,9 +168,9 @@
     }
 
     .step-text {
-      font-size: 1.08rem;
+      font-size: $text-lg;
       line-height: 1.45;
-      color: #333;
+      color: $neutral-700;
     }
 
     .title {
@@ -178,7 +178,7 @@
       font-size: 2.5rem;
       font-weight: 600;
       margin-bottom: 60px;
-      color: #222;
+      color: $text;
     }
 
     .bottom-text {
@@ -186,14 +186,14 @@
       font-size: 1.4rem;
       font-weight: 500;
       margin-top: 60px;
-      color: #222;
+      color: $text;
     }
-    @media (max-width: 992px) {
+    @media (max-width: $bp-lg) {
       .process-grid {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-    @media (max-width: 576px) {
+    @media (max-width: $bp-sm) {
       .process-grid {
         grid-template-columns: 1fr;
       }
@@ -203,8 +203,8 @@
   .tester-section{
     padding: 80px 0;
     .container{
-      background-color: #F4F0E7;
-      border-radius: 32px;
+      background-color: $surface-tint;
+      border-radius: $radius-2xl;
     }
 
     .left_side{
@@ -220,7 +220,7 @@
       //padding: 0;
     }
     .consultation-form p{
-      font-size: 1rem;
+      font-size: $text-base;
     }
 
     .test_container{
@@ -231,30 +231,30 @@
     }
 
     .left-side {
-      background: #f8f1eb;
+      background: $surface-warm;
     }
     .right-side {
-      background: #3c2f2f;
-      color: #fff;
-      border-radius: 20px;
+      background: $neutral-700;
+      color: $surface;
+      border-radius: $radius-xl;
       padding: 40px;
     }
     .offer-card__image {
       max-height: 160px;
     }
     .offer-card {
-      background: #fff;
-      color: #422928;
-      border-radius: 16px;
+      background: $surface;
+      color: $brown-700;
+      border-radius: $radius-lg;
       padding: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: $shadow-raised;
     }
     .timer-box {
-      background: #f8f1eb;
-      border-radius: 8px;
+      background: $surface-warm;
+      border-radius: $radius-sm;
       padding: 12px 8px;
       text-align: center;
-      font-size: 0.9rem;
+      font-size: $text-sm;
       font-weight: 600;
       display: flex;
       flex-direction: column;
@@ -262,7 +262,7 @@
     .img-fluid{
       width: 160px;
       height: 160px;
-      border-radius: 16px;
+      border-radius: $radius-lg;
       object-fit: cover;
     }
     .consultation-form input.width_input{
@@ -275,26 +275,26 @@
   .unique-section{
     padding: 80px 0;
     .beige-box {
-      background-color: #f8f1eb;
-      color: #111;
+      background-color: $surface-warm;
+      color: $text;
       padding: 24px 32px;
-      border-radius: 16px;
-      font-size: 1.15rem;
+      border-radius: $radius-lg;
+      font-size: $text-lg;
       max-width: 460px;
     }
     .main-image {
-      border-radius: 20px;
+      border-radius: $radius-xl;
       overflow: hidden;
     }
     .main-image img{
       width: 1320px;
       height: 450px;
-      border-radius: 16px;
+      border-radius: $radius-lg;
       object-fit: cover;
     }
     .feature-title {
       color: #a8d5d8;
-      font-size: 1.1rem;
+      font-size: $text-lg;
       font-weight: 600;
       margin-bottom: 16px;
     }
@@ -303,12 +303,12 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      color: #565454;
+      color: $text-muted;
     }
     .feature-list li::before {
       content: "";
       color: #4ade80;
-      font-size: 1.2rem;
+      font-size: $text-xl;
       display: inline-block;
       vertical-align: middle;
       width: 22px;
@@ -317,12 +317,12 @@
 
     }
     .bottom-box {
-      background-color: #f8f1eb;
-      color: #422928;
+      background-color: $surface-warm;
+      color: $brown-700;
       padding: 20px 32px;
-      border-radius: 24px;
+      border-radius: $radius-xl;
       text-align: center;
-      font-size: 1.1rem;
+      font-size: $text-lg;
       font-weight: 500;
       max-width: 720px;
       margin: 60px auto 0;
@@ -342,7 +342,7 @@
     }
     .custom-table td{
       border-bottom: none;
-      color: #565454;
+      color: $text-muted;
       padding: 0.5rem 0.9rem;
     }
     .custom-table tbody tr td:before{
@@ -359,9 +359,9 @@
 
     }
     .feature-title {
-      color: #0E617F;
+      color: $accent-dark;
       font-weight: 600;
-      background: #E7F1F4;
+      background: $accent-tint;
     }
   }
 
@@ -373,9 +373,9 @@
       margin-bottom: 40px;
     }
     .testimonial-card {
-      background-color: #F0F5F7;
-      color: #222;
-      border-radius: 20px;
+      background-color: $accent-tint;
+      color: $text;
+      border-radius: $radius-xl;
       padding: 36px 28px;
       height: 300px;
       display: flex;
@@ -383,15 +383,15 @@
       justify-content: space-between;
     }
     .quote-text {
-      font-size: 1.28rem;
+      font-size: $text-xl;
       line-height: 1.4;
       font-weight: 500;
       margin-bottom: 20px;
     }
     .testimonial-text {
-      font-size: 1.02rem;
+      font-size: $text-base;
       line-height: 1.55;
-      color: #333;
+      color: $neutral-700;
     }
     .client-info {
       margin-top: 28px;
@@ -413,7 +413,7 @@
       height: 44px;
       top: 50%;
       transform: translateY(-50%);
-      background-color: #422928;
+      background-color: $brown-700;
       border-radius: 50%;
       opacity: .85;
 
@@ -440,10 +440,10 @@
         height: 10px;
         border-radius: 50%;
         border: 0;
-        background-color: #cbbab3;
+        background-color: $brown-200;
         opacity: 1;
 
-        &.active { background-color: #422928; }
+        &.active { background-color: $brown-700; }
       }
     }
 
@@ -456,7 +456,7 @@
   .mobile-cta{
     display: none;
 
-    @media (max-width: 768px) {
+    @media (max-width: $bp-md) {
       display: block;
       position: fixed;
       left: 0;
@@ -465,7 +465,7 @@
       z-index: 1030;
       padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
       background: rgba(255, 254, 252, .96);
-      border-top: 1px solid #efe6df;
+      border-top: 1px solid $surface-tint;
       backdrop-filter: blur(6px);
     }
 
@@ -473,9 +473,9 @@
       display: block;
       width: 100%;
       padding: 14px;
-      border-radius: 14px;
-      background: #422928;
-      color: #fff;
+      border-radius: $radius-md;
+      background: $brown-700;
+      color: $surface;
       font-weight: 600;
       text-align: center;
       text-decoration: none;
@@ -484,9 +484,9 @@
 
   .contract-quiz{
     &__box {
-      background: #fff;
-      border: 1px solid #efe6df;
-      border-radius: 20px;
+      background: $surface;
+      border: 1px solid $surface-tint;
+      border-radius: $radius-xl;
       padding: 24px 26px 26px;
     }
 
@@ -494,42 +494,42 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: .85rem;
-      color: #7a6a63;
+      font-size: $text-xs;
+      color: $text-subtle;
       margin-bottom: 12px;
     }
 
     &__back {
       border: 0;
       background: none;
-      color: #1a7b9e;
-      font-size: .85rem;
+      color: $accent;
+      font-size: $text-xs;
       padding: 0;
       cursor: pointer;
 
       &:disabled {
-        color: #c3b8b2;
+        color: $brown-200;
         cursor: default;
       }
     }
 
     &__progress {
       height: 6px;
-      border-radius: 999px;
-      background: #f0e7e0;
+      border-radius: $radius-full;
+      background: $surface-tint;
       overflow: hidden;
       margin-bottom: 20px;
 
       span {
         display: block;
         height: 100%;
-        background: #422928;
+        background: $brown-700;
         transition: width .25s ease;
       }
     }
 
     &__question {
-      font-size: 1.2rem;
+      font-size: $text-xl;
       font-weight: 600;
       margin-bottom: 16px;
     }
@@ -543,17 +543,17 @@
     &__option {
       text-align: left;
       padding: 14px 18px;
-      border: 1px solid #e9e0d9;
-      border-radius: 12px;
-      background: #fff;
-      font-size: .98rem;
+      border: 1px solid $border-strong;
+      border-radius: $radius-md;
+      background: $surface;
+      font-size: $text-base;
       cursor: pointer;
       transition: all .18s ease;
 
       &:hover,
       &:focus-visible {
-        border-color: #422928;
-        background: #faf7f3;
+        border-color: $brown-700;
+        background: $surface-raised;
       }
     }
 
@@ -572,42 +572,42 @@
         justify-content: space-between;
         gap: 1rem;
         padding: .45rem 0;
-        border-bottom: 1px solid #f5efe9;
-        font-size: .95rem;
+        border-bottom: 1px solid $surface-warm;
+        font-size: $text-sm;
 
         &:last-child { border-bottom: 0; }
 
-        span { color: #7a6a63; }
+        span { color: $text-subtle; }
         b { text-align: right; }
       }
     }
 
     &__advice {
-      background: #e7f1f4;
-      color: #14607b;
-      border-radius: 12px;
+      background: $accent-tint;
+      color: $accent-dark;
+      border-radius: $radius-md;
       padding: 14px 16px;
-      font-size: .95rem;
+      font-size: $text-sm;
       line-height: 1.5;
       margin-bottom: 14px;
     }
 
     &__note {
-      font-size: .87rem;
-      color: #7a6a63;
+      font-size: $text-sm;
+      color: $text-subtle;
       margin-bottom: 16px;
     }
 
     &__restart {
-      border: 1px solid #e9e0d9;
-      background: #fff;
-      border-radius: 10px;
+      border: 1px solid $border-strong;
+      background: $surface;
+      border-radius: $radius-md;
       padding: 8px 18px;
-      font-size: .9rem;
+      font-size: $text-sm;
       cursor: pointer;
     }
 
-    @media (max-width: 576px) {
+    @media (max-width: $bp-sm) {
       &__options { grid-template-columns: 1fr; }
     }
   }
@@ -621,26 +621,26 @@
       margin-bottom: 12px;
     }
     .cases-lead {
-      color: #5c4a43;
+      color: $brown-500;
       margin-bottom: 40px;
     }
     .case-card {
       display: flex;
       flex-direction: column;
-      background: #fff;
-      border: 1px solid #efe6df;
-      border-radius: 20px;
+      background: $surface;
+      border: 1px solid $surface-tint;
+      border-radius: $radius-xl;
       overflow: hidden;
       transition: box-shadow .2s ease, transform .2s ease;
 
       &:hover {
         transform: translateY(-4px);
-        box-shadow: 0 12px 32px rgba(66, 41, 40, .09);
+        box-shadow: $shadow-raised;
       }
 
       &__image {
         aspect-ratio: 4 / 3;
-        background: #f8f1eb;
+        background: $surface-warm;
 
         img {
           width: 100%;
@@ -658,19 +658,19 @@
       }
 
       &__brand {
-        font-size: 1.25rem;
+        font-size: $text-xl;
         font-weight: 700;
         margin: 0;
       }
 
       &__client {
-        font-size: .9rem;
-        color: #7a6a63;
+        font-size: $text-sm;
+        color: $text-subtle;
         margin: 0;
       }
 
       &__text {
-        font-size: .95rem;
+        font-size: $text-sm;
         line-height: 1.55;
         margin: .4rem 0 0;
       }
@@ -679,7 +679,7 @@
         margin: auto 0 0;
         padding-top: .8rem;
         font-weight: 600;
-        color: #1a7b9e;
+        color: $accent;
       }
     }
   }
@@ -694,28 +694,28 @@
     }
 
     .accordion-item {
-      border: 1px solid #efe6df;
+      border: 1px solid $surface-tint;
       border-radius: 16px !important;
       margin-bottom: 12px;
       overflow: hidden;
-      background: #fff;
+      background: $surface;
     }
 
     .accordion-button {
-      font-size: 1.08rem;
+      font-size: $text-lg;
       font-weight: 600;
-      color: #422928;
-      background: #fff;
+      color: $brown-700;
+      background: $surface;
       padding: 20px 24px;
       box-shadow: none;
 
       &:not(.collapsed) {
-        background: #faf7f3;
-        color: #422928;
+        background: $surface-raised;
+        color: $brown-700;
       }
 
       &:focus-visible {
-        outline: 2px solid #1a7b9e;
+        outline: 2px solid $accent;
         outline-offset: -2px;
       }
     }
@@ -723,32 +723,32 @@
     .accordion-body {
       padding: 0 24px 22px;
       line-height: 1.6;
-      color: #5c4a43;
+      color: $brown-500;
     }
   }
 
   .about-section{
     padding: 0 0 80px;
     .stats-card {
-      background-color: #f8f1eb;
-      color: #5E3F3E;
-      border-radius: 16px;
+      background-color: $surface-warm;
+      color: $brown-600;
+      border-radius: $radius-lg;
       padding: 28px 20px;
       height: 100%;
     }
     .stats-number {
       font-size: 3.2rem;
       font-weight: 700;
-      color: #5E3F3E;
+      color: $brown-600;
       line-height: 1;
     }
     .stats-label {
-      font-size: 1.05rem;
+      font-size: $text-base;
       margin-top: 8px;
       font-weight: 500;
     }
     .lab-image {
-      border-radius: 16px;
+      border-radius: $radius-lg;
       overflow: hidden;
     }
     .lab-image img {
@@ -759,8 +759,8 @@
   }
 
   .section-nagoroda .container{
-    background: #F4F0E7;
-    border-radius: 24px;
+    background: $surface-tint;
+    border-radius: $radius-xl;
     padding: 4rem;
     display: flex;
     flex-direction: column;
@@ -777,14 +777,14 @@
   .cert-section{
     padding: 0 0 80px;
     .section-title {
-      font-size: 1.8rem;
+      font-size: $text-3xl;
       font-weight: 600;
       text-align: center;
       margin-bottom: 40px;
     }
     .cert-card {
-      background-color: #1a1a1a;
-      border-radius: 16px;
+      background-color: $text;
+      border-radius: $radius-lg;
       overflow: hidden;
     }
     .cert-image {
@@ -806,14 +806,14 @@
     mix-blend-mode: soft-light;
   }
   .develop_cons_section{
-    background-color: #2c1f1f;
-    color: #fff;
+    background-color: $brown-900;
+    color: $surface;
     padding: 100px 0;
     position: relative;
     overflow: hidden;
     .left-content h1,
     .left-content h2 {
-      font-size: 2.8rem;
+      font-size: $text-5xl;
       line-height: 1.15;
       font-weight: 700;
       margin-bottom: 24px;
@@ -825,41 +825,41 @@
       background: none;
     }
     .form-card {
-      background-color: #3c2f2f;
-      border-radius: 20px;
+      background-color: $neutral-700;
+      border-radius: $radius-xl;
       padding: 40px;
     }
     .form-control {
-      background-color: #3c2f2f;
+      background-color: $neutral-700;
       border: none;
-      color: #fff;
+      color: $surface;
       padding: 16px 20px;
-      border-radius: 12px;
+      border-radius: $radius-md;
       margin-bottom: 18px;
-      font-size: 1.05rem;
+      font-size: $text-base;
     }
     .form-control::placeholder {
-      color: #aaa;
+      color: $neutral-300;
     }
     .radio-group label {
-      color: #ddd;
+      color: $border-strong;
       margin-right: 20px;
-      font-size: 1.05rem;
+      font-size: $text-base;
     }
     .submit-btn {
-      background-color: #fff;
-      color: #3c2f2f;
+      background-color: $surface;
+      color: $neutral-700;
       border: none;
       padding: 16px 40px;
-      border-radius: 50px;
-      font-size: 1.1rem;
+      border-radius: $radius-full;
+      font-size: $text-lg;
       font-weight: 600;
       width: 100%;
       margin-top: 10px;
     }
     .social-icons a {
-      font-size: 1.8rem;
-      color: #fff;
+      font-size: $text-3xl;
+      color: $surface;
       margin-right: 18px;
     }
   }
@@ -867,7 +867,7 @@
 
 
   .calc-btn {
-    background-color: #422928;
+    background-color: $brown-700;
     border: none;
     padding: 12px;
     font-weight: 500;
@@ -899,41 +899,41 @@
   .posluga_card{
     display: flex;
     align-items: center;
-    background: #F4F0E7;
-    border-radius: 12px;
+    background: $surface-tint;
+    border-radius: $radius-md;
     padding: 1rem;
-    font-size: 1.5rem;
+    font-size: $text-2xl;
   }
   .title_posluga{
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: $text-2xl;
     display: flex;
     align-items: center;
     margin-bottom: 1.5rem;
   }
 
   .calculator_section{
-    background-color: #FAF7F3;
+    background-color: $surface-raised;
 
     .calculator-container {
       max-width: 1280px;
       margin: 40px auto;
     }
     .price-box {
-      background-color: #f4ede6;
-      border-radius: 16px;
+      background-color: $surface-warm;
+      border-radius: $radius-lg;
       padding: 1.5rem;
     }
 
     .packaging-card {
       border: 2px solid transparent;
-      border-radius: 12px;
+      border-radius: $radius-md;
       padding: 8px;
       transition: all 0.3s;
       cursor: pointer;
     }
     .packaging-card:hover, .packaging-card.active {
-      border-color: #d4a017;
+      border-color: $gold;
       transform: translateY(-4px);
     }
     .packaging-card img {
@@ -942,7 +942,7 @@
     }
     .slider-value {
       font-weight: 600;
-      color: #d4a017;
+      color: $gold;
     }
     .price_wrapper{
       display: flex;
@@ -950,40 +950,40 @@
       align-items: baseline;
       gap: 1rem;
       h2{
-        color: #422928;
-        font-size: 1.75rem;
+        color: $brown-700;
+        font-size: $text-3xl;
         white-space: nowrap;
       }
 
       &--total {
         padding-top: .5rem;
         margin-top: .5rem;
-        border-top: 1px solid #e6d9cf;
+        border-top: 1px solid $border-strong;
       }
     }
     .price-total {
       font-weight: 600;
-      color: #422928;
+      color: $brown-700;
       white-space: nowrap;
     }
     .price-discount {
-      font-size: .88rem;
+      font-size: $text-sm;
       font-weight: 600;
-      color: #1a7b9e;
+      color: $accent;
     }
     .price-term {
-      font-size: .88rem;
-      color: #5c4a43;
+      font-size: $text-sm;
+      color: $brown-500;
     }
 
     // Партія нижча за мінімальну — головна підказка калькулятора,
     // тому виглядає як попередження, а не як дрібний текст.
     .min-batch-warning {
-      background: #fdf3e7;
+      background: $surface-tint;
       border: 1px solid #f0d5b0;
-      border-radius: 16px;
+      border-radius: $radius-lg;
       padding: 1.1rem 1.35rem;
-      font-size: .92rem;
+      font-size: $text-sm;
       line-height: 1.5;
       color: #6b4a1f;
 
@@ -999,22 +999,22 @@
       width: 100%;
       appearance: none;
       height: 8px;
-      background: #e5dfdb;
-      border-radius: 10px;
+      background: $border-strong;
+      border-radius: $radius-md;
       outline: none;
     }
     /* линия до ползунка (chrome hack) */
     input[type="range"]::-webkit-slider-runnable-track {
       height: 8px;
-      background: #e5dfdb;
-      border-radius: 10px;
+      background: $border-strong;
+      border-radius: $radius-md;
     }
     /* кружок */
     input[type="range"]::-webkit-slider-thumb {
       appearance: none;
       width: 28px;
       height: 28px;
-      background: #cbbab3;
+      background: $brown-200;
       border-radius: 50%;
       cursor: pointer;
       margin-top: -10px;
@@ -1022,7 +1022,7 @@
     input[type="range"]::-moz-range-thumb {
       width: 28px;
       height: 28px;
-      background: #cbbab3;
+      background: $brown-200;
       border-radius: 50%;
       cursor: pointer;
     }
@@ -1035,20 +1035,20 @@
       position: absolute;
       top: 0;
       transform: translateX(-50%);
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 999px;
+      background: $surface;
+      border: 1px solid $border-strong;
+      border-radius: $radius-full;
       padding: 6px 14px;
-      font-size: 14px;
+      font-size: $text-sm;
       white-space: nowrap;
       pointer-events: none;
     }
 
     // Підсумок конфігурації над формою: те, що клієнт нарахував, їде в заявку.
     .calc-summary {
-      background: #fff;
-      border: 1px solid #efe6df;
-      border-radius: 16px;
+      background: $surface;
+      border: 1px solid $surface-tint;
+      border-radius: $radius-lg;
       padding: 1.25rem 1.5rem;
 
       &__title {
@@ -1066,20 +1066,20 @@
           justify-content: space-between;
           gap: 1rem;
           padding: .3rem 0;
-          font-size: .95rem;
-          border-bottom: 1px solid #f5efe9;
+          font-size: $text-sm;
+          border-bottom: 1px solid $surface-warm;
 
           &:last-child { border-bottom: 0; }
 
-          span { color: #7a6a63; }
+          span { color: $text-subtle; }
           b { text-align: right; }
         }
       }
 
       &__note {
         margin: 0;
-        font-size: .82rem;
-        color: #7a6a63;
+        font-size: $text-xs;
+        color: $text-subtle;
       }
     }
   }
@@ -1109,7 +1109,7 @@
   }
 
   .own_brands_title{
-    font-size: 1.5rem;
+    font-size: $text-2xl;
     margin-bottom: 1rem;
     font-weight: 600;
   }

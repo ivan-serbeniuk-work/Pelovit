@@ -4,15 +4,15 @@
 .suite_for_section{
   margin-bottom: 80px;
   .header {
-    font-size: 1.8rem;
+    font-size: $text-3xl;
     margin-bottom: 30px;
     font-weight: 600;
   }
   .card {
-    background-color: #f8f1e9;
-    color: #111;
+    background-color: $surface-warm;
+    color: $text;
     border: none;
-    border-radius: 12px;
+    border-radius: $radius-md;
     height: 128px;
     display: flex;
     flex-direction: row;
@@ -20,7 +20,7 @@
     align-items: center;
   }
   .icon {
-    font-size: 2.2rem;
+    font-size: $text-4xl;
     margin-bottom: 12px;
     display: block;
   }
@@ -34,18 +34,18 @@
 .our_contacts_section{
   margin-bottom: 80px;
   .header {
-    color: #ddd;
+    color: $border-strong;
     margin-bottom: 35px;
   }
   .contact-card {
-    border-radius: 16px;
+    border-radius: $radius-lg;
     overflow: hidden;
   }
   .contact-card img {
     width: 100%;
     height: 260px;
     object-fit: cover;
-    border-radius: 16px;
+    border-radius: $radius-lg;
   }
   .contact-info {
     padding: 20px;
@@ -53,18 +53,18 @@
   .position {
     font-weight: 400;
     margin-bottom: 8px;
-    color: #545454;
+    color: $text-muted;
   }
   .phone {
-    font-size: 1.05rem;
-    color: #1A1A1A;
+    font-size: $text-base;
+    color: $text;
   }
 }
 
 .doc_learn_cond_section{
   margin-bottom: 80px;
   .sidebar {
-    border-radius: 12px;
+    border-radius: $radius-md;
     padding: 10px;
   }
   .sidebar-btn {
@@ -72,41 +72,41 @@
     text-align: left;
     padding: 14px 20px;
     margin-bottom: 8px;
-    border-radius: 10px;
+    border-radius: $radius-md;
     background-color: transparent;
-    border: 1px solid #E9E8E8;
-    color: #565454;
+    border: 1px solid $border;
+    color: $text-muted;
   }
   .sidebar-btn.active,
   .sidebar-btn:hover {
-    background-color: #f8f1e9;
-    color: #111;
-    border-color: #CCACAB;
+    background-color: $surface-warm;
+    color: $text;
+    border-color: $brown-200;
   }
 
   table {
     margin-bottom: 0;
-    border: 1px solid #E9E8E8;
+    border: 1px solid $border;
   }
   th, td {
     padding: 18px 20px;
-    border: 1px solid #E9E8E8;
-    color: #675E54;
+    border: 1px solid $border;
+    color: $text-subtle;
   }
   th {
     width: 35%;
     font-weight: 600;
-    color: #675E54;
+    color: $text-subtle;
   }
 
   .highlight {
-    background-color: #2a2a2a;
+    background-color: $neutral-700;
   }
   .view-more {
-    color: #aaa;
+    color: $text-muted;
     text-align: center;
     margin-top: 25px;
-    font-size: 1.05rem;
+    font-size: $text-base;
   }
   .view-all{
     width: fit-content;
@@ -121,7 +121,7 @@
     align-items: center;
     color: white;
     position: relative;
-    border-radius: 24px;
+    border-radius: $radius-xl;
     padding: 4rem;
     height: 444px;
   }
@@ -130,34 +130,34 @@
     max-width: 680px;
   }
   .hero h1 {
-    font-size: 2.8rem;
+    font-size: $text-5xl;
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 24px;
   }
   .hero p {
-    font-size: 1.25rem;
+    font-size: $text-xl;
     line-height: 1.5;
     margin-bottom: 35px;
     opacity: 0.95;
   }
   .btn-apply {
-    background-color: #fff;
-    color: #111;
+    background-color: $surface;
+    color: $text;
     font-weight: 600;
     padding: 14px 36px;
-    border-radius: 50px;
-    font-size: 1.1rem;
+    border-radius: $radius-full;
+    font-size: $text-lg;
   }
   .btn-apply:hover {
     transform: scale(1.05);
-    background-color: #f8f1e9;
+    background-color: $surface-warm;
   }
 }
 .opt_head{
   font-weight: 500;
-  font-size: 1.1rem;
-  color: #1A7B9E;
+  font-size: $text-lg;
+  color: $accent;
 }
 .loyalty-text{
   max-width: 580px;
@@ -166,7 +166,7 @@
   margin-bottom: 80px;
 }
 
-@media (min-width: 992px) {
+@media (min-width: $bp-lg) {
   .col-lg-2-custom {
     width: 20%;
   }

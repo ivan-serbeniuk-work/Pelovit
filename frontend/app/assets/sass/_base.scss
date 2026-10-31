@@ -1,8 +1,27 @@
 @use 'sass:color';
 @use 'variables' as *;
 
+// Токены наружу: scoped-стили компонентов — обычный CSS и до Sass-переменных
+// не достают, поэтому ключевые значения дублируем как CSS-переменные.
+:root {
+  --brand-700: #{$brown-700};
+  --brand-500: #{$brown-500};
+  --accent: #{$accent};
+  --surface: #{$surface};
+  --text: #{$text};
+  --text-muted: #{$text-muted};
+  --text-subtle: #{$text-subtle};
+  --border: #{$border};
+  --danger: #{$danger};
+}
+
 body {
   font-family: 'Inter Tight', system-ui, sans-serif;
+}
+
+// Словесный логотип в шапке
+.brand-wordmark {
+  color: $brown-700;
 }
 body, html {
   overflow-x: hidden !important;
@@ -19,9 +38,9 @@ body, html {
 
 .btn-brown {
   background-color: $brown-dark;
-  color: #fff;
+  color: $surface;
   border: none;
-  &:hover { background-color: color.adjust($brown-dark, $lightness: -8%); color: #fff; }
+  &:hover { background-color: color.adjust($brown-dark, $lightness: -8%); color: $surface; }
   &:focus { box-shadow: 0 0 0 .2rem rgba($brown-dark, .3); }
 }
 

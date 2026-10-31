@@ -10,8 +10,8 @@
     width: 100%;
     max-height: 480px;
     object-fit: contain;
-    background: #faf8f6;
-    border-radius: 12px;
+    background: $surface-raised;
+    border-radius: $radius-md;
   }
 }
 
@@ -28,10 +28,10 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1.5px solid #e0d5d0;
+  border: 1.5px solid $border-strong;
   background: rgba(255, 255, 255, .92);
-  box-shadow: 0 2px 8px rgba(0,0,0,.12);
-  color: #422928;
+  box-shadow: $shadow-card;
+  color: $brown-700;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,9 +39,9 @@
   transition: background .15s, border-color .15s, color .15s;
 
   &:hover {
-    background: #422928;
-    border-color: #422928;
-    color: #fff;
+    background: $brown-700;
+    border-color: $brown-700;
+    color: $surface;
   }
 }
 
@@ -60,10 +60,10 @@
   aspect-ratio: 1;
   object-fit: cover;
   border: 2px solid transparent;
-  border-radius: 8px;
+  border-radius: $radius-sm;
   transition: border-color .2s;
 
-  .swiper-slide-thumb-active & { border-color: #422928; }
+  .swiper-slide-thumb-active & { border-color: $brown-700; }
 }
 
 .categories{
@@ -75,8 +75,8 @@
     justify-content: center;
     align-items: center;
     padding: 0.5rem 1rem;
-    background: #F4F0E7;
-    border-radius: 24px;
+    background: $surface-tint;
+    border-radius: $radius-xl;
   }
 }
 
@@ -119,14 +119,14 @@
 }
 
 .btn-copy-link {
-  background: #422928;
-  border-color: #422928;
-  color: #fff;
+  background: $brown-700;
+  border-color: $brown-700;
+  color: $surface;
 
   &:hover, &:focus {
-    background: #2f1d1c;
-    border-color: #2f1d1c;
-    color: #fff;
+    background: $brown-900;
+    border-color: $brown-900;
+    color: $surface;
   }
 }
 
@@ -138,17 +138,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1.5px solid #e0d5d0;
-    background: #faf8f6;
-    color: #422928;
-    font-size: 1.2rem;
+    border: 1.5px solid $border-strong;
+    background: $surface-raised;
+    color: $brown-700;
+    font-size: $text-xl;
     text-decoration: none;
     transition: background .15s, border-color .15s, color .15s;
 
     &:hover {
-      background: #422928;
-      border-color: #422928;
-      color: #fff;
+      background: $brown-700;
+      border-color: $brown-700;
+      color: $surface;
     }
   }
 }
@@ -160,20 +160,20 @@
     margin-bottom: 4rem;
   }
   .price{
-    font-size: 2.2rem;
+    font-size: $text-4xl;
   }
 
   .bar1{
     width: 98%;
     background-color: black;
     height: stretch;
-    border-radius: 9999px;
+    border-radius: $radius-full;
   }
   .bar2, .bar3, .bar4, .bar5{
     width: 2%;
     background-color: black;
     height: stretch;
-    border-radius: 9999px;
+    border-radius: $radius-full;
   }
 
 
@@ -194,8 +194,8 @@
 
   .comments_section{
     .review-card {
-      background-color: #f9f5f0;
-      border-radius: 16px;
+      background-color: $surface-raised;
+      border-radius: $radius-lg;
       padding: 24px;
       max-width: 740px;
     }
@@ -204,23 +204,23 @@
     .avatar {
       width: 48px;
       height: 48px;
-      background-color: #e0e0e0;
+      background-color: $border-strong;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      color: #888;
+      font-size: $text-2xl;
+      color: $neutral-500;
       overflow: hidden;
     }
     .stars {
       font-size: 1.4rem;
-      color: #1a1a1a;
+      color: $text;
     }
     .review-text {
-      font-size: 1.02rem;
+      font-size: $text-base;
       line-height: 1.55;
-      color: #444;
+      color: $text-muted;
     }
     .comment_image{
       display: flex;
@@ -230,8 +230,8 @@
       width: 9rem;
       height: 105px;
       object-fit: cover;
-      border-radius: 12px;
-      border: 3px solid #fff;
+      border-radius: $radius-md;
+      border: 3px solid $surface;
     }
   }
 
@@ -249,7 +249,7 @@
     padding: 2.2rem;
     width: stretch;
     background: linear-gradient(110.75deg, rgba(253, 243, 208, 0) 0%, rgba(253, 245, 215, 0.4) 81.78%), rgba(152, 209, 229, 0.3);
-    border-radius: 16px;
+    border-radius: $radius-lg;
 
     .cards_promos{
       display: grid;
@@ -260,7 +260,7 @@
     .image_promo{
       width: 100%;
       height: auto;
-      border-radius: 16px;
+      border-radius: $radius-lg;
     }
     .title_product{
       text-align: center;
@@ -285,7 +285,7 @@
       gap: 0.5rem;
     }
     .averare_rate span{
-      font-size: 1.5rem;
+      font-size: $text-2xl;
       font-weight: 600;
     }
     .leave_review{
@@ -293,30 +293,30 @@
       color: white;
     }
     .count_rates{
-      font-size: 0.9rem;
+      font-size: $text-sm;
       margin-bottom: 1rem;
     }
     .rating-card {
-      background-color: #1a1a1a;
-      border-radius: 12px;
+      background-color: $text;
+      border-radius: $radius-md;
       padding: 20px;
       max-width: 380px;
-      border: 1px solid #333;
+      border: 1px solid $neutral-700;
     }
     .star {
-      color: #ffd700;
-      font-size: 2.2rem;
+      color: $star;
+      font-size: $text-4xl;
     }
     .bar-container {
       height: 10px;
       background-color: rgb(239 236 229);
-      border-radius: 9999px;
+      border-radius: $radius-full;
       overflow: hidden;
     }
     .bar {
       height: 100%;
-      background: linear-gradient(to right, #fff, #ddd);
-      border-radius: 9999px;
+      background: linear-gradient(to right, $surface, $border-strong);
+      border-radius: $radius-full;
     }
     .rating-row {
       display: flex;
@@ -350,17 +350,17 @@
     margin-top: 2rem;
     padding: .9rem 0;
     border: 0;
-    border-top: 1px solid #EDE6DE;
-    border-bottom: 1px solid #EDE6DE;
+    border-top: 1px solid $surface-tint;
+    border-bottom: 1px solid $surface-tint;
     background: transparent;
-    color: #422928;
-    font-size: 1.05rem;
+    color: $brown-700;
+    font-size: $text-base;
     font-weight: 600;
     text-align: left;
     cursor: pointer;
 
     &:hover{
-      color: #2C7B99;
+      color: $accent;
     }
   }
 
@@ -418,15 +418,15 @@
     gap: 0.75rem;
 
     .buy_in_oneclick{
-      border-radius: 1rem;
+      border-radius: $radius-lg;
     }
 
     .add_incart{
       display: flex;
       flex-direction: row;
       padding: 1rem 0.5rem;
-      background: #422928;
-      border-radius: 1rem;
+      background: $brown-700;
+      border-radius: $radius-lg;
     }
   }
 
@@ -436,9 +436,9 @@
     gap: 1rem;
     .portion_text{
       padding: 0.5rem 1rem;
-      background: #F4F0E7;
-      border: 1px solid #422928;
-      border-radius: 8px;
+      background: $surface-tint;
+      border: 1px solid $brown-700;
+      border-radius: $radius-sm;
     }
   }
 }

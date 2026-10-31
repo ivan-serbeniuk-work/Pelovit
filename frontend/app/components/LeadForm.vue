@@ -89,18 +89,18 @@ async function submit() {
   align-items: center;
   gap: 12px;
   padding: 32px 0;
-  color: #422928;
+  color: var(--brand-700);
   text-align: center;
   font-size: 1.05rem;
   font-weight: 500;
 }
 
 .lead-success__icon {
-  color: #7a5c4f;
+  color: var(--text-subtle);
 }
 
 .lead-error {
-  color: #c0392b;
+  color: var(--danger);
   font-size: .875rem;
   margin-bottom: 8px;
 }
