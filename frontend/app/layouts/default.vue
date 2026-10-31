@@ -38,7 +38,7 @@
               <NuxtLink class="nav-link" to="/promotions">Акції</NuxtLink>
             </li>
             <li class="nav-item">
-              <NuxtLink class="nav-link" to="/journal">МедЖурнал</NuxtLink>
+              <NuxtLink class="nav-link" to="/journal">Блог</NuxtLink>
             </li>
             <li class="nav-item">
               <NuxtLink class="nav-link" to="/about">Про нас</NuxtLink>
@@ -194,7 +194,7 @@
               <li class="mb-2"><NuxtLink to="/kontractne-vyrobnyctvo" class="text-dark text-decoration-none">Контрактне виробництво</NuxtLink></li>
               <li class="mb-2"><NuxtLink to="/opt" class="text-dark text-decoration-none">Опт закупівлі</NuxtLink></li>
               <li class="mb-2"><NuxtLink to="/masters" class="text-dark text-decoration-none">Майстрам</NuxtLink></li>
-              <li class="mb-2"><NuxtLink to="/journal" class="text-dark text-decoration-none">МедЖурнал</NuxtLink></li>
+              <li class="mb-2"><NuxtLink to="/journal" class="text-dark text-decoration-none">Блог</NuxtLink></li>
               <li class="mb-2"><NuxtLink to="/contacts" class="text-dark text-decoration-none">Адреси магазинів</NuxtLink></li>
               <li><NuxtLink to="/obmin-ta-povernennya" class="text-dark text-decoration-none">Обмін та повернення</NuxtLink></li>
             </ul>

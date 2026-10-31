@@ -338,7 +338,7 @@ function postImg(post: any) {
 <section class="medical-journal">
   <div class="container">
     <div class="section-header">
-      <h2>Меджурнал</h2>
+      <h2>Блог</h2>
       <NuxtLink to="/catalog-journal" class="view-all">Переглянути більше</NuxtLink>
     </div>
     <div v-if="latestPosts.length > 0" class="articles-grid">
