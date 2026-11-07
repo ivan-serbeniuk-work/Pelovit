@@ -72,8 +72,6 @@ class SettingsPage extends Page
         $aboutHtml =
             $textarea('Вступний абзац', 'about_intro', 'Перший абзац під заголовком «Про нас».').
             $field('Заголовок блоку з нагородами', 'about_awards_title').
-            $field('Заголовок блоку «Дослідження»', 'about_research_title').
-            $textarea('Текст блоку «Дослідження»', 'about_research_text').
             $field('Заголовок блоку про сертифікацію', 'about_cert_title');
 
         $globalSeoHtml =
@@ -140,7 +138,7 @@ class SettingsPage extends Page
             </div>
             <div style='margin-top:8px'>
                 <div style='font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--color-base-text);opacity:.45;margin-bottom:16px'>Сторінка «Про нас»</div>
-                <p style='font-size:12px;color:var(--color-base-text);opacity:.55;margin-bottom:16px'>Показники, цінності та віхи історії редагуються в розділах «Сторінка «Про нас»». Порожнє поле — на сайті показується текст за замовчуванням.</p>
+                <p style='font-size:12px;color:var(--color-base-text);opacity:.55;margin-bottom:16px'>Показники, цінності та віхи історії редагуються в розділах «Сторінка «Про нас»». Блок «Дослідження» редагується в розділі «Вкладки». Порожнє поле — на сайті показується текст за замовчуванням.</p>
                 {$aboutHtml}
             </div>
             <div style='margin-top:8px'>

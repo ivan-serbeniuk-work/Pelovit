@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Database\Seeders;
 
 use App\Models\AboutMilestone;
+use App\Models\AboutSection;
 use App\Models\AboutStat;
 use App\Models\AboutValue;
 use Illuminate\Database\Seeder;
@@ -29,6 +30,28 @@ class AboutContentSeeder extends Seeder
             AboutStat::updateOrCreate(
                 ['label' => $item['label']],
                 [...$item, 'sort_order' => $i + 1, 'is_active' => true],
+            );
+        }
+
+        // Вкладки блоку «Дослідження». У макеті їх чотири, але текст
+        // написаний лише для однієї — решту створюємо вимкненими, щоб
+        // не вигадувати контент: лишається заповнити текст і увімкнути.
+        $sections = [
+            ['title' => 'Винахідник', 'is_active' => false],
+            ['title' => 'Pelovit', 'is_active' => false],
+            [
+                'title' => 'Дослідження',
+                'text' => 'Одеська регіональна академія наук (ОРАН) — одна з найстаріших організацій України, що займається біологією і медициною. Після аварії на Чорнобильській АЕС академія отримала держзамовлення на створення нового препарату з сильним лікувальним і відновлювальним ефектом.',
+                'image' => 'images/science_in_laboratory.png',
+                'is_active' => true,
+            ],
+            ['title' => 'Виробництво', 'is_active' => false],
+        ];
+
+        foreach ($sections as $i => $item) {
+            AboutSection::updateOrCreate(
+                ['title' => $item['title']],
+                [...$item, 'sort_order' => $i + 1],
             );
         }
 

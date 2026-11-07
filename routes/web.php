@@ -62,8 +62,7 @@ Route::post('/admin/settings/save', function (Request $request) {
         'payment_card_number', 'payment_card_holder',
         'calc_min_batch_total', 'calc_production_days', 'calc_spread_percent',
         // Тексти сторінки «Про нас»
-        'about_intro', 'about_awards_title',
-        'about_research_title', 'about_research_text', 'about_cert_title',
+        'about_intro', 'about_awards_title', 'about_cert_title',
         // Global SEO
         'google_analytics_id', 'default_og_image', 'site_description',
         // Per-page SEO

@@ -75,19 +75,31 @@
     border-radius: $radius-md;
     overflow: hidden;
   }
-  .sidebar-nav a {
+  // Пункти стали кнопками: вони перемикають вміст праворуч, а не ведуть
+  // на іншу адресу. Тому тут і скидання дефолтів кнопки.
+  .sidebar-nav a,
+  .sidebar-nav button {
     display: block;
+    width: 100%;
     padding: 18px 24px;
+    border: 0;
+    background: transparent;
     color: $text-muted;
+    text-align: left;
     text-decoration: none;
     font-weight: 500;
+    font-size: inherit;
+    cursor: pointer;
     transition: all 0.3s;
   }
-  .sidebar-nav a:hover {
+  .sidebar-nav a:hover,
+  .sidebar-nav button:hover,
+  .sidebar-nav button:focus-visible {
     background: $text;
     color: white;
   }
-  .sidebar-nav a.active {
+  .sidebar-nav a.active,
+  .sidebar-nav button.active {
     background: $surface-tint;
     color: $text;
     font-weight: 600;

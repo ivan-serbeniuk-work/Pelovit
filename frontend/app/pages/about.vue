@@ -15,9 +15,18 @@ useSeoPage({
 const { data } = await useFetch<any>(`${config.public.apiBase}/about`)
 const { data: settings } = await useSettings()
 
-useAdminEditTargets(() => ['about-stat', 'about-value', 'about-milestone', 'settings'])
+useAdminEditTargets(() => ['about-stat', 'about-value', 'about-milestone', 'about-section', 'settings'])
 
 const stats = computed<any[]>(() => data.value?.stats ?? [])
+
+// Вкладки блоку «Дослідження»: у макеті зліва список, праворуч фото
+// й текст вибраного пункту. Досі це були посилання на «#» — клік нічого
+// не робив, праворуч завжди висіло одне й те саме.
+const sections = computed<any[]>(() => data.value?.sections ?? [])
+const activeSectionId = ref<number | null>(null)
+const activeSection = computed(() =>
+  sections.value.find(x => x.id === activeSectionId.value) ?? sections.value[0] ?? null,
+)
 const values = computed<any[]>(() => data.value?.values ?? [])
 const historyTop = computed<any[]>(() => data.value?.milestones?.top ?? [])
 const historyBottom = computed<any[]>(() => data.value?.milestones?.bottom ?? [])
@@ -28,8 +37,6 @@ const text = (key: string, fallback: string) => computed(() => settings.value?.[
 
 const intro = text('about_intro', 'Аксімед — це інноваційне підприємство, підрозділ Одеської регіональної академії наук. Він знаходиться у Одесі і працює з 1985 року. На базі підприємства науковцями академії багато років проводяться наукові дослідження, клінічні спостереження та розробляються запатентовані рецептури.')
 const awardsTitle = text('about_awards_title', 'Робота Аксімед неодноразово відмічена нагородами')
-const researchTitle = text('about_research_title', 'Дослідження')
-const researchText = text('about_research_text', 'Одеська регіональна академія наук (ОРАН) — одна з найстаріших організацій України, що займається біологією і медициною. Після аварії на Чорнобильській АЕС академія отримала держзамовлення на створення нового препарату з сильним лікувальним і відновлювальним ефектом.')
 const certTitle = text('about_cert_title', 'Аксімед має європейську сертифікацію GMP ISO 22716')
 
 const watchUsShots = ['catname4.png', 'face_washing.png', 'catname5.png', 'catname3.png']
@@ -66,23 +73,37 @@ const watchUsShots = ['catname4.png', 'face_washing.png', 'catname5.png', 'catna
   </div>
 </section>
 
-<section class="py-5 doslidgenja_section">
+<section v-if="sections.length" class="py-5 doslidgenja_section">
   <div class="container">
     <div class="row g-5 align-items-center">
       <div class="col-lg-4">
         <div class="sidebar-nav">
-          <a href="#">Винахідник</a>
-          <a href="#">Pelovit</a>
-          <a href="#" class="active">Дослідження</a>
-          <a href="#">Виробництво</a>
+          <button
+            v-for="section in sections"
+            :key="section.id"
+            type="button"
+            :class="{ active: activeSection?.id === section.id }"
+            :aria-pressed="activeSection?.id === section.id"
+            @click="activeSectionId = section.id"
+          >
+            {{ section.title }}
+          </button>
         </div>
       </div>
       <div class="col-lg-4">
-        <img :src="assetUrl('images/science_in_laboratory.png')" alt="Дослідження в лабораторії" class="research-img img-fluid" loading="lazy" decoding="async">
+        <img
+          v-if="activeSection?.image"
+          :key="activeSection.id"
+          :src="assetUrl(activeSection.image)"
+          :alt="activeSection.title"
+          class="research-img img-fluid"
+          loading="lazy"
+          decoding="async"
+        >
       </div>
       <div class="col-lg-4">
-        <h2 class="section-title mb-4">{{ researchTitle }}</h2>
-        <p class="lead">{{ researchText }}</p>
+        <h2 class="section-title mb-4">{{ activeSection?.title }}</h2>
+        <p v-if="activeSection?.text" class="lead">{{ activeSection.text }}</p>
       </div>
     </div>
   </div>

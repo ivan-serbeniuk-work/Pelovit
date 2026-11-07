@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\AboutMilestone;
+use App\Models\AboutSection;
 use App\Models\AboutStat;
 use App\Models\AboutValue;
 use Illuminate\Http\JsonResponse;
@@ -18,6 +19,7 @@ class AboutApiController extends Controller
     {
         return response()->json([
             'stats' => AboutStat::active()->get(['id', 'value', 'label']),
+            'sections' => AboutSection::active()->get(['id', 'title', 'text', 'image']),
             'values' => AboutValue::active()->get(['id', 'title', 'text', 'icon']),
             // Віхи розкладені двома рядами, як у макеті, — щоб вітрина
             // не фільтрувала той самий список двічі.
