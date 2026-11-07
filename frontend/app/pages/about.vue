@@ -34,6 +34,29 @@ const values = computed<any[]>(() => data.value?.values ?? [])
 const historyTop = computed<any[]>(() => data.value?.milestones?.top ?? [])
 const historyBottom = computed<any[]>(() => data.value?.milestones?.bottom ?? [])
 
+// Таймлайн: нижній ряд має стояти в проміжках між верхнім, а не під ним.
+// Сітка з 2N колонок — верхні віхи займають 1-2, 3-4, 5-6, нижні 2-3, 4-5,
+// тому нижній рік завжди посередині між двома сусідніми верхніми.
+const timelineCols = computed(() =>
+  Math.max(historyTop.value.length, historyBottom.value.length + 1, 1),
+)
+
+// На вузьких екранах обидва ряди стають одним стовпчиком, і порядок розмітки
+// (верхні, потім нижні) ламає хронологію: 2010, 2016, 2022, 2013, 2019.
+// Тому кожна віха отримує свій номер за роком — на мобільному CSS розставляє
+// їх через order, на десктопі це значення не використовується.
+const milestoneOrder = computed(() => {
+  const all = [...historyTop.value, ...historyBottom.value]
+  const byYear = [...all].sort((a, b) => {
+    const ay = Number.parseInt(String(a.year), 10)
+    const by = Number.parseInt(String(b.year), 10)
+
+    return (Number.isNaN(ay) ? Infinity : ay) - (Number.isNaN(by) ? Infinity : by)
+  })
+
+  return new Map(byYear.map((item, i) => [item.id, i]))
+})
+
 // Порожнє поле в налаштуваннях — лишається текст за замовчуванням,
 // щоб сторінка не оголювалася, поки контент не заповнили.
 const text = (key: string, fallback: string) => computed(() => settings.value?.[key] || fallback)
@@ -70,8 +93,8 @@ const watchUsShots = ['catname4.png', 'face_washing.png', 'catname5.png', 'catna
 <section class="section-nagoroda">
   <div class="container p-5">
     <h3 class="title_nagoroda text-center mb-5">{{ awardsTitle }}</h3>
-    <div class="nagoroda_img text-center">
-      <img :src="assetUrl('images/nagorods.png')" alt="" class="img-fluid" loading="lazy" decoding="async">
+    <div class="nagoroda_img">
+      <AwardsRow />
     </div>
   </div>
 </section>
@@ -93,20 +116,32 @@ const watchUsShots = ['catname4.png', 'face_washing.png', 'catname5.png', 'catna
           </button>
         </div>
       </div>
-      <div class="col-lg-4">
-        <img
-          v-if="activeSection?.image"
-          :key="activeSection.id"
-          :src="assetUrl(activeSection.image)"
-          :alt="activeSection.title"
-          class="research-img img-fluid"
-          loading="lazy"
-          decoding="async"
-        >
+      <!-- Усі вкладки лежать стосом в одній клітинці: висота блоку дорівнює
+           найвищій з них і не змінюється при перемиканні. Неактивні сховані
+           через visibility, тому місце тримають, але ні в читалку, ні у фокус
+           не потрапляють. -->
+      <div class="col-lg-4 research-stack">
+        <template v-for="section in sections" :key="section.id">
+          <img
+            v-if="section.image"
+            :class="{ 'is-active': activeSection?.id === section.id }"
+            :src="assetUrl(section.image)"
+            :alt="section.title"
+            class="research-img img-fluid"
+            loading="lazy"
+            decoding="async"
+          >
+        </template>
       </div>
-      <div class="col-lg-4">
-        <h2 class="section-title mb-4">{{ activeSection?.title }}</h2>
-        <p v-if="activeSection?.text" class="lead">{{ activeSection.text }}</p>
+      <div class="col-lg-4 research-stack">
+        <div
+          v-for="section in sections"
+          :key="section.id"
+          :class="{ 'is-active': activeSection?.id === section.id }"
+        >
+          <h2 class="section-title mb-4">{{ section.title }}</h2>
+          <p v-if="section.text" class="lead">{{ section.text }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -157,21 +192,25 @@ const watchUsShots = ['catname4.png', 'face_washing.png', 'catname5.png', 'catna
   <div class="container">
     <h2 class="text-center display-5 mb-5">Наша історія</h2>
 
-    <div class="timeline row g-5 text-center">
+    <div class="timeline" :style="{ '--timeline-cols': timelineCols }">
       <!-- Верхній ряд: фото над роком -->
-      <div v-for="item in historyTop" :key="item.id" class="col-lg-4 timeline-item">
-        <img v-if="item.image" :src="assetUrl(item.image)" :alt="item.year" class="img-fluid mb-4" loading="lazy" decoding="async">
-        <div class="year">{{ item.year }}</div>
-        <p class="mt-3">{{ item.text }}</p>
+      <div class="timeline-row timeline-row--top">
+        <div v-for="item in historyTop" :key="item.id" class="timeline-item" :style="{ '--order': milestoneOrder.get(item.id) }">
+          <img v-if="item.image" :src="assetUrl(item.image)" :alt="item.year" class="img-fluid mb-4" loading="lazy" decoding="async">
+          <div class="year">{{ item.year }}</div>
+          <p class="mt-3">{{ item.text }}</p>
+        </div>
       </div>
 
-      <div class="d-line m-0"></div>
+      <div class="d-line"></div>
 
-      <!-- Нижній ряд: фото під текстом -->
-      <div v-for="item in historyBottom" :key="item.id" class="col-lg-6 timeline-item m-0">
-        <div class="year">{{ item.year }}</div>
-        <p class="mt-3">{{ item.text }}</p>
-        <img v-if="item.image" :src="assetUrl(item.image)" :alt="item.year" class="img-fluid mb-4" loading="lazy" decoding="async">
+      <!-- Нижній ряд: фото під текстом, зсунутий на півкроку сітки -->
+      <div class="timeline-row timeline-row--bottom">
+        <div v-for="item in historyBottom" :key="item.id" class="timeline-item" :style="{ '--order': milestoneOrder.get(item.id) }">
+          <div class="year">{{ item.year }}</div>
+          <p class="mt-3">{{ item.text }}</p>
+          <img v-if="item.image" :src="assetUrl(item.image)" :alt="item.year" class="img-fluid mb-4" loading="lazy" decoding="async">
+        </div>
       </div>
     </div>
   </div>

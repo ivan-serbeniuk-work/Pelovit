@@ -610,3 +610,31 @@
     display: none;
   }
 }
+
+// ── Стрічка нагород (AwardsRow)
+// Раніше це була одна картинка на всю ширину контейнера: оригінал 1000px
+// розтягувався до ~1224px, а на 2x-екранах збільшувався вдвічі — звідси мило.
+// Тепер чотири файли, кожен виводиться меншим за натуральний розмір
+// (--awards-scale), тому лишається різким.
+.awards-row {
+  --awards-scale: .75;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xl;
+}
+
+.awards-row__item {
+  height: calc(var(--award-h) * var(--awards-scale));
+  width: auto;
+}
+
+@media (max-width: $bp-md) {
+  .awards-row {
+    --awards-scale: .55;
+
+    gap: $spacing-lg;
+  }
+}
