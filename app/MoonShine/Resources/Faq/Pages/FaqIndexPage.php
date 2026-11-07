@@ -13,7 +13,6 @@ use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Textarea;
 
 /**
  * @extends IndexPage<FaqResource>

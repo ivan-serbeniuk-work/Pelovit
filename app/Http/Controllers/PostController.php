@@ -17,10 +17,10 @@ class PostController extends Controller
         }
 
         if ($request->filled('search')) {
-            $query->where('title', 'like', '%' . $request->search . '%');
+            $query->where('title', 'like', '%'.$request->search.'%');
         }
 
-        $posts    = $query->paginate(9)->withQueryString();
+        $posts = $query->paginate(9)->withQueryString();
         $featured = Post::published()->where('is_featured', true)->orderByDesc('published_at')->limit(2)->get();
         $categories = Post::published()->whereNotNull('category')->distinct()->orderBy('category')->pluck('category');
 

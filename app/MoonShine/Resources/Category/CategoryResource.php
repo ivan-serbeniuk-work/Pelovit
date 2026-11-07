@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Category;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
-use App\MoonShine\Resources\Category\Pages\CategoryIndexPage;
-use App\MoonShine\Resources\Category\Pages\CategoryFormPage;
 use App\MoonShine\Resources\Category\Pages\CategoryDetailPage;
-
-use MoonShine\Laravel\Resources\ModelResource;
+use App\MoonShine\Resources\Category\Pages\CategoryFormPage;
+use App\MoonShine\Resources\Category\Pages\CategoryIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Support\Attributes\AsyncMethod;
 
 /**
@@ -22,7 +20,7 @@ class CategoryResource extends ModelResource
     protected string $model = Category::class;
 
     protected string $title = 'Категорії';
-    
+
     /**
      * @return list<class-string<PageContract>>
      */

@@ -28,33 +28,29 @@ class CatalogController extends Controller
 
         $products = Product::where('is_active', true)
             ->with('category')
-            ->when($categoryIds, fn($q) =>
-                $q->whereIn('category_id', $categoryIds)
+            ->when($categoryIds, fn ($q) => $q->whereIn('category_id', $categoryIds)
             )
-            ->when($request->brand, fn($q, $brand) =>
-            $q->where('brand', $brand)
+            ->when($request->brand, fn ($q, $brand) => $q->where('brand', $brand)
             )
-            ->when($request->min_price, fn($q, $min) =>
-            $q->where('price', '>=', $min)
+            ->when($request->min_price, fn ($q, $min) => $q->where('price', '>=', $min)
             )
-            ->when($request->max_price, fn($q, $max) =>
-            $q->where('price', '<=', $max)
+            ->when($request->max_price, fn ($q, $max) => $q->where('price', '<=', $max)
             )
             ->when($request->sort, function ($q, $sort) {
                 match ($sort) {
-                    'price_asc'  => $q->orderBy('price'),
+                    'price_asc' => $q->orderBy('price'),
                     'price_desc' => $q->orderByDesc('price'),
-                    'new'        => $q->orderByDesc('created_at'),
-                    default      => $q->orderByDesc('is_featured'),
+                    'new' => $q->orderByDesc('created_at'),
+                    default => $q->orderByDesc('is_featured'),
                 };
             })
             ->paginate(12)
             ->withQueryString();
 
         return Inertia::render('Catalog/Index', [
-            'products'   => $products,
+            'products' => $products,
             'categories' => $categories,
-            'filters'    => $request->only(['category', 'sort', 'brand', 'min_price', 'max_price']),
+            'filters' => $request->only(['category', 'sort', 'brand', 'min_price', 'max_price']),
         ]);
     }
 }

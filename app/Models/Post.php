@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'title', 'slug', 'excerpt', 'body', 'image',
         'category', 'tags', 'is_published', 'is_featured', 'published_at',
@@ -17,10 +18,10 @@ class Post extends Model
 
     protected $casts = [
         'is_published' => 'boolean',
-        'is_featured'  => 'boolean',
-        'no_index'     => 'boolean',
+        'is_featured' => 'boolean',
+        'no_index' => 'boolean',
         'published_at' => 'datetime',
-        'tags'         => 'array',
+        'tags' => 'array',
     ];
 
     protected $appends = ['formatted_date'];
@@ -33,6 +34,7 @@ class Post extends Model
     public function getFormattedDateAttribute(): string
     {
         $date = $this->published_at ?? $this->created_at;
+
         return $date?->translatedFormat('j F Y') ?? '';
     }
 }

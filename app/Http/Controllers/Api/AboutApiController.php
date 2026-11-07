@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\AboutFounder;
 use App\Models\AboutMilestone;
 use App\Models\AboutSection;
 use App\Models\AboutStat;
@@ -18,6 +19,7 @@ class AboutApiController extends Controller
     public function index(): JsonResponse
     {
         return response()->json([
+            'founder' => AboutFounder::current()?->only(['name', 'role', 'quote', 'photo']),
             'stats' => AboutStat::active()->get(['id', 'value', 'label']),
             'sections' => AboutSection::active()->get(['id', 'title', 'text', 'image']),
             'values' => AboutValue::active()->get(['id', 'title', 'text', 'icon']),

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use App\Models\AboutFounder;
 use App\Models\AboutMilestone;
 use App\Models\AboutSection;
 use App\Models\AboutStat;
@@ -32,6 +33,20 @@ class AboutContentSeeder extends Seeder
                 [...$item, 'sort_order' => $i + 1, 'is_active' => true],
             );
         }
+
+        // Картка засновника. Ім'я в макеті — заглушка «Ім'я Прізвище»,
+        // і вона висіла на живому сайті. Створюємо картку вимкненою:
+        // краще не показувати нічого, ніж показувати заглушку.
+        AboutFounder::updateOrCreate(
+            ['id' => 1],
+            [
+                'name' => '',
+                'role' => 'засновник компанії',
+                'quote' => 'Коли ми починали роботу над Pelovit, головною ідеєю було поєднати унікальні властивості української природи з сучасними науковими розробками. Ми хотіли створювати продукти, яким можна довіряти щодня: безпечні, ефективні та доступні.',
+                'photo' => 'images/skin_portrait.png',
+                'is_active' => false,
+            ],
+        );
 
         // Вкладки блоку «Дослідження». У макеті їх чотири, але текст
         // написаний лише для однієї — решту створюємо вимкненими, щоб

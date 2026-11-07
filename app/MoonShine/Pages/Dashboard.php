@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace App\MoonShine\Pages;
 
 use App\Models\Order;
+use Carbon\Carbon;
 use MoonShine\Laravel\Pages\Page;
-use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\UI\Components\Metrics\Wrapped\ValueMetric;
+use MoonShine\MenuManager\Attributes\SkipMenu;
 use MoonShine\UI\Components\FlexibleRender;
 use MoonShine\UI\Components\Layout\Box;
-use MoonShine\UI\Components\Layout\Grid;
 use MoonShine\UI\Components\Layout\Column;
-#[\MoonShine\MenuManager\Attributes\SkipMenu]
+use MoonShine\UI\Components\Layout\Grid;
+use MoonShine\UI\Components\Metrics\Wrapped\ValueMetric;
+
+#[SkipMenu]
 
 class Dashboard extends Page
 {
@@ -31,7 +33,7 @@ class Dashboard extends Page
         $today = now()->toDateString();
 
         // Orders per day for last 7 days
-        $days = collect(range(6, 0))->map(fn($i) => now()->subDays($i)->toDateString());
+        $days = collect(range(6, 0))->map(fn ($i) => now()->subDays($i)->toDateString());
         $counts = Order::selectRaw('DATE(created_at) as date, COUNT(*) as cnt')
             ->where('created_at', '>=', now()->subDays(6)->startOfDay())
             ->groupBy('date')
@@ -39,18 +41,18 @@ class Dashboard extends Page
         $maxCount = max($counts->max() ?? 1, 1);
 
         $bars = $days->map(function ($date) use ($counts, $maxCount, $today) {
-            $cnt    = (int) $counts->get($date, 0);
-            $pct    = $maxCount > 0 ? round($cnt / $maxCount * 100) : 0;
-            $day    = \Carbon\Carbon::parse($date)->locale('uk')->isoFormat('dd');
-            $dm     = \Carbon\Carbon::parse($date)->format('d.m');
+            $cnt = (int) $counts->get($date, 0);
+            $pct = $maxCount > 0 ? round($cnt / $maxCount * 100) : 0;
+            $day = Carbon::parse($date)->locale('uk')->isoFormat('dd');
+            $dm = Carbon::parse($date)->format('d.m');
             $active = $date === $today;
             $barCls = $active ? 'ms-db-bar--today' : 'ms-db-bar--past';
             $lblCls = $active ? 'ms-db-lbl--today' : 'ms-db-lbl--past';
-            $minH   = $cnt > 0 ? '6px' : '0px';
+            $minH = $cnt > 0 ? '6px' : '0px';
 
             return "
             <div class='ms-db-col'>
-                <span class='ms-db-cnt {$lblCls}'>" . ($cnt > 0 ? $cnt : '&nbsp;') . "</span>
+                <span class='ms-db-cnt {$lblCls}'>".($cnt > 0 ? $cnt : '&nbsp;')."</span>
                 <div class='ms-db-track'>
                     <div class='ms-db-bar {$barCls}' style='height:{$pct}%;min-height:{$minH}'></div>
                 </div>
@@ -68,7 +70,7 @@ class Dashboard extends Page
             $items = is_array($order->items) ? $order->items : (json_decode($order->items ?? '[]', true) ?? []);
             foreach ($items as $item) {
                 $name = $item['name'] ?? '—';
-                $qty  = (int) ($item['qty'] ?? 1);
+                $qty = (int) ($item['qty'] ?? 1);
                 $topProducts[$name] = ($topProducts[$name] ?? 0) + $qty;
             }
         });
@@ -80,7 +82,7 @@ class Dashboard extends Page
         foreach ($topProducts as $name => $qty) {
             $rows .= "<tr class='ms-db-row'>
                 <td class='ms-db-rank'>{$rank}</td>
-                <td class='ms-db-pname'>" . htmlspecialchars($name) . "</td>
+                <td class='ms-db-pname'>".htmlspecialchars($name)."</td>
                 <td class='ms-db-qty'>{$qty} шт.</td>
             </tr>";
             $rank++;
@@ -90,7 +92,7 @@ class Dashboard extends Page
             ? "<p class='ms-db-empty'>Ще немає замовлень</p>"
             : "<table class='ms-db-table'><tbody>{$rows}</tbody></table>";
 
-        $css = "
+        $css = '
 <style>
 .ms-db-col{display:flex;flex-direction:column;align-items:center;flex:1}
 .ms-db-cnt{font-size:11px;font-weight:600;margin-bottom:4px;min-height:16px;color:var(--color-base-text)}
@@ -117,9 +119,9 @@ class Dashboard extends Page
 .ms-db-pname{color:var(--color-base-text)}
 .ms-db-qty{text-align:right;font-weight:600;color:var(--color-base-text);white-space:nowrap}
 .ms-db-empty{color:var(--color-base-text);opacity:.4;font-size:13px;padding:8px 0}
-</style>";
+</style>';
 
-        $chartHtml = $css . "
+        $chartHtml = $css."
         <div style='padding:20px 24px 16px'>
             <div class='ms-db-chart-header'>
                 <div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\MoonShine\Pages\SettingsPage;
+use App\MoonShine\Resources\AboutFounder\AboutFounderResource;
 use App\MoonShine\Resources\AboutMilestone\AboutMilestoneResource;
 use App\MoonShine\Resources\AboutSection\AboutSectionResource;
 use App\MoonShine\Resources\AboutStat\AboutStatResource;
@@ -57,6 +58,7 @@ class AdminLinkController extends Controller
         'about-value' => [AboutValueResource::class, 'Цінність', 'Цінності «Про нас»'],
         'about-milestone' => [AboutMilestoneResource::class, 'Віха', 'Історія «Про нас»'],
         'about-section' => [AboutSectionResource::class, 'Вкладка', 'Вкладки «Про нас»'],
+        'about-founder' => [AboutFounderResource::class, 'Засновник', 'Засновник «Про нас»'],
     ];
 
     /** Сторінки адмінки без ресурсу (у них немає окремих записів). */

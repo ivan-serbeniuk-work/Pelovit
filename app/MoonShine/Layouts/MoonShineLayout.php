@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Layouts;
 
 use App\MoonShine\Pages\SettingsPage;
+use App\MoonShine\Resources\AboutFounder\AboutFounderResource;
 use App\MoonShine\Resources\AboutMilestone\AboutMilestoneResource;
 use App\MoonShine\Resources\AboutSection\AboutSectionResource;
 use App\MoonShine\Resources\AboutStat\AboutStatResource;
@@ -69,6 +70,7 @@ final class MoonShineLayout extends AppLayout
                 MenuItem::make(AboutValueResource::class, 'Цінності')->icon('heart'),
                 MenuItem::make(AboutMilestoneResource::class, 'Історія')->icon('clock'),
                 MenuItem::make(AboutSectionResource::class, 'Вкладки')->icon('rectangle-stack'),
+                MenuItem::make(AboutFounderResource::class, 'Засновник')->icon('user-circle'),
             ])->icon('pencil-square'),
             MenuGroup::make('Калькулятор', [
                 MenuItem::make(CalculatorOptionResource::class, 'Опції')->icon('adjustments-horizontal'),

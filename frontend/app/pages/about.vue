@@ -15,8 +15,11 @@ useSeoPage({
 const { data } = await useFetch<any>(`${config.public.apiBase}/about`)
 const { data: settings } = await useSettings()
 
-useAdminEditTargets(() => ['about-stat', 'about-value', 'about-milestone', 'about-section', 'settings'])
+useAdminEditTargets(() => [
+  'about-founder', 'about-stat', 'about-value', 'about-milestone', 'about-section', 'settings',
+])
 
+const founder = computed<any | null>(() => data.value?.founder ?? null)
 const stats = computed<any[]>(() => data.value?.stats ?? [])
 
 // Вкладки блоку «Дослідження»: у макеті зліва список, праворуч фото
@@ -114,25 +117,28 @@ const watchUsShots = ['catname4.png', 'face_washing.png', 'catname5.png', 'catna
     <h2 class="text-center mb-5 display-5">Наша місія та цінності</h2>
 
     <div class="row g-5 align-items-center">
-      <!-- Засновник -->
-      <div class="col-lg-5">
+      <!-- Засновник. Поки картку не заповнили в адмінці, її немає зовсім:
+           краще без блоку, ніж із заглушкою «Ім'я Прізвище». -->
+      <div v-if="founder" class="col-lg-5">
         <div class="p-4 value-card">
-          <img :src="assetUrl('images/skin_portrait.png')" alt="Ім'я Прізвище" class="founder-photo img-fluid mb-4" loading="lazy" decoding="async">
+          <img
+            v-if="founder.photo"
+            :src="assetUrl(founder.photo)"
+            :alt="founder.name"
+            class="founder-photo img-fluid mb-4"
+            loading="lazy"
+            decoding="async"
+          >
 
-          <h4 class="fw-bold">Ім'я Прізвище</h4>
-          <p class="mb-3">засновник компанії</p>
+          <h4 class="fw-bold">{{ founder.name }}</h4>
+          <p v-if="founder.role" class="mb-3">{{ founder.role }}</p>
 
-          <p class="fst-italic">
-            «Коли ми починали роботу над Pelovit, головною ідеєю було поєднати
-            унікальні властивості української природи з сучасними науковими
-            розробками. Ми хотіли створювати продукти, яким можна довіряти
-            щодня: безпечні, ефективні та доступні.»
-          </p>
+          <p v-if="founder.quote" class="fst-italic">«{{ founder.quote }}»</p>
         </div>
       </div>
 
       <!-- Цінності -->
-      <div class="col-lg-7">
+      <div :class="founder ? 'col-lg-7' : 'col-12'">
         <div class="row g-4">
           <div v-for="value in values" :key="value.id" class="col-md-6">
             <div class="value-card text-center">

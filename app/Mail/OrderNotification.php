@@ -18,7 +18,7 @@ class OrderNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Нове замовлення #' . $this->order->id . ' — PELOVIT',
+            subject: 'Нове замовлення #'.$this->order->id.' — PELOVIT',
         );
     }
 

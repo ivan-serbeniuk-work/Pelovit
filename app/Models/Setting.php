@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Cache;
 class Setting extends Model
 {
     protected $primaryKey = 'key';
+
     protected $keyType = 'string';
+
     public $incrementing = false;
 
     protected $fillable = ['key', 'value'];

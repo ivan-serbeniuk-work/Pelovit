@@ -4,25 +4,24 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Order\Pages;
 
-use MoonShine\Laravel\Pages\Crud\IndexPage;
-use MoonShine\Contracts\UI\ComponentContract;
-use MoonShine\UI\Components\Table\TableBuilder;
-use MoonShine\Contracts\UI\FieldContract;
 use App\Models\Order;
+use App\MoonShine\Resources\Order\OrderResource;
+use MoonShine\Contracts\UI\ComponentContract;
+use MoonShine\Contracts\UI\FieldContract;
+use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
+use MoonShine\Support\ListOf;
+use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use MoonShine\UI\Components\Metrics\Wrapped\ValueMetric;
-use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Number;
-use MoonShine\UI\Fields\Select;
+use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\DateRange;
-use App\MoonShine\Resources\Order\OrderResource;
-use MoonShine\UI\Components\ActionButton;
-use MoonShine\Support\ListOf;
+use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Number;
+use MoonShine\UI\Fields\Select;
+use MoonShine\UI\Fields\Text;
 use Throwable;
-
 
 /**
  * @extends IndexPage<OrderResource>
@@ -44,26 +43,26 @@ class OrderIndexPage extends IndexPage
             Number::make('Сума', 'total')->sortable(),
             Select::make('Оплата', 'payment_status')->options([
                 'pending' => 'Очікує',
-                'paid'    => 'Оплачено',
-                'failed'  => 'Не вдалась',
-            ])->badge(fn($v) => match($v) {
-                'paid'    => 'green',
-                'failed'  => 'red',
-                default   => 'gray',
+                'paid' => 'Оплачено',
+                'failed' => 'Не вдалась',
+            ])->badge(fn ($v) => match ($v) {
+                'paid' => 'green',
+                'failed' => 'red',
+                default => 'gray',
             }),
             Select::make('Статус', 'status')->options([
-                'pending'   => 'Новий',
+                'pending' => 'Новий',
                 'confirmed' => 'Підтверджено',
-                'shipped'   => 'Відправлено',
+                'shipped' => 'Відправлено',
                 'completed' => 'Виконано',
                 'cancelled' => 'Скасовано',
-            ])->badge(fn($v) => match($v) {
-                'pending'   => 'yellow',
+            ])->badge(fn ($v) => match ($v) {
+                'pending' => 'yellow',
                 'confirmed' => 'blue',
-                'shipped'   => 'purple',
+                'shipped' => 'purple',
                 'completed' => 'green',
                 'cancelled' => 'red',
-                default     => 'gray',
+                default => 'gray',
             })->updateOnPreview(),
             Date::make('Дата', 'created_at')->format('d.m.Y H:i')->sortable(),
         ];
@@ -99,9 +98,9 @@ class OrderIndexPage extends IndexPage
         return [
             DateRange::make('Дата замовлення', 'created_at')->nullable(),
             Select::make('Статус', 'status')->options([
-                'pending'   => 'Новий',
+                'pending' => 'Новий',
                 'confirmed' => 'Підтверджено',
-                'shipped'   => 'Відправлено',
+                'shipped' => 'Відправлено',
                 'completed' => 'Виконано',
                 'cancelled' => 'Скасовано',
             ])->nullable(),
@@ -114,13 +113,13 @@ class OrderIndexPage extends IndexPage
     protected function queryTags(): array
     {
         return [
-            QueryTag::make('Всі', fn($q) => $q),
-            QueryTag::make('Оплачені', fn($q) => $q->where('payment_status', 'paid')),
-            QueryTag::make('Нові', fn($q) => $q->where('status', 'pending')),
-            QueryTag::make('Підтверджені', fn($q) => $q->where('status', 'confirmed')),
-            QueryTag::make('Відправлені', fn($q) => $q->where('status', 'shipped')),
-            QueryTag::make('Виконані', fn($q) => $q->where('status', 'completed')),
-            QueryTag::make('Скасовані', fn($q) => $q->where('status', 'cancelled')),
+            QueryTag::make('Всі', fn ($q) => $q),
+            QueryTag::make('Оплачені', fn ($q) => $q->where('payment_status', 'paid')),
+            QueryTag::make('Нові', fn ($q) => $q->where('status', 'pending')),
+            QueryTag::make('Підтверджені', fn ($q) => $q->where('status', 'confirmed')),
+            QueryTag::make('Відправлені', fn ($q) => $q->where('status', 'shipped')),
+            QueryTag::make('Виконані', fn ($q) => $q->where('status', 'completed')),
+            QueryTag::make('Скасовані', fn ($q) => $q->where('status', 'cancelled')),
         ];
     }
 
@@ -150,7 +149,6 @@ class OrderIndexPage extends IndexPage
 
     /**
      * @param  TableBuilder  $component
-     *
      * @return TableBuilder
      */
     protected function modifyListComponent(ComponentContract $component): ComponentContract
@@ -160,34 +158,37 @@ class OrderIndexPage extends IndexPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

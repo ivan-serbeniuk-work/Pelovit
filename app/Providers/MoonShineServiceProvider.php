@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\MoonShine\Pages\SettingsPage;
+use App\MoonShine\Resources\AboutFounder\AboutFounderResource;
 use App\MoonShine\Resources\AboutMilestone\AboutMilestoneResource;
 use App\MoonShine\Resources\AboutSection\AboutSectionResource;
 use App\MoonShine\Resources\AboutStat\AboutStatResource;
@@ -58,6 +59,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 AboutValueResource::class,
                 AboutMilestoneResource::class,
                 AboutSectionResource::class,
+                AboutFounderResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

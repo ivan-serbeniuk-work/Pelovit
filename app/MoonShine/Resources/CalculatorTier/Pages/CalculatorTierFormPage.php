@@ -37,7 +37,7 @@ class CalculatorTierFormPage extends FormPage
     protected function rules(DataWrapperContract $item): array
     {
         return [
-            'min_quantity'     => ['required', 'integer', 'min:1'],
+            'min_quantity' => ['required', 'integer', 'min:1'],
             'discount_percent' => ['required', 'numeric', 'min:0', 'max:100'],
         ];
     }
