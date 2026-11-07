@@ -6,10 +6,6 @@
 }
 .promotions .product-card,
 .all_categories .product-card {
-  .tag_brown {
-    left: 12px;
-    top: 15px;
-  }
   .like {
     width: 26px;
     right: 12px;
@@ -315,85 +311,3 @@
   border-radius: 50%;
 }
 
-// Partners Marquee
-.partners-section {
-  padding: 5rem 0;
-
-  h2 {
-    font-size: $text-4xl;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-  }
-
-  p {
-    max-width: 680px;
-    margin: 0 auto 3rem;
-    font-size: $text-lg;
-    opacity: 0.85;
-  }
-}
-.marquee-wrapper {
-  overflow: hidden;
-  position: relative;
-  padding: 2.5rem 0;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100px;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  &::before {
-    left: 0;
-    background: linear-gradient(to right, $surface, transparent);
-  }
-
-  &::after {
-    right: 0;
-    background: linear-gradient(to left, $surface, transparent);
-  }
-
-  .marquee-track {
-    display: flex;
-    align-items: center;
-    animation: marquee 40s linear infinite;
-    width: max-content;
-      will-change: transform;
-
-      svg {
-      opacity: 0.75;
-      transition: opacity 0.3s;
-      // spacing lives on the item, not as a gap: the track holds two identical
-      // sets, so the -50% shift only lines up if the trailing space is included
-      margin-right: 4.5rem;
-      flex-shrink: 0;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-
-  &:hover .marquee-track {
-    animation-play-state: paused;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-wrapper .marquee-track {
-    animation: none;
-  }
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.container.sponsers {
-  margin: 0;
-  max-width: 100%;
-}

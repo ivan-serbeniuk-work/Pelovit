@@ -13,34 +13,6 @@
     transform: translateY(-3px);
   }
 
-  .tag_brown {
-    position: absolute;
-    left: 12px;
-    top: 15px;
-    background: $tag-bg;
-    color: $white;
-    font-weight: 600;
-    font-size: $text-xs;
-    line-height: 15px;
-    padding: $spacing-xs $spacing-sm;
-    border-radius: $radius-sm;
-
-    // Довгі назви категорій («Опорно-руховий апарат») у вузькій колонці
-    // заповзали під бейдж знижки. Лишаємо місце під нього і серце,
-    // решту ховаємо в трикрапку. display:block — інакше text-overflow
-    // не працює у flex-контейнері.
-    display: block;
-    max-width: calc(100% - 110px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  // Без знижки поруч лишається тільки серце — можна дати більше місця.
-  &:not(:has(.discount-badge)) .tag_brown {
-    max-width: calc(100% - 60px);
-  }
-
   .like {
     position: absolute;
     width: 26px;
@@ -109,20 +81,12 @@
   z-index: 2;
 }
 
-// На вузькому екрані картка вдвічі вужча, і назва категорії поруч зі знижкою
-// стискалась до «Опо…». Тому знижку опускаємо рядком нижче — під серце,
-// а категорії дістається майже вся ширина.
+// На вузькому екрані картка вдвічі вужча — знижку опускаємо рядком нижче,
+// під серце, щоб бейджі не тіснилися в один рядок.
 @media (max-width: $bp-sm) {
-  .product-card {
-    .discount-badge {
-      top: 46px;
-      right: 12px;
-    }
-
-    .tag_brown,
-    &:not(:has(.discount-badge)) .tag_brown {
-      max-width: calc(100% - 52px);
-    }
+  .product-card .discount-badge {
+    top: 46px;
+    right: 12px;
   }
 }
 
@@ -285,7 +249,7 @@
 }
 
 .cat-blue {
-  background-color: $accent; // не $primary-blue (#69BDDB): білий текст на ньому — 2.12:1
+  background-color: $primary-blue;
 }
 
 .radius { border-radius: $radius-md; }
@@ -293,18 +257,7 @@
 .rad-12 { border-radius: $radius-md; }
 .rad-8 { border-radius: $radius-sm; }
 
-// Tags & Likes
-.tag_brown {
-  color: $light-bg;
-  font-weight: 600;
-  position: absolute;
-  background-color: $brown-dark;
-  border-radius: $radius-sm;
-  padding: 4px 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+// Likes
 .like {
   position: absolute;
   right: 80px;

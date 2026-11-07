@@ -241,9 +241,6 @@ function postImg(post: any) {
   </div>
 </section>
 
-<!-- Partners -->
-<PartnersMarquee />
-
 <!-- Reviews -->
 <section class="py-5 reviews-section">
   <div class="container">
