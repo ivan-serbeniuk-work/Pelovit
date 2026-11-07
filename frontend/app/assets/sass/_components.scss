@@ -335,14 +335,6 @@
   }
 }
 
-.filter-option__count {
-  flex-shrink: 0;
-  font-size: $text-xs;
-  color: inherit;
-  opacity: .6;
-  font-variant-numeric: tabular-nums;
-}
-
 .filter-hint {
   font-size: $text-xs;
   color: $text-muted;
