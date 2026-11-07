@@ -37,6 +37,9 @@ class SubscriberIndexPage extends IndexPage
             ID::make()->sortable(),
             Email::make('Email', 'email')->sortable(),
             Text::make('Імʼя', 'name'),
+            // Вітальний промокод, виданий за підписку. Показуємо, щоб підтримка
+            // могла відповісти «який у мене код» без копання в promo_codes.
+            Text::make('Промокод', 'welcome_promo_code')->badge('primary'),
             Switcher::make('Активний', 'is_active')->updateOnPreview(),
             Date::make('Підписався', 'created_at')->format('d.m.Y')->sortable(),
         ];
