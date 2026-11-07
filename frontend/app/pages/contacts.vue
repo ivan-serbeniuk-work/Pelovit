@@ -8,6 +8,9 @@ useSeoPage({
 
 const config = useRuntimeConfig()
 const { assetUrl } = useAsset()
+// Крім самих контактів (налаштування) на сторінці є блок «Наша команда».
+useAdminEditTargets(() => ['settings', 'team'])
+
 const { data } = await useFetch<any>(`${config.public.apiBase}/contacts`)
 const team = computed(() => data.value?.team ?? [])
 </script>

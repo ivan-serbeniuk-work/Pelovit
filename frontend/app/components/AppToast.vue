@@ -32,7 +32,9 @@ const { toasts, remove } = useToast()
 <style scoped>
 .toast-container {
   position: fixed;
-  bottom: 24px;
+  /* Док адмінки стоїть у цьому ж куті й виставляє --toast-bottom, щоб
+     тости не перекривали кнопку. Для покупця змінної немає → 24px. */
+  bottom: var(--toast-bottom, 24px);
   right: 24px;
   z-index: 9999;
   display: flex;

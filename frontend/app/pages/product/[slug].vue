@@ -75,7 +75,10 @@ useHead({
 const { imgSrc, addToCart: addToCartFn, toggleWishlist: toggleWishlistFn, wishlist } = useProduct()
 
 // Видно тільки тим, хто вже залогінений в адмінці.
-const { adminEditUrl } = useAdminEditLink('product', computed(() => product.value?.id))
+useAdminEditTargets(() => [
+  product.value?.id && `product:${product.value.id}`,
+  product.value?.category?.id && `category:${product.value.category.id}`,
+])
 
 // Промо застосунку показуємо лише у вебі: усередині самого застосунку
 // пропонувати його встановити безглуздо.
@@ -265,16 +268,6 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
           <span v-if="product.category" class="product-tag">{{ product.category.name }}</span>
           <span v-if="product.brand" class="product-tag">{{ product.brand }}</span>
         </div>
-
-        <a
-          v-if="adminEditUrl"
-          :href="adminEditUrl"
-          target="_blank"
-          rel="noopener"
-          class="admin-edit-link"
-        >
-          Редагувати в адмінці
-        </a>
 
         <div class="d-flex align-items-center gap-3 mb-3">
           <h2 class="price mb-0">{{ Math.round(product.price) }}₴</h2>

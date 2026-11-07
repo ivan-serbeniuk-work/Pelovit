@@ -11,6 +11,8 @@ const { assetUrl } = useAsset()
 const { data: settings } = await useSettings()
 
 // Менеджери напрямків — ті самі, що на сторінці контактів (ресурс «Команда» в адмінці).
+useAdminEditTargets(() => ['settings'])
+
 const { data: contacts } = await useFetch<any>(`${config.public.apiBase}/contacts`)
 const team = computed(() => contacts.value?.team ?? [])
 

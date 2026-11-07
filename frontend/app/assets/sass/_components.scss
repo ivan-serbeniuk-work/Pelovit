@@ -488,23 +488,111 @@
   user-select: none;
 }
 
-// Службове посилання в адмінку — його бачить лише залогінений адміністратор.
-// Живе тут, а не в стилях сторінки товару: та сама кнопка є і в меджурналі.
-.admin-edit-link {
+// Службовий док у правому нижньому куті — його бачить лише залогінений
+// адміністратор. Раніше це було інлайнове посилання в потоці сторінки, але
+// на довгих сторінках (товар, стаття) до нього треба було скролити назад.
+.admin-dock {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1050; // під пошуковим оверлеєм (1100), над усім контентом
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .5rem;
+
+  @media print {
+    display: none;
+  }
+}
+
+.admin-dock__btn {
   display: inline-flex;
   align-items: center;
-  gap: .4rem;
-  margin-bottom: 1rem;
-  padding: .35rem .85rem;
-  border: 1px dashed $primary-blue;
-  border-radius: $radius-lg;
+  gap: .45rem;
+  padding: .5rem .9rem;
+  border: 1px solid $accent;
+  border-radius: 999px;
+  background: $surface;
   color: $accent;
   font-size: $text-sm;
+  font-weight: 500;
+  line-height: 1;
   text-decoration: none;
+  cursor: pointer;
+  box-shadow: $shadow-card;
   transition: $transition-default;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
+    background: $accent;
+    color: $on-dark;
+  }
+}
+
+.admin-dock__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.admin-dock__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: $accent-tint;
+  color: $accent-dark;
+  font-size: $text-xs;
+  font-weight: 700;
+}
+
+.admin-dock__list {
+  margin: 0;
+  padding: .35rem;
+  list-style: none;
+  border-radius: $radius-md;
+  background: $surface;
+  box-shadow: $shadow-raised;
+  min-width: 190px;
+}
+
+.admin-dock__item {
+  display: block;
+  padding: .45rem .6rem;
+  border-radius: $radius-sm;
+  color: $text;
+  font-size: $text-sm;
+  text-decoration: none;
+
+  &:hover,
+  &:focus-visible {
     background: $accent-tint;
     color: $accent-dark;
+  }
+}
+
+.admin-dock-list-enter-active,
+.admin-dock-list-leave-active {
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+.admin-dock-list-enter-from,
+.admin-dock-list-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+// Вузький екран: підпис зайвий, лишаємо іконку й лічильник.
+@media (max-width: $bp-sm) {
+  .admin-dock {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .admin-dock__text {
+    display: none;
   }
 }

@@ -28,6 +28,24 @@ const filters = computed<Record<string, string>>(() => {
 
 const priceRange = computed(() => data.value?.price_range)
 
+// Якщо вибрана категорія — ведемо одразу в її форму, а не лише в список.
+const activeCategoryId = computed<number | undefined>(() => {
+  const slug = filters.value.category
+  if (!slug) return undefined
+  for (const cat of categories.value) {
+    if (cat.slug === slug) return cat.id
+    const child = cat.children?.find((c: any) => c.slug === slug)
+    if (child) return child.id
+  }
+  return undefined
+})
+
+useAdminEditTargets(() => [
+  activeCategoryId.value && `category:${activeCategoryId.value}`,
+  'product',
+  !activeCategoryId.value && 'category',
+])
+
 function setSort(sort: string) {
   router.push({ query: { ...route.query, sort: sort || undefined, page: undefined } })
 }

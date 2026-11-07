@@ -41,7 +41,7 @@ useHead({
 })
 
 // Видно тільки тим, хто вже залогінений в адмінці.
-const { adminEditUrl } = useAdminEditLink('post', computed(() => post.value?.id))
+useAdminEditTargets(() => [post.value?.id && `post:${post.value.id}`])
 
 const currentUrl = ref('')
 onMounted(() => { currentUrl.value = window.location.href })
@@ -54,15 +54,6 @@ function copyUrl() {
 <template>
 <section v-if="post" class="article_section">
   <div class="container py-5">
-    <a
-      v-if="adminEditUrl"
-      :href="adminEditUrl"
-      target="_blank"
-      rel="noopener"
-      class="admin-edit-link"
-    >
-      Редагувати в адмінці
-    </a>
     <h1 class="fw-bold mb-4">{{ post.title }}</h1>
     <div v-if="post.image" class="mb-4">
       <img :src="assetUrl(post.image)" class="img-fluid rounded-4 w-100 article-image" :alt="post.title">
