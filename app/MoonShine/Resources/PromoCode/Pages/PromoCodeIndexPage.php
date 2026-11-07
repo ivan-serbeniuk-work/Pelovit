@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\PromoCode\Pages;
 
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\PromoCode\PromoCodeResource;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Fields\Date;
 use MoonShine\UI\Fields\ID;
@@ -14,9 +14,9 @@ use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 
 /**
- * @extends IndexPage<PromoCodeResource>
+ * @extends BaseIndexPage<PromoCodeResource>
  */
-class PromoCodeIndexPage extends IndexPage
+class PromoCodeIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 

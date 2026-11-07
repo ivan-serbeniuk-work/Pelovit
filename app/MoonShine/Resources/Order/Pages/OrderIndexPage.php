@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Order\Pages;
 
 use App\Models\Order;
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\Order\OrderResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
@@ -24,9 +24,9 @@ use MoonShine\UI\Fields\Text;
 use Throwable;
 
 /**
- * @extends IndexPage<OrderResource>
+ * @extends BaseIndexPage<OrderResource>
  */
-class OrderIndexPage extends IndexPage
+class OrderIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Product\Pages;
 
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\Category\CategoryResource;
 use App\MoonShine\Resources\Product\ProductResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
@@ -24,9 +24,9 @@ use MoonShine\UI\Fields\Text;
 use Throwable;
 
 /**
- * @extends IndexPage<ProductResource>
+ * @extends BaseIndexPage<ProductResource>
  */
-class ProductIndexPage extends IndexPage
+class ProductIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 

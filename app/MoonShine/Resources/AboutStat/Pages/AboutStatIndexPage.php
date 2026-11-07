@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\AboutStat\Pages;
 
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\AboutStat\AboutStatResource;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 
 /**
- * @extends IndexPage<AboutStatResource>
+ * @extends BaseIndexPage<AboutStatResource>
  */
-class AboutStatIndexPage extends IndexPage
+class AboutStatIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 

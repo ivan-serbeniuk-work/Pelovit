@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Subscriber\Pages;
 
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\Subscriber\SubscriberResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\ActionButton;
@@ -21,9 +21,9 @@ use MoonShine\UI\Fields\Text;
 use Throwable;
 
 /**
- * @extends IndexPage<SubscriberResource>
+ * @extends BaseIndexPage<SubscriberResource>
  */
-class SubscriberIndexPage extends IndexPage
+class SubscriberIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 

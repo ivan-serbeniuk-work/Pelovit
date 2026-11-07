@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Lead\Pages;
 
 use App\Models\Lead;
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\Lead\LeadResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\UI\Components\FlexibleRender;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
 use Throwable;
 
 /**
- * @extends IndexPage<LeadResource>
+ * @extends BaseIndexPage<LeadResource>
  */
-class LeadIndexPage extends IndexPage
+class LeadIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\AboutFounder\Pages;
 
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\AboutFounder\AboutFounderResource;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 
 /**
- * @extends IndexPage<AboutFounderResource>
+ * @extends BaseIndexPage<AboutFounderResource>
  */
-class AboutFounderIndexPage extends IndexPage
+class AboutFounderIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 

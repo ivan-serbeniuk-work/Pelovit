@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\MoonShineUser\Pages;
 
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\MoonShineUser\MoonShineUserResource;
 use App\MoonShine\Resources\MoonShineUserRole\MoonShineUserRoleResource;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -11,7 +12,6 @@ use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Models\MoonshineUserRole;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Support\Enums\Color;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
@@ -21,9 +21,9 @@ use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Text;
 
 /**
- * @extends IndexPage<MoonShineUserResource>
+ * @extends BaseIndexPage<MoonShineUserResource>
  */
-final class MoonShineUserIndexPage extends IndexPage
+final class MoonShineUserIndexPage extends BaseIndexPage
 {
     /**
      * @return list<FieldContract>

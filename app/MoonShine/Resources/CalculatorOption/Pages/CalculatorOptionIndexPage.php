@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\CalculatorOption\Pages;
 
 use App\Models\CalculatorOption;
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\CalculatorOption\CalculatorOptionResource;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Select;
@@ -15,9 +15,9 @@ use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
 
 /**
- * @extends IndexPage<CalculatorOptionResource>
+ * @extends BaseIndexPage<CalculatorOptionResource>
  */
-class CalculatorOptionIndexPage extends IndexPage
+class CalculatorOptionIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 

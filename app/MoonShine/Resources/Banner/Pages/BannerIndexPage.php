@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Banner\Pages;
 
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\Banner\BannerResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
@@ -20,9 +20,9 @@ use MoonShine\UI\Fields\Text;
 use Throwable;
 
 /**
- * @extends IndexPage<BannerResource>
+ * @extends BaseIndexPage<BannerResource>
  */
-class BannerIndexPage extends IndexPage
+class BannerIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 
