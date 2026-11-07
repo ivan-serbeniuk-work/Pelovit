@@ -55,7 +55,7 @@ export default defineEventHandler(async () => {
           for (const cat of list ?? []) {
             if (cat?.slug) {
               urls.push({
-                loc: `/catalog?category=${cat.slug}`,
+                loc: `/catalog/${cat.slug}`,
                 priority: '0.7',
                 changefreq: 'weekly',
               })

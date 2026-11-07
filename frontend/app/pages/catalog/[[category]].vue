@@ -4,8 +4,12 @@ const { assetUrl } = useAsset()
 const route = useRoute()
 const router = useRouter()
 
+// Категорія живе в шляху: /catalog/likuvalni. Той самий файл обслуговує
+// і /catalog — завдяки опціональному параметру [[category]].
+const categorySlug = computed(() => (route.params.category as string) || '')
+
 const { data, status } = await useFetch<any>(`${config.public.apiBase}/catalog`, {
-  query: computed(() => route.query),
+  query: computed(() => ({ ...route.query, category: categorySlug.value || undefined })),
 })
 
 const isLoading = computed(() => status.value === 'pending')
@@ -51,7 +55,7 @@ useSeoPage({
   // боротися за свої запити. Сортування й сторінки, навпаки, лишаються
   // склеєними з базовою адресою: це той самий набір товарів.
   canonicalPath: () => activeCategory.value
-    ? `/catalog?category=${activeCategory.value.slug}`
+    ? `/catalog/${activeCategory.value.slug}`
     : '/catalog',
 
   override: () => activeCategory.value
@@ -76,7 +80,7 @@ useJsonLd(() => {
   if (activeCategory.value) {
     crumbs.push({
       name: activeCategory.value.name,
-      path: `/catalog?category=${activeCategory.value.slug}`,
+      path: `/catalog/${activeCategory.value.slug}`,
     })
   }
 
@@ -133,9 +137,10 @@ function categoryName(slug: string) {
  */
 const activeChips = computed(() => {
   const f = filters.value
-  const chips: { key: string; label: string; patch: Record<string, any> }[] = []
+  const chips: { key: string, label: string, patch?: Record<string, any>, path?: string }[] = []
 
-  if (f.category) chips.push({ key: 'category', label: categoryName(f.category), patch: { category: undefined } })
+  // Категорія не в query, тож її чіп веде на /catalog зі збереженням решти.
+  if (f.category) chips.push({ key: 'category', label: categoryName(f.category), path: '/catalog' })
   if (f.brand) chips.push({ key: 'brand', label: f.brand, patch: { brand: undefined } })
   if (f.sort) chips.push({ key: 'sort', label: SORT_LABELS[f.sort] ?? f.sort, patch: { sort: undefined } })
   if (f.min_price) chips.push({ key: 'min_price', label: `від ${f.min_price}₴`, patch: { min_price: undefined } })
@@ -145,8 +150,11 @@ const activeChips = computed(() => {
   return chips
 })
 
-function removeChip(patch: Record<string, any>) {
-  router.push({ query: { ...route.query, ...patch, page: undefined } })
+function removeChip(chip: { patch?: Record<string, any>, path?: string }) {
+  router.push({
+    path: chip.path ?? route.path,
+    query: { ...route.query, ...(chip.patch ?? {}), page: undefined },
+  })
 }
 
 </script>
@@ -156,7 +164,7 @@ function removeChip(patch: Record<string, any>) {
     <div class="container">
       <div class="row cards">
         <div v-for="cat in categories" :key="cat.id" class="cat_card">
-          <NuxtLink :to="`/catalog?category=${cat.slug}`" class="text-decoration-none d-block">
+          <NuxtLink :to="`/catalog/${cat.slug}`" class="text-decoration-none d-block">
             <div class="category-card rounded-4 overflow-hidden" :class="{ active: filters.category === cat.slug }">
               <img :src="assetUrl(cat.image)" class="rounded-4 w-100" :alt="cat.name" loading="lazy" decoding="async">
               <p class="mt-3 fw-medium cat_name">{{ cat.name }}</p>
@@ -166,7 +174,7 @@ function removeChip(patch: Record<string, any>) {
             <NuxtLink
               v-for="child in cat.children"
               :key="child.id"
-              :to="`/catalog?category=${child.slug}`"
+              :to="`/catalog/${child.slug}`"
               class="badge text-decoration-none me-1 mb-1"
               :class="filters.category === child.slug ? 'bg-dark' : 'bg-secondary'"
             >{{ child.name }}</NuxtLink>
@@ -214,7 +222,7 @@ function removeChip(patch: Record<string, any>) {
           :key="chip.key"
           type="button"
           class="catalog-chip"
-          @click="removeChip(chip.patch)"
+          @click="removeChip(chip)"
         >
           {{ chip.label }}
           <span class="catalog-chip__x" aria-hidden="true">×</span>

@@ -131,7 +131,7 @@ function postImg(post: any) {
     </div>
     <div class="row cards">
       <div v-for="category in categories" :key="category.id" class="cat_card">
-        <NuxtLink :to="`/catalog?category=${category.slug}`" class="text-decoration-none text-dark">
+        <NuxtLink :to="`/catalog/${category.slug}`" class="text-decoration-none text-dark">
           <div class="category-card">
             <img :src="assetUrl(category.image)" class="rounded-4 w-100" :alt="category.name" loading="lazy" decoding="async">
             <p class="mt-3 fw-medium cat_name">{{ category.name }}</p>
