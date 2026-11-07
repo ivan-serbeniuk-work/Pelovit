@@ -51,7 +51,7 @@ useHead({
   ]),
   script: computed(() => product.value && !product.value.no_index ? [{
     type: 'application/ld+json',
-    children: JSON.stringify({
+    innerHTML: JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Product',
       name: product.value?.name,
@@ -70,6 +70,27 @@ useHead({
       },
     }),
   }] : []),
+})
+
+// Крихти: Головна → Каталог → Категорія → Товар. Категорію додаємо, лише
+// якщо вона є, інакше в ланцюжку утворилася б дірка.
+useJsonLd(() => {
+  const p = product.value
+
+  if (!p || p.no_index) return null
+
+  const crumbs = [
+    { name: 'Головна', path: '/' },
+    { name: 'Каталог', path: '/catalog' },
+  ]
+
+  if (p.category?.slug) {
+    crumbs.push({ name: p.category.name, path: `/catalog?category=${p.category.slug}` })
+  }
+
+  crumbs.push({ name: p.name, path: `/product/${route.params.slug}` })
+
+  return breadcrumbList(crumbs, config.public.siteUrl)
 })
 
 const { imgSrc, addToCart: addToCartFn, toggleWishlist: toggleWishlistFn, wishlist } = useProduct()

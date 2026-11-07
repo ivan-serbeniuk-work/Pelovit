@@ -39,7 +39,7 @@ const visibleTerms = computed(() => showAllTerms.value ? terms : terms.slice(0, 
   <div class="container">
     <div class="loyalty-content">
       <div class="loyalty-text">
-        <h2>Оптові закупівлі Pelovit</h2>
+        <h1>Оптові закупівлі Pelovit</h1>
         <p>Натуральна косметика та засоби оздоровлення напряму від виробника — без посередників і з гнучкими умовами співпраці.</p>
         <a href="#opt-form" class="btn-register rad-16">Залишити заявку</a>
       </div>

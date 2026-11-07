@@ -13,12 +13,47 @@ useAdminEditTargets(() => ['settings', 'team'])
 
 const { data } = await useFetch<any>(`${config.public.apiBase}/contacts`)
 const team = computed(() => data.value?.team ?? [])
+
+const { data: settings } = await useSettings()
+
+// LocalBusiness: адреса й телефон у Google як картка організації.
+// Адреса поки зашита в розмітці сторінки — тримаємо тут те саме значення,
+// щоб розмітка не розходилася з тим, що бачить людина.
+useJsonLd(() => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    compact({
+      '@type': 'LocalBusiness',
+      '@id': `${config.public.siteUrl}/contacts#localbusiness`,
+      name: 'PELOVIT',
+      url: `${config.public.siteUrl}/contacts`,
+      image: `${config.public.siteUrl}/og-default.jpg`,
+      telephone: settings.value?.phone || '+38 (063) 309-03-03',
+      email: settings.value?.email || undefined,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'вул. Успенська 59 / Пушкінська',
+        addressLocality: 'Одеса',
+        addressCountry: 'UA',
+      },
+      sameAs: [
+        settings.value?.instagram_url,
+        settings.value?.facebook_url,
+        settings.value?.youtube_url,
+      ].filter(Boolean),
+    }),
+    breadcrumbList([
+      { name: 'Головна', path: '/' },
+      { name: 'Контакти', path: '/contacts' },
+    ], config.public.siteUrl),
+  ],
+}))
 </script>
 
 <template>
 <section class="contact-section py-5">
   <div class="container">
-    <h2 class="mb-5">Контакти</h2>
+    <h1 class="h2 mb-5">Контакти</h1>
     <div class="row g-5">
       <div class="col-lg-5">
         <div class="contact-info">

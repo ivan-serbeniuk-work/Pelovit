@@ -265,11 +265,54 @@ const gaId = computed(() => settings.value?.google_analytics_id || '')
 useHead(computed(() => gaId.value ? {
   script: [
     { src: `https://www.googletagmanager.com/gtag/js?id=${gaId.value}`, async: true },
-    { children: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${gaId.value}');` },
+    { innerHTML: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${gaId.value}');` },
   ],
 } : {}))
 
 const config = useRuntimeConfig()
+
+// Розмітка на весь сайт: хто ми (Organization) і що тут є пошук (WebSite +
+// SearchAction — дає рядок пошуку по сайту прямо у видачі Google).
+// Логотип і соцмережі беремо з налаштувань, тож їх можна міняти без деплою.
+const siteUrl = computed(() => config.public.siteUrl)
+
+useJsonLd(() => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    compact({
+      '@type': 'Organization',
+      '@id': `${siteUrl.value}/#organization`,
+      name: 'PELOVIT',
+      url: siteUrl.value,
+      logo: `${siteUrl.value}/icon-512.png`,
+      description: settings.value?.site_description || undefined,
+      telephone: settings.value?.phone || undefined,
+      email: settings.value?.email || undefined,
+      sameAs: [
+        settings.value?.instagram_url,
+        settings.value?.facebook_url,
+        settings.value?.youtube_url,
+        settings.value?.telegram_url,
+      ].filter(Boolean),
+    }),
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl.value}/#website`,
+      url: siteUrl.value,
+      name: 'PELOVIT',
+      inLanguage: 'uk-UA',
+      publisher: { '@id': `${siteUrl.value}/#organization` },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: `${siteUrl.value}/catalog?q={search_term_string}`,
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  ],
+}))
 
 const router = useRouter()
 const searchOpen = ref(false)

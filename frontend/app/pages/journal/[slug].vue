@@ -40,6 +40,37 @@ useHead({
   ]),
 })
 
+// Article + крихти. no_index-статті не розмічаємо: якщо сторінку закрито
+// від індексації, розмітка для неї сенсу не має.
+useJsonLd(() => {
+  const p = post.value
+
+  if (!p || p.no_index) return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      compact({
+        '@type': 'Article',
+        headline: p.title,
+        description: seoDesc.value,
+        image: p.image ? assetUrl(p.image) : undefined,
+        datePublished: p.published_at || undefined,
+        dateModified: p.updated_at || p.published_at || undefined,
+        inLanguage: 'uk-UA',
+        mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl.value },
+        author: { '@type': 'Organization', name: 'PELOVIT' },
+        publisher: { '@id': `${config.public.siteUrl}/#organization` },
+      }),
+      breadcrumbList([
+        { name: 'Головна', path: '/' },
+        { name: 'Блог', path: '/journal' },
+        { name: p.title, path: `/journal/${route.params.slug}` },
+      ], config.public.siteUrl),
+    ],
+  }
+})
+
 // Видно тільки тим, хто вже залогінений в адмінці.
 useAdminEditTargets(() => [post.value?.id && `post:${post.value.id}`])
 

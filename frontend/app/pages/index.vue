@@ -70,13 +70,13 @@ function postImg(post: any) {
     <div class="carousel-inner">
       <!-- Якщо банерів нема — один статичний слайд, каруселі немає. -->
       <div v-if="banners.length === 0" class="carousel-item active">
-        <HeroSlide :banner="fallbackBanner" />
+        <HeroSlide :banner="fallbackBanner" primary />
       </div>
       <!-- Банери: `active` на першому слайді задаємо статичним класом, щоб Vue ним
            не керував і не відкочував карусель на перший слайд. -->
       <template v-else>
         <div class="carousel-item active">
-          <HeroSlide :banner="banners[0]" />
+          <HeroSlide :banner="banners[0]" primary />
         </div>
         <div v-for="banner in banners.slice(1)" :key="banner.id" class="carousel-item">
           <HeroSlide :banner="banner" />

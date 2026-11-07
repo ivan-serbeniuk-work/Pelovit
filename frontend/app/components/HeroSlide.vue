@@ -2,7 +2,14 @@
 // Один слайд героя. Винесено в компонент, щоб активний слайд можна було задати
 // статичним класом `active` (див. index.vue), не керуючи ним реактивно через Vue:
 // реактивний :class конфліктував з Bootstrap-каруселлю й відкочував слайд на перший.
-const props = defineProps<{
+const props = withDefaults(defineProps<{
+  /**
+   * Чи це перший слайд. Карусель тримає всі слайди в DOM одночасно, тож
+   * якщо кожен віддає <h1>, на сторінці їх стає стільки ж, скільки банерів.
+   * Заголовок першого лишаємо h1, решта — h2; вигляд не змінюється,
+   * бо розмір задає клас display-3.
+   */
+  primary?: boolean
   banner: {
     title: string
     subtitle?: string | null
@@ -10,7 +17,7 @@ const props = defineProps<{
     button_text?: string | null
     link?: string | null
   }
-}>()
+}>(), { primary: false })
 
 const { assetUrl } = useAsset()
 
@@ -27,7 +34,9 @@ const bgStyle = computed(() => {
   <div class="hero text-white" :style="bgStyle">
     <div class="container">
       <div class="col-lg-6 mob">
-        <h1 class="display-3 fw-bold mb-4">{{ banner.title }}</h1>
+        <component :is="primary ? 'h1' : 'h2'" class="display-3 fw-bold mb-4">
+          {{ banner.title }}
+        </component>
         <p v-if="banner.subtitle" class="lead mb-5">{{ banner.subtitle }}</p>
         <NuxtLink
           v-if="banner.button_text && banner.link"
