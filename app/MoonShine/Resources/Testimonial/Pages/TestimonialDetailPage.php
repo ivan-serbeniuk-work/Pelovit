@@ -8,6 +8,7 @@ use App\MoonShine\Resources\Testimonial\TestimonialResource;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
@@ -29,7 +30,7 @@ class TestimonialDetailPage extends DetailPage
             Textarea::make('Текст відгуку', 'text'),
             Text::make('Автор', 'author_name'),
             Text::make('Роль', 'author_role'),
-            Text::make('Шлях до фото', 'image'),
+            Image::make('Фото', 'image')->dir('images')->disk('public_root'),
             Number::make('Порядок', 'sort_order'),
             Switcher::make('Активний', 'is_active'),
         ];

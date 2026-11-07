@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\AboutFounder\Pages;
 
+use App\MoonShine\Concerns\ValidatesUploadedImages;
 use App\MoonShine\Resources\AboutFounder\AboutFounderResource;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -21,6 +22,8 @@ use MoonShine\UI\Fields\Textarea;
  */
 class AboutFounderFormPage extends FormPage
 {
+    use ValidatesUploadedImages;
+
     /**
      * @return list<ComponentContract|FieldContract>
      */
@@ -33,7 +36,7 @@ class AboutFounderFormPage extends FormPage
                 Text::make('Посада', 'role'),
                 Textarea::make('Цитата', 'quote')
                     ->hint('Лапки додаються в розмітці — тут їх писати не треба.'),
-                Image::make('Фото', 'photo')->dir('about')->disk('public_root'),
+                Image::make('Фото', 'photo')->dir('images')->disk('public_root'),
                 Switcher::make('Показувати', 'is_active')
                     ->hint('Вимкнено — картка засновника на сторінці не показується.'),
             ]),
@@ -47,6 +50,7 @@ class AboutFounderFormPage extends FormPage
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'photo' => $this->imageRules(),
         ];
     }
 }

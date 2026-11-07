@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Banner\Pages;
 
+use App\MoonShine\Concerns\ValidatesUploadedImages;
 use App\MoonShine\Resources\Banner\BannerResource;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -27,6 +28,8 @@ use Throwable;
  */
 class BannerFormPage extends FormPage
 {
+    use ValidatesUploadedImages;
+
     /**
      * @return list<ComponentContract|FieldContract>
      */
@@ -63,7 +66,9 @@ class BannerFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'image' => $this->imageRules(),
+        ];
     }
 
     /**

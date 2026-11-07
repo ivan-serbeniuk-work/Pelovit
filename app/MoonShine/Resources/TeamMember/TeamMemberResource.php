@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\TeamMember;
 
 use App\Models\TeamMember;
+use App\MoonShine\Concerns\OptimizesUploadedImages;
 use App\MoonShine\Resources\TeamMember\Pages\TeamMemberDetailPage;
 use App\MoonShine\Resources\TeamMember\Pages\TeamMemberFormPage;
 use App\MoonShine\Resources\TeamMember\Pages\TeamMemberIndexPage;
@@ -16,6 +17,11 @@ use MoonShine\Laravel\Resources\ModelResource;
  */
 class TeamMemberResource extends ModelResource
 {
+    use OptimizesUploadedImages;
+
+    /** @var list<string> Колонки з картинками — великі фото стискаються після збереження. */
+    protected array $imageColumns = ['image'];
+
     protected string $model = TeamMember::class;
 
     protected string $title = 'Команда';

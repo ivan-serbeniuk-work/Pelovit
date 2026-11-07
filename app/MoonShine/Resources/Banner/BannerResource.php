@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Banner;
 
 use App\Models\Banner;
+use App\MoonShine\Concerns\OptimizesUploadedImages;
 use App\MoonShine\Resources\Banner\Pages\BannerDetailPage;
 use App\MoonShine\Resources\Banner\Pages\BannerFormPage;
 use App\MoonShine\Resources\Banner\Pages\BannerIndexPage;
@@ -16,6 +17,11 @@ use MoonShine\Laravel\Resources\ModelResource;
  */
 class BannerResource extends ModelResource
 {
+    use OptimizesUploadedImages;
+
+    /** @var list<string> Колонки з картинками — великі фото стискаються після збереження. */
+    protected array $imageColumns = ['image'];
+
     protected string $model = Banner::class;
 
     protected string $title = 'Banners';

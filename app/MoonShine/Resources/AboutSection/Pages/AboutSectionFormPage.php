@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\AboutSection\Pages;
 
+use App\MoonShine\Concerns\ValidatesUploadedImages;
 use App\MoonShine\Resources\AboutSection\AboutSectionResource;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -22,6 +23,8 @@ use MoonShine\UI\Fields\Textarea;
  */
 class AboutSectionFormPage extends FormPage
 {
+    use ValidatesUploadedImages;
+
     /**
      * @return list<ComponentContract|FieldContract>
      */
@@ -33,7 +36,7 @@ class AboutSectionFormPage extends FormPage
                 Text::make('Назва вкладки', 'title')->required(),
                 Textarea::make('Текст', 'text')
                     ->hint('Показується праворуч, коли вкладку вибрано.'),
-                Image::make('Фото', 'image')->dir('about')->disk('public_root'),
+                Image::make('Фото', 'image')->dir('images')->disk('public_root'),
                 Number::make('Порядок', 'sort_order'),
                 Switcher::make('Показувати', 'is_active')
                     ->hint('Вимкнена вкладка не показується на сайті зовсім.'),
@@ -48,6 +51,7 @@ class AboutSectionFormPage extends FormPage
     {
         return [
             'title' => ['required', 'string', 'max:255'],
+            'image' => $this->imageRules(),
         ];
     }
 }

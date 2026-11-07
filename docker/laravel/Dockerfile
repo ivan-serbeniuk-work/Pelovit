@@ -21,6 +21,7 @@ COPY . .
 RUN composer dump-autoload --optimize --no-dev --no-interaction \
     && chown -R www-data:www-data storage bootstrap/cache
 
+COPY docker/laravel/php.ini /usr/local/etc/php/conf.d/app.ini
 COPY docker/laravel/nginx.conf /etc/nginx/sites-available/default
 COPY docker/laravel/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/laravel/entrypoint.sh /usr/local/bin/entrypoint.sh

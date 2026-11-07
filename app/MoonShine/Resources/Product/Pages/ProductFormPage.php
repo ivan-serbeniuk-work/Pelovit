@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Product\Pages;
 
+use App\MoonShine\Concerns\ValidatesUploadedImages;
 use App\MoonShine\Resources\Category\CategoryResource;
 use App\MoonShine\Resources\Product\ProductResource;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
@@ -30,6 +31,8 @@ use Throwable;
  */
 class ProductFormPage extends FormPage
 {
+    use ValidatesUploadedImages;
+
     /**
      * @return list<ComponentContract|FieldContract>
      */
@@ -125,6 +128,8 @@ class ProductFormPage extends FormPage
     {
         return [
             'video_url' => ['nullable', 'url', 'regex:~(youtube(-nocookie)?\.com|youtu\.be)/~i'],
+            'image' => $this->imageRules(),
+            'images.*' => $this->imageRules(),
         ];
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Post;
 
 use App\Models\Post;
+use App\MoonShine\Concerns\OptimizesUploadedImages;
 use App\MoonShine\Resources\Post\Pages\PostDetailPage;
 use App\MoonShine\Resources\Post\Pages\PostFormPage;
 use App\MoonShine\Resources\Post\Pages\PostIndexPage;
@@ -17,6 +18,11 @@ use MoonShine\Support\Enums\SortDirection;
  */
 class PostResource extends ModelResource
 {
+    use OptimizesUploadedImages;
+
+    /** @var list<string> Колонки з картинками — великі фото стискаються після збереження. */
+    protected array $imageColumns = ['image'];
+
     protected string $model = Post::class;
 
     protected string $title = 'Журнал';

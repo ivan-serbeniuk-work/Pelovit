@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\AboutSection;
 
 use App\Models\AboutSection;
+use App\MoonShine\Concerns\OptimizesUploadedImages;
 use App\MoonShine\Resources\AboutSection\Pages\AboutSectionDetailPage;
 use App\MoonShine\Resources\AboutSection\Pages\AboutSectionFormPage;
 use App\MoonShine\Resources\AboutSection\Pages\AboutSectionIndexPage;
@@ -16,6 +17,11 @@ use MoonShine\Laravel\Resources\ModelResource;
  */
 class AboutSectionResource extends ModelResource
 {
+    use OptimizesUploadedImages;
+
+    /** @var list<string> Колонки з картинками — великі фото стискаються після збереження. */
+    protected array $imageColumns = ['image'];
+
     protected string $model = AboutSection::class;
 
     protected string $title = 'Вкладки «Про нас»';

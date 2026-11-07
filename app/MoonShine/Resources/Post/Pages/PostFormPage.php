@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Post\Pages;
 
 use App\Models\Post;
+use App\MoonShine\Concerns\ValidatesUploadedImages;
 use App\MoonShine\Resources\Post\PostResource;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -32,6 +33,8 @@ use Throwable;
  */
 class PostFormPage extends FormPage
 {
+    use ValidatesUploadedImages;
+
     /**
      * @return list<ComponentContract|FieldContract>
      */
@@ -118,7 +121,9 @@ class PostFormPage extends FormPage
 
     protected function rules(DataWrapperContract $item): array
     {
-        return [];
+        return [
+            'image' => $this->imageRules(),
+        ];
     }
 
     /**
