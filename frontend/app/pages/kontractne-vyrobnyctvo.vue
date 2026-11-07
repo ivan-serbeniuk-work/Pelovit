@@ -38,6 +38,11 @@ const steps = [
 
 // Відгуки, кейси і FAQ живуть у БД: раніше додати новий відгук міг лише
 // розробник, бо вони були захардкожені прямо тут.
+// Сторінка зібрана з кейсів, відгуків, FAQ і довідників калькулятора.
+useAdminEditTargets(() => [
+  'brand-case', 'testimonial', 'faq', 'calculator-option', 'calculator-tier',
+])
+
 const { data: content } = await useFetch<any>(`${config.public.apiBase}/contract`)
 
 const testimonials = computed<any[]>(() => content.value?.testimonials ?? [])

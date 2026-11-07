@@ -22,6 +22,10 @@ watch(procedure, () => { tab.value = 'products' })
 
 const products = ref<any[]>([])
 
+// На сторінці кілька препаратів одразу, тож ведемо в список товарів,
+// а не у форму якогось одного.
+useAdminEditTargets(() => ['product'])
+
 // Картки препаратів тягнемо з каталогу за слагами процедури.
 const { pending: productsPending } = await useAsyncData(
   () => `master-products-${procedure.value?.slug ?? 'none'}`,

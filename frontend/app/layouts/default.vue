@@ -244,6 +244,7 @@
       </div>
     </section>
   <AppToast />
+  <AdminEditDock />
   </div>
 </template>
 

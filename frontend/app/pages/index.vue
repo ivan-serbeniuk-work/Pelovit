@@ -10,6 +10,9 @@ const config = useRuntimeConfig()
 const { assetUrl } = useAsset()
 const { data } = await useFetch<any>(`${config.public.apiBase}/home`)
 
+// Головна зібрана з кількох ресурсів — док дасть список, а не одну кнопку.
+useAdminEditTargets(() => ['banner', 'faq', 'product', 'category', 'post'])
+
 const promotions = computed(() => data.value?.promotions ?? [])
 const allProducts = computed(() => data.value?.allProducts ?? [])
 

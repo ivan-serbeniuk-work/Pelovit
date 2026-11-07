@@ -11,6 +11,8 @@ const { assetUrl } = useAsset()
 const route = useRoute()
 const router = useRouter()
 
+useAdminEditTargets(() => ['post'])
+
 const { data } = await useFetch<any>(`${config.public.apiBase}/journal`, {
   // Саме computed, а не route.query: під час навігації роутер підставляє новий
   // об'єкт query, тож знімок лишався зі старими параметрами і дані не оновлювались.

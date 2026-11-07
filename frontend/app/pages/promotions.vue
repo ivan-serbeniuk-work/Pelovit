@@ -10,6 +10,8 @@ const config = useRuntimeConfig()
 const route = useRoute()
 const router = useRouter()
 
+useAdminEditTargets(() => ['product'])
+
 const { data } = await useFetch<any>(`${config.public.apiBase}/catalog`, {
   query: computed(() => ({ ...route.query, on_sale: 1 })),
 })

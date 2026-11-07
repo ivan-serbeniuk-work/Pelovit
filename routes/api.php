@@ -29,7 +29,8 @@ Route::get('/journal/{slug}', [JournalApiController::class, 'show']);
 Route::get('/contacts', [ContactsApiController::class, 'index']);
 
 // Посилання на редагування в адмінці — потребує сесійної куки MoonShine.
-Route::get('/admin/edit-link', [AdminLinkController::class, 'show'])->middleware('web');
+// Сторінка просить одразу всі свої цілі: /admin/edit-links?targets=product:18,faq
+Route::get('/admin/edit-links', [AdminLinkController::class, 'show'])->middleware('web');
 Route::post('/orders', [OrderApiController::class, 'store']);
 Route::get('/orders/track/{token}', [OrderTrackController::class, 'show'])
     ->middleware('throttle:30,1');
