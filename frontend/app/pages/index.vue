@@ -10,6 +10,8 @@ const config = useRuntimeConfig()
 const { assetUrl } = useAsset()
 const { data } = await useFetch<any>(`${config.public.apiBase}/home`)
 
+const subscribeOpen = ref(false)
+
 const promotions = computed(() => data.value?.promotions ?? [])
 const allProducts = computed(() => data.value?.allProducts ?? [])
 
@@ -279,11 +281,13 @@ function postImg(post: any) {
   <div class="container">
     <div class="loyalty-content">
       <div class="loyalty-text">
-        <h2>Приєднуйтесь до нашої<br>програми лояльності!</h2>
-        <p>Реєструйтесь на сайті та отримуйте бонуси за покупки,<br>
-          спеціальні пропозиції та персональні знижки.</p>
+        <h2>Знижка на першу<br>покупку — одразу</h2>
+        <p>Підпишіться на новини та отримайте персональний промокод,<br>
+          а далі — спеціальні пропозиції першими.</p>
 
-        <button class="btn-register rad-16">Зареєструватись</button>
+        <button class="btn-register rad-16" @click="subscribeOpen = true">
+          Отримати промокод
+        </button>
       </div>
 
       <div class="loyalty-benefits">
@@ -401,4 +405,6 @@ function postImg(post: any) {
     </div>
   </div>
 </section>
+
+<SubscribeModal v-model="subscribeOpen" />
 </template>
