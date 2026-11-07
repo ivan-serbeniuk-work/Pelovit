@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CalculatorSeeder::class,
             ContractContentSeeder::class,
             HomeFaqSeeder::class,
+            BannerSeeder::class,
         ]);
     }
 }
