@@ -5,6 +5,7 @@ namespace Tests\Feature\Api;
 use App\Mail\WelcomePromo;
 use App\Models\PromoCode;
 use App\Models\Subscriber;
+use App\Services\WelcomePromoIssuer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -45,6 +46,21 @@ class SubscribeApiTest extends TestCase
         $this->assertSame(0, $promo->used_count);
         $this->assertTrue($promo->is_active);
         $this->assertNotNull($promo->expires_at);
+    }
+
+    /**
+     * Шаблон листа колись не потрапив у коміт, і на проді лист мовчки падав
+     * у try/catch: підписка працювала, а пошта — ні. Mail::fake() такого не
+     * ловить, бо не рендерить вміст, тож рендеримо явно.
+     */
+    public function test_welcome_mail_renders(): void
+    {
+        $promo = (new WelcomePromoIssuer)->issue();
+
+        $html = (new WelcomePromo($promo, 'Оля'))->render();
+
+        $this->assertStringContainsString($promo->code, $html);
+        $this->assertStringContainsString('Оля', $html);
     }
 
     public function test_welcome_mail_is_sent_to_subscriber(): void
