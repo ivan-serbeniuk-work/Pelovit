@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\MoonShine\Pages\SettingsPage;
+use App\MoonShine\Resources\AboutMilestone\AboutMilestoneResource;
+use App\MoonShine\Resources\AboutStat\AboutStatResource;
+use App\MoonShine\Resources\AboutValue\AboutValueResource;
 use App\MoonShine\Resources\Banner\BannerResource;
 use App\MoonShine\Resources\BrandCase\BrandCaseResource;
 use App\MoonShine\Resources\CalculatorOption\CalculatorOptionResource;
@@ -49,6 +52,9 @@ class AdminLinkController extends Controller
         'team' => [TeamMemberResource::class, 'Співробітник', 'Команда'],
         'calculator-option' => [CalculatorOptionResource::class, 'Опція', 'Опції калькулятора'],
         'calculator-tier' => [CalculatorTierResource::class, 'Тираж', 'Тиражі калькулятора'],
+        'about-stat' => [AboutStatResource::class, 'Показник', 'Показники «Про нас»'],
+        'about-value' => [AboutValueResource::class, 'Цінність', 'Цінності «Про нас»'],
+        'about-milestone' => [AboutMilestoneResource::class, 'Віха', 'Історія «Про нас»'],
     ];
 
     /** Сторінки адмінки без ресурсу (у них немає окремих записів). */

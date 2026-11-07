@@ -4,28 +4,31 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Layouts;
 
-use MoonShine\Laravel\Layouts\AppLayout;
-use MoonShine\ColorManager\Palettes\PurplePalette;
-use MoonShine\ColorManager\ColorManager;
-use MoonShine\Contracts\ColorManager\ColorManagerContract;
-use MoonShine\Contracts\ColorManager\PaletteContract;
-use App\MoonShine\Resources\Order\OrderResource;
-use App\MoonShine\Resources\Product\ProductResource;
-use App\MoonShine\Resources\Category\CategoryResource;
-use App\MoonShine\Resources\Post\PostResource;
+use App\MoonShine\Pages\SettingsPage;
+use App\MoonShine\Resources\AboutMilestone\AboutMilestoneResource;
+use App\MoonShine\Resources\AboutStat\AboutStatResource;
+use App\MoonShine\Resources\AboutValue\AboutValueResource;
 use App\MoonShine\Resources\Banner\BannerResource;
-use App\MoonShine\Resources\TeamMember\TeamMemberResource;
-use App\MoonShine\Resources\Subscriber\SubscriberResource;
-use App\MoonShine\Resources\Lead\LeadResource;
-use App\MoonShine\Resources\PromoCode\PromoCodeResource;
+use App\MoonShine\Resources\BrandCase\BrandCaseResource;
 use App\MoonShine\Resources\CalculatorOption\CalculatorOptionResource;
 use App\MoonShine\Resources\CalculatorTier\CalculatorTierResource;
-use App\MoonShine\Resources\Testimonial\TestimonialResource;
-use App\MoonShine\Resources\BrandCase\BrandCaseResource;
+use App\MoonShine\Resources\Category\CategoryResource;
 use App\MoonShine\Resources\Faq\FaqResource;
-use App\MoonShine\Pages\SettingsPage;
-use MoonShine\MenuManager\MenuItem;
+use App\MoonShine\Resources\Lead\LeadResource;
+use App\MoonShine\Resources\Order\OrderResource;
+use App\MoonShine\Resources\Post\PostResource;
+use App\MoonShine\Resources\Product\ProductResource;
+use App\MoonShine\Resources\PromoCode\PromoCodeResource;
+use App\MoonShine\Resources\Subscriber\SubscriberResource;
+use App\MoonShine\Resources\TeamMember\TeamMemberResource;
+use App\MoonShine\Resources\Testimonial\TestimonialResource;
+use MoonShine\ColorManager\ColorManager;
+use MoonShine\ColorManager\Palettes\PurplePalette;
+use MoonShine\Contracts\ColorManager\ColorManagerContract;
+use MoonShine\Contracts\ColorManager\PaletteContract;
+use MoonShine\Laravel\Layouts\AppLayout;
 use MoonShine\MenuManager\MenuGroup;
+use MoonShine\MenuManager\MenuItem;
 
 final class MoonShineLayout extends AppLayout
 {
@@ -59,6 +62,11 @@ final class MoonShineLayout extends AppLayout
                 MenuItem::make(TestimonialResource::class, 'Відгуки')->icon('chat-bubble-left-right'),
                 MenuItem::make(BrandCaseResource::class, 'Кейси брендів')->icon('sparkles'),
                 MenuItem::make(FaqResource::class, 'FAQ')->icon('question-mark-circle'),
+            ]),
+            MenuGroup::make('Сторінка «Про нас»', [
+                MenuItem::make(AboutStatResource::class, 'Показники')->icon('calculator'),
+                MenuItem::make(AboutValueResource::class, 'Цінності')->icon('heart'),
+                MenuItem::make(AboutMilestoneResource::class, 'Історія')->icon('clock'),
             ])->icon('pencil-square'),
             MenuGroup::make('Калькулятор', [
                 MenuItem::make(CalculatorOptionResource::class, 'Опції')->icon('adjustments-horizontal'),
@@ -70,7 +78,7 @@ final class MoonShineLayout extends AppLayout
     }
 
     /**
-     * @param ColorManager $colorManager
+     * @param  ColorManager  $colorManager
      */
     protected function colors(ColorManagerContract $colorManager): void
     {
