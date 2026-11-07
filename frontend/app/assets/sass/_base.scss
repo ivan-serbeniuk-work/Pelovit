@@ -14,22 +14,11 @@
   --text-subtle: #{$text-subtle};
   --border: #{$border};
   --danger: #{$danger};
-  --font-head: #{$font-head};
   --font-body: #{$font-body};
 }
 
 body {
   font-family: $font-body;
-}
-
-// Заголовки — сериф Fraunces: даёт иерархию и характер, которых не было
-// при одном Inter Tight. Scoped-компоненты наследуют это с глобальных h1–h6,
-// если сами не переопределяют font-family.
-h1, h2, h3, h4, h5, h6,
-.section-title, .catalog-head h2, .contact_info_head {
-  font-family: $font-head;
-  font-optical-sizing: auto;
-  letter-spacing: -0.01em;
 }
 
 // Словесный логотип в шапке

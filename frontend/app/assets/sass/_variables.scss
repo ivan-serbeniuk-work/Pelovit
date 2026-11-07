@@ -49,10 +49,9 @@ $shadow-card:   0 8px 25px rgba(0, 0, 0, .07);
 $shadow-raised: 0 12px 32px rgba(66, 41, 40, .09);
 $shadow-focus:  0 0 0 3px rgba(66, 41, 40, .15);
 
-// ── Типографика: контрастная пара
-// Заголовки — мягкий сериф Fraunces (натуральная «аптечность», характер и иерархия).
-// Текст — Inter Tight (ровный, функциональный). Оба грузятся в nuxt.config.ts.
-$font-head: 'Fraunces', Georgia, 'Times New Roman', serif;
+// ── Типографика
+// Единая гарнитура Inter Tight: заголовки наследуют её от body, иерархия
+// держится на размере и насыщенности. Грузится в nuxt.config.ts.
 $font-body: 'Inter Tight', system-ui, -apple-system, sans-serif;
 
 $text-xs:   0.8rem;
@@ -91,7 +90,7 @@ $bp-lg: 992px;
 
 // ── Совместимость со старыми именами (используются в партиалах, которые уже
 //    подключали этот файл). Новый код пишем на токенах выше.
-$primary-blue:   $accent; // раньше $accent-light: тот давал 2.12:1 под белым текстом в бейджах
+$primary-blue:   $accent-light; // #69BDDB — основной синий, как было на проде
 $blue-alt:       $accent;
 $brown-dark:     $brown-700;
 $brown-bg:       $brown-900;
@@ -100,5 +99,5 @@ $white:          $surface;
 $text-dark:      $text;
 $border-light:   $border;
 $tag-bg:         $brown-700;
-$buy-btn-bg:     $accent; // не $accent-light: тот давал контраст 2.12:1 при норме 4.5:1
+$buy-btn-bg:     $primary-blue; // #69BDDB
 $discount-line:  $text-subtle;
