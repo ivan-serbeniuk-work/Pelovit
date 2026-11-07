@@ -1,11 +1,12 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Models\Lead;
 use App\Models\Order;
 use App\Models\Setting;
 use App\Models\Subscriber;
 use App\Services\LiqPayService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
  * Точка входу в оплату для мобільного застосунку.
@@ -28,31 +29,31 @@ Route::get('/admin/orders/export-csv', function () {
     $orders = Order::orderBy('created_at', 'desc')->get();
 
     $bom = "\xEF\xBB\xBF";
-    $csv = $bom . implode(';', ['ID', 'Імʼя', 'Прізвище', 'Телефон', 'Email', 'Місто', 'Відділення', 'Оплата', 'Статус оплати', 'Статус', 'Сума', 'Дата']) . "\n";
+    $csv = $bom.implode(';', ['ID', 'Імʼя', 'Прізвище', 'Телефон', 'Email', 'Місто', 'Відділення', 'Оплата', 'Статус оплати', 'Статус', 'Сума', 'Дата'])."\n";
 
     foreach ($orders as $order) {
         $csv .= implode(';', [
             $order->id,
-            '"' . str_replace('"', '""', $order->first_name ?? '') . '"',
-            '"' . str_replace('"', '""', $order->last_name ?? '') . '"',
-            '"' . $order->phone . '"',
-            '"' . $order->email . '"',
-            '"' . str_replace('"', '""', $order->city ?? '') . '"',
-            '"' . str_replace('"', '""', $order->branch ?? '') . '"',
-            '"' . $order->payment_method . '"',
-            '"' . $order->payment_status . '"',
-            '"' . $order->status . '"',
+            '"'.str_replace('"', '""', $order->first_name ?? '').'"',
+            '"'.str_replace('"', '""', $order->last_name ?? '').'"',
+            '"'.$order->phone.'"',
+            '"'.$order->email.'"',
+            '"'.str_replace('"', '""', $order->city ?? '').'"',
+            '"'.str_replace('"', '""', $order->branch ?? '').'"',
+            '"'.$order->payment_method.'"',
+            '"'.$order->payment_status.'"',
+            '"'.$order->status.'"',
             $order->total,
             $order->created_at->format('d.m.Y H:i'),
-        ]) . "\n";
+        ])."\n";
     }
 
     return response($csv)
         ->header('Content-Type', 'text/csv; charset=UTF-8')
-        ->header('Content-Disposition', 'attachment; filename="orders-' . now()->format('Y-m-d') . '.csv"');
+        ->header('Content-Disposition', 'attachment; filename="orders-'.now()->format('Y-m-d').'.csv"');
 })->middleware(['moonshine', 'MoonShine\Laravel\Http\Middleware\Authenticate'])->name('admin.orders.export');
 
-Route::post('/admin/settings/save', function (\Illuminate\Http\Request $request) {
+Route::post('/admin/settings/save', function (Request $request) {
     $keys = [
         'phone', 'phone_2', 'phone_3', 'email',
         'instagram_url', 'facebook_url', 'telegram_url', 'viber_url', 'youtube_url',
@@ -60,6 +61,8 @@ Route::post('/admin/settings/save', function (\Illuminate\Http\Request $request)
         'banner_text', 'min_free_shipping',
         'payment_card_number', 'payment_card_holder',
         'calc_min_batch_total', 'calc_production_days', 'calc_spread_percent',
+        // Тексти сторінки «Про нас»
+        'about_intro', 'about_awards_title', 'about_cert_title',
         // Global SEO
         'google_analytics_id', 'default_og_image', 'site_description',
         // Per-page SEO
@@ -77,22 +80,25 @@ Route::post('/admin/settings/save', function (\Illuminate\Http\Request $request)
             Setting::set($key, $request->input($key, ''));
         }
     }
+
     return redirect()->back()->with('success', 'Налаштування збережено');
 })->middleware(['moonshine', 'MoonShine\Laravel\Http\Middleware\Authenticate'])->name('admin.settings.save');
 
 Route::get('/admin/subscribers/export-csv', function () {
     $bom = "\xEF\xBB\xBF";
-    $csv = $bom . implode(';', ['ID', 'Email', 'Імʼя', 'Активний', 'Дата']) . "\n";
-     Subscriber::orderBy('created_at', 'desc')->get()->each(function ($s) use (&$csv) {
-        $csv .= implode(';', [$s->id, $s->email, '"' . ($s->name ?? '') . '"', $s->is_active ? 'Так' : 'Ні', $s->created_at->format('d.m.Y')]) . "\n";
+    $csv = $bom.implode(';', ['ID', 'Email', 'Імʼя', 'Активний', 'Дата'])."\n";
+    Subscriber::orderBy('created_at', 'desc')->get()->each(function ($s) use (&$csv) {
+        $csv .= implode(';', [$s->id, $s->email, '"'.($s->name ?? '').'"', $s->is_active ? 'Так' : 'Ні', $s->created_at->format('d.m.Y')])."\n";
     });
+
     return response($csv)
         ->header('Content-Type', 'text/csv; charset=UTF-8')
-        ->header('Content-Disposition', 'attachment; filename="subscribers-' . now()->format('Y-m-d') . '.csv"');
+        ->header('Content-Disposition', 'attachment; filename="subscribers-'.now()->format('Y-m-d').'.csv"');
 })->middleware(['moonshine', 'MoonShine\Laravel\Http\Middleware\Authenticate'])->name('admin.subscribers.export');
 
-Route::patch('/admin/leads/{lead}/status', function (Lead $lead, \Illuminate\Http\Request $request) {
+Route::patch('/admin/leads/{lead}/status', function (Lead $lead, Request $request) {
     $request->validate(['status' => 'required|in:new,in_progress,done']);
     $lead->update(['status' => $request->status]);
+
     return response()->json(['success' => true]);
 })->middleware(['moonshine', 'MoonShine\Laravel\Http\Middleware\Authenticate'])->name('admin.leads.status');

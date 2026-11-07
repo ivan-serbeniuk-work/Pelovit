@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Testimonial;
 
 use App\Models\Testimonial;
+use App\MoonShine\Concerns\OptimizesUploadedImages;
 use App\MoonShine\Resources\Testimonial\Pages\TestimonialDetailPage;
 use App\MoonShine\Resources\Testimonial\Pages\TestimonialFormPage;
 use App\MoonShine\Resources\Testimonial\Pages\TestimonialIndexPage;
@@ -16,6 +17,11 @@ use MoonShine\Laravel\Resources\ModelResource;
  */
 class TestimonialResource extends ModelResource
 {
+    use OptimizesUploadedImages;
+
+    /** @var list<string> Колонки з картинками — великі фото стискаються після збереження. */
+    protected array $imageColumns = ['image'];
+
     protected string $model = Testimonial::class;
 
     protected string $title = 'Відгуки про співпрацю';

@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class Product extends Model
 {
     use HasFactory;
+
     protected static function boot(): void
     {
         parent::boot();
@@ -25,8 +26,9 @@ class Product extends Model
         $slug = $base;
         $i = 1;
         while (static::where('slug', $slug)->exists()) {
-            $slug = $base . '-' . $i++;
+            $slug = $base.'-'.$i++;
         }
+
         return $slug;
     }
 
@@ -39,12 +41,12 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'images'      => 'array',
-        'is_active'   => 'boolean',
+        'images' => 'array',
+        'is_active' => 'boolean',
         'is_featured' => 'boolean',
-        'no_index'    => 'boolean',
-        'price'       => 'decimal:2',
-        'old_price'   => 'decimal:2',
+        'no_index' => 'boolean',
+        'price' => 'decimal:2',
+        'old_price' => 'decimal:2',
     ];
 
     protected $appends = ['discount_percent', 'youtube_id'];
@@ -56,7 +58,9 @@ class Product extends Model
 
     public function getDiscountPercentAttribute(): ?int
     {
-        if (!$this->old_price || $this->old_price <= $this->price) return null;
+        if (! $this->old_price || $this->old_price <= $this->price) {
+            return null;
+        }
 
         return (int) round((1 - $this->price / $this->old_price) * 100);
     }
@@ -64,7 +68,9 @@ class Product extends Model
     // ID ролика з будь-якого формату посилання: watch?v=, youtu.be/, shorts/, embed/.
     public function getYoutubeIdAttribute(): ?string
     {
-        if (!$this->video_url) return null;
+        if (! $this->video_url) {
+            return null;
+        }
 
         preg_match('~(?:youtube(?:-nocookie)?\.com/(?:watch\?(?:.*&)?v=|shorts/|embed/|live/)|youtu\.be/)([\w-]{11})~', $this->video_url, $m);
 

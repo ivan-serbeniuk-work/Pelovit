@@ -9,6 +9,7 @@ use App\MoonShine\Resources\CalculatorOption\CalculatorOptionResource;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Laravel\Pages\Crud\DetailPage;
 use MoonShine\UI\Fields\ID;
+use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Switcher;
@@ -29,7 +30,7 @@ class CalculatorOptionDetailPage extends DetailPage
             Select::make('Група', 'group')->options(CalculatorOption::GROUPS),
             Text::make('Назва', 'name'),
             Number::make('Значення', 'value'),
-            Text::make('Зображення', 'image'),
+            Image::make('Зображення', 'image')->dir('images')->disk('public_root'),
             Text::make('Підказка', 'hint'),
             Number::make('Порядок', 'sort_order'),
             Switcher::make('Активна', 'is_active'),

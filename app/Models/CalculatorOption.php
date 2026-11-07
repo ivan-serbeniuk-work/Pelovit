@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class CalculatorOption extends Model
 {
     public const GROUPS = [
-        'product'   => 'Вид продукту (собівартість за 1 мл, ₴)',
-        'formula'   => 'Складність формули (множник)',
+        'product' => 'Вид продукту (собівартість за 1 мл, ₴)',
+        'formula' => 'Складність формули (множник)',
         'packaging' => 'Упаковка (₴ за штуку)',
-        'label'     => 'Етикетка (₴ за штуку)',
-        'box'       => 'Коробка (₴ за штуку)',
+        'label' => 'Етикетка (₴ за штуку)',
+        'box' => 'Коробка (₴ за штуку)',
     ];
 
     protected $fillable = [
@@ -26,7 +26,7 @@ class CalculatorOption extends Model
     ];
 
     protected $casts = [
-        'value'     => 'float',
+        'value' => 'float',
         'is_active' => 'boolean',
     ];
 

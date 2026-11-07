@@ -12,7 +12,7 @@ class CalculatorTier extends Model
     ];
 
     protected $casts = [
-        'min_quantity'     => 'integer',
+        'min_quantity' => 'integer',
         'discount_percent' => 'float',
     ];
 }

@@ -294,6 +294,14 @@ function calculateFor(product: { name?: string }) {
 // одразу підставляються в розрахунок.
 const quizSummary = ref('')
 
+// На сторінці лишилось дві форми: у герої та фінальна. Середні замінені
+// на CTA-смуги, тому контекст (конфігурація калькулятора й відповіді
+// опитування) має доїхати до фінальної заявки — інакше менеджер отримає
+// самий телефон, а розрахунок загубиться.
+const leadDetails = computed(() => [quizSummary.value, calculatorSummary.value]
+  .filter(part => (part ?? '').trim() !== '')
+  .join('\n\n'))
+
 function onQuizFinish(payload: { summary: string, product: string | null, quantity: number | null }) {
   quizSummary.value = payload.summary
 
@@ -385,6 +393,15 @@ const { data: brandProducts, pending: brandProductsPending } = await useAsyncDat
             <div class="blue_tag rounded-pill">за 15 днів</div>
             <div class="blue_tag rounded-pill">дизайн — безкоштовно</div>
           </div>
+
+          <!-- Ліва колонка героя була порожня: заголовок, пігулки — і повітря
+               до низу екрана навпроти високої форми праворуч. -->
+          <AppPicture
+            src="images/science_in_laboratory.png"
+            alt="Лабораторія Аксимед, де розробляють рецептури"
+            img-class="hero-visual"
+            loading="eager"
+          />
         </div>
 
         <div class="consultation-form">
@@ -629,11 +646,10 @@ const { data: brandProducts, pending: brandProductsPending } = await useAsyncDat
             <p class="calc-summary__note">Розрахунок і параметри підуть менеджеру разом із заявкою.</p>
           </div>
 
-          <div class="consultation-form">
-            <h2>Зв'язатись з нами</h2>
-            <p>Наш фахівець допоможе підібрати ідеальні засоби Pelovit саме для ваших потреб та розповість, як отримати максимальний ефект.</p>
-            <LeadForm source="contract-calculator" :contact-methods="contactMethods" :details="calculatorSummary" />
-            <ContactSocials />
+          <div class="cta-strip">
+            <p class="cta-strip__title">Надіслати цей розрахунок менеджеру</p>
+            <p class="cta-strip__text">Конфігурація і сума поїдуть разом із заявкою — не доведеться переписувати.</p>
+            <a href="#consultation" class="cta-strip__btn">Залишити заявку</a>
           </div>
         </div>
       </div>
@@ -779,10 +795,10 @@ const { data: brandProducts, pending: brandProductsPending } = await useAsyncDat
         </div>
 
         <div class="col-lg-5 right_side">
-          <div id="tester-form" class="consultation-form">
-            <h4>Замовити тестер</h4>
-            <LeadForm source="contract-tester" :contact-methods="contactMethods" :details="quizSummary" />
-            <ContactSocials />
+          <div id="tester-form" class="cta-strip">
+            <p class="cta-strip__title">Замовити тестер</p>
+            <p class="cta-strip__text">Відповіді опитування підуть у заявку, щоб менеджер одразу зібрав потрібний набір.</p>
+            <a href="#consultation" class="cta-strip__btn">Залишити заявку</a>
           </div>
         </div>
       </div>
@@ -859,6 +875,9 @@ const { data: brandProducts, pending: brandProductsPending } = await useAsyncDat
           <article class="case-card h-100">
             <div v-if="item.image" class="case-card__image">
               <img :src="assetUrl(item.image)" :alt="item.brand_name" loading="lazy" decoding="async">
+            </div>
+            <div v-else class="case-card__image case-card__image--empty" aria-hidden="true">
+              {{ item.brand_name?.charAt(0) }}
             </div>
             <div class="case-card__body">
               <h3 class="case-card__brand">{{ item.brand_name }}</h3>
@@ -984,7 +1003,7 @@ const { data: brandProducts, pending: brandProductsPending } = await useAsyncDat
     <div class="container">
       <h3 class="title_nagoroda text-center mb-5">Робота Аксимед неодноразово відмічена нагородами</h3>
       <div class="nagoroda_img">
-        <AppPicture src="images/nagorods.png" alt="Нагороди Аксимед" img-class="img-fluid" />
+        <AwardsRow />
       </div>
     </div>
   </section>
@@ -1053,7 +1072,7 @@ const { data: brandProducts, pending: brandProductsPending } = await useAsyncDat
         <div class="col-lg-6">
           <div class="consultation-form">
             <h4>Зв'язатись з нами</h4>
-            <LeadForm source="contract" :contact-methods="contactMethods" :show-company="true" />
+            <LeadForm source="contract" :contact-methods="contactMethods" :show-company="true" :details="leadDetails" />
             <ContactSocials />
           </div>
         </div>

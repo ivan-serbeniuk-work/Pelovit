@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AboutApiController;
 use App\Http\Controllers\Api\AdminLinkController;
 use App\Http\Controllers\Api\CalculatorApiController;
 use App\Http\Controllers\Api\CatalogApiController;
@@ -27,6 +28,7 @@ Route::get('/products/{slug}', [ProductApiController::class, 'show']);
 Route::get('/journal', [JournalApiController::class, 'index']);
 Route::get('/journal/{slug}', [JournalApiController::class, 'show']);
 Route::get('/contacts', [ContactsApiController::class, 'index']);
+Route::get('/about', [AboutApiController::class, 'index']);
 
 // Посилання на редагування в адмінці — потребує сесійної куки MoonShine.
 // Сторінка просить одразу всі свої цілі: /admin/edit-links?targets=product:18,faq

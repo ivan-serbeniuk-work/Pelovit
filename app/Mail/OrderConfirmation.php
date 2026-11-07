@@ -15,6 +15,7 @@ class OrderConfirmation extends Mailable
     use Queueable, SerializesModels;
 
     public string $paymentCardNumber;
+
     public string $paymentCardHolder;
 
     public function __construct(public Order $order)
@@ -26,7 +27,7 @@ class OrderConfirmation extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Ваше замовлення #' . $this->order->id . ' прийнято — PELOVIT',
+            subject: 'Ваше замовлення #'.$this->order->id.' прийнято — PELOVIT',
         );
     }
 

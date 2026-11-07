@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ContractContentSeeder::class,
             HomeFaqSeeder::class,
             BannerSeeder::class,
+            AboutContentSeeder::class,
         ]);
     }
 }

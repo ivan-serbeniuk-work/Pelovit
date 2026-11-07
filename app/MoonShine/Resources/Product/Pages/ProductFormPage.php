@@ -4,33 +4,35 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Product\Pages;
 
-use MoonShine\Laravel\Pages\Crud\FormPage;
+use App\MoonShine\Concerns\ValidatesUploadedImages;
+use App\MoonShine\Resources\Category\CategoryResource;
+use App\MoonShine\Resources\Product\ProductResource;
+use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
-use MoonShine\UI\Components\FormBuilder;
-use MoonShine\UI\Components\FlexibleRender;
-use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
-use App\MoonShine\Resources\Product\ProductResource;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
-use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Text;
-use MoonShine\UI\Fields\Textarea;
 use MoonShine\TinyMce\Fields\TinyMce;
+use MoonShine\UI\Components\FlexibleRender;
+use MoonShine\UI\Components\FormBuilder;
+use MoonShine\UI\Components\Layout\Box;
+use MoonShine\UI\Components\Layout\Column;
+use MoonShine\UI\Components\Layout\Grid;
+use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Switcher;
-use MoonShine\UI\Fields\Image;
-use MoonShine\Laravel\Fields\Relationships\BelongsTo;
-use MoonShine\UI\Components\Layout\Box;
-use MoonShine\UI\Components\Layout\Grid;
-use MoonShine\UI\Components\Layout\Column;
+use MoonShine\UI\Fields\Text;
+use MoonShine\UI\Fields\Textarea;
 use Throwable;
-
 
 /**
  * @extends FormPage<ProductResource>
  */
 class ProductFormPage extends FormPage
 {
+    use ValidatesUploadedImages;
+
     /**
      * @return list<ComponentContract|FieldContract>
      */
@@ -64,7 +66,7 @@ class ProductFormPage extends FormPage
                     Column::make([
                         Text::make('Назва', 'name')->required(),
                         Text::make('Slug', 'slug')->hint('Заповниться автоматично від назви'),
-                        BelongsTo::make('Категорія', 'category', fn($item) => $item->name, resource: \App\MoonShine\Resources\Category\CategoryResource::class)->required(),
+                        BelongsTo::make('Категорія', 'category', fn ($item) => $item->name, resource: CategoryResource::class)->required(),
                         Text::make('Бренд', 'brand'),
                         TinyMce::make('Опис', 'description'),
                         TinyMce::make('Інструкція', 'instruction')
@@ -126,12 +128,13 @@ class ProductFormPage extends FormPage
     {
         return [
             'video_url' => ['nullable', 'url', 'regex:~(youtube(-nocookie)?\.com|youtu\.be)/~i'],
+            'image' => $this->imageRules(),
+            'images.*' => $this->imageRules(),
         ];
     }
 
     /**
      * @param  FormBuilder  $component
-     *
      * @return FormBuilder
      */
     protected function modifyFormComponent(FormBuilderContract $component): FormBuilderContract
@@ -141,34 +144,37 @@ class ProductFormPage extends FormPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+            ...parent::mainLayer(),
         ];
     }
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
     {
         return [
-            ...parent::bottomLayer()
+            ...parent::bottomLayer(),
         ];
     }
 }

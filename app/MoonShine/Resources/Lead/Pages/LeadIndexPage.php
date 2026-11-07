@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Lead\Pages;
 
-use App\MoonShine\Resources\Lead\LeadResource;
 use App\Models\Lead;
+use App\MoonShine\Pages\Crud\BaseIndexPage;
+use App\MoonShine\Resources\Lead\LeadResource;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\Laravel\QueryTags\QueryTag;
-use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\FlexibleRender;
 use MoonShine\UI\Components\Metrics\Wrapped\Metric;
-use MoonShine\UI\Components\Table\TableBuilder;
 use Throwable;
 
 /**
- * @extends IndexPage<LeadResource>
+ * @extends BaseIndexPage<LeadResource>
  */
-class LeadIndexPage extends IndexPage
+class LeadIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 
@@ -62,6 +60,7 @@ class LeadIndexPage extends IndexPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function topLayer(): array
@@ -71,6 +70,7 @@ class LeadIndexPage extends IndexPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function mainLayer(): array
@@ -80,6 +80,7 @@ class LeadIndexPage extends IndexPage
 
     /**
      * @return list<ComponentContract>
+     *
      * @throws Throwable
      */
     protected function bottomLayer(): array
@@ -92,9 +93,9 @@ class LeadIndexPage extends IndexPage
         $leads = Lead::orderBy('created_at', 'desc')->get()->groupBy('status');
 
         $statuses = [
-            'new'         => ['label' => 'Нові',      'color' => '#3b82f6'],
+            'new' => ['label' => 'Нові',      'color' => '#3b82f6'],
             'in_progress' => ['label' => 'В роботі',  'color' => '#f59e0b'],
-            'done'        => ['label' => 'Завершено', 'color' => '#10b981'],
+            'done' => ['label' => 'Завершено', 'color' => '#10b981'],
         ];
 
         $methodLabels = ['call' => 'Дзвінок', 'telegram' => 'Telegram', 'viber' => 'Viber', 'whatsapp' => 'WhatsApp'];
@@ -147,14 +148,14 @@ class LeadIndexPage extends IndexPage
             }
 
             foreach ($colLeads as $lead) {
-                $method  = $methodLabels[$lead->contact_method] ?? $lead->contact_method;
-                $source  = $sourceLabels[$lead->source] ?? $lead->source;
-                $date    = $lead->created_at?->format('d.m.Y H:i') ?? '';
-                $company = $lead->company ? "<span class='kanban-badge'>" . e($lead->company) . "</span>" : '';
+                $method = $methodLabels[$lead->contact_method] ?? $lead->contact_method;
+                $source = $sourceLabels[$lead->source] ?? $lead->source;
+                $date = $lead->created_at?->format('d.m.Y H:i') ?? '';
+                $company = $lead->company ? "<span class='kanban-badge'>".e($lead->company).'</span>' : '';
 
                 $html .= "<div class='kanban-card' data-id='{$lead->id}' data-status='{$key}'>
-                    <div class='kanban-card-name'>" . e($lead->name) . "</div>
-                    <div class='kanban-card-phone'>" . e($lead->phone) . "</div>
+                    <div class='kanban-card-name'>".e($lead->name)."</div>
+                    <div class='kanban-card-phone'>".e($lead->phone)."</div>
                     <div class='kanban-card-badges'>
                         <span class='kanban-badge'>{$method}</span>
                         <span class='kanban-badge'>{$source}</span>
@@ -164,7 +165,7 @@ class LeadIndexPage extends IndexPage
                 </div>";
             }
 
-            $html .= "</div></div>";
+            $html .= '</div></div>';
         }
 
         $html .= "</div>

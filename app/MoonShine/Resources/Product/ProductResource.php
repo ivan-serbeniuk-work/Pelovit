@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Product;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
-use App\MoonShine\Resources\Product\Pages\ProductIndexPage;
-use App\MoonShine\Resources\Product\Pages\ProductFormPage;
+use App\MoonShine\Concerns\OptimizesUploadedImages;
 use App\MoonShine\Resources\Product\Pages\ProductDetailPage;
-
-use MoonShine\Laravel\Resources\ModelResource;
+use App\MoonShine\Resources\Product\Pages\ProductFormPage;
+use App\MoonShine\Resources\Product\Pages\ProductIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Support\Attributes\AsyncMethod;
 
 /**
@@ -19,10 +18,18 @@ use MoonShine\Support\Attributes\AsyncMethod;
  */
 class ProductResource extends ModelResource
 {
+    use OptimizesUploadedImages;
+
+    /** @var list<string> Колонки з картинками — великі фото стискаються після збереження. */
+    protected array $imageColumns = ['image'];
+
+    /** @var list<string> Колонки-галереї: масив шляхів. */
+    protected array $imageGalleryColumns = ['images'];
+
     protected string $model = Product::class;
 
     protected string $title = 'Товари';
-    
+
     /**
      * @return list<class-string<PageContract>>
      */

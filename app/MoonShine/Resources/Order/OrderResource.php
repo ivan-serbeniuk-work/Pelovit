@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Order;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Order;
-use App\MoonShine\Resources\Order\Pages\OrderIndexPage;
-use App\MoonShine\Resources\Order\Pages\OrderFormPage;
 use App\MoonShine\Resources\Order\Pages\OrderDetailPage;
-
-use MoonShine\Laravel\Resources\ModelResource;
+use App\MoonShine\Resources\Order\Pages\OrderFormPage;
+use App\MoonShine\Resources\Order\Pages\OrderIndexPage;
 use MoonShine\Contracts\Core\PageContract;
+use MoonShine\Laravel\Resources\ModelResource;
 use MoonShine\Support\Enums\SortDirection;
 
 /**
@@ -24,7 +22,7 @@ class OrderResource extends ModelResource
     protected string $title = 'Замовлення';
 
     protected SortDirection $sortDirection = SortDirection::DESC;
-    
+
     /**
      * @return list<class-string<PageContract>>
      */

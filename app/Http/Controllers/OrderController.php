@@ -13,16 +13,16 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'first_name'     => 'required|string|max:255',
-            'last_name'      => 'required|string|max:255',
-            'phone'          => 'required|string|max:20',
-            'email'          => 'nullable|email|max:255',
-            'city'           => 'nullable|string|max:255',
-            'branch'         => 'nullable|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+            'email' => 'nullable|email|max:255',
+            'city' => 'nullable|string|max:255',
+            'branch' => 'nullable|string|max:255',
             'payment_method' => 'required|in:card,cod',
-            'comment'        => 'nullable|string',
-            'items'          => 'required|json',
-            'total'          => 'required|numeric|min:0',
+            'comment' => 'nullable|string',
+            'items' => 'required|json',
+            'total' => 'required|numeric|min:0',
         ]);
 
         $validated['items'] = json_decode($validated['items'], true);
@@ -41,7 +41,7 @@ class OrderController extends Controller
                 Mail::to($adminEmail)->send(new OrderNotification($order));
             }
         } catch (\Exception $e) {
-            \Log::error('Mail send failed: ' . $e->getMessage());
+            \Log::error('Mail send failed: '.$e->getMessage());
         }
 
         return redirect()->route('order.success');

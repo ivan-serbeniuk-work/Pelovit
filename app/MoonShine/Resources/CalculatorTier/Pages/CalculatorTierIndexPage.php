@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\CalculatorTier\Pages;
 
+use App\MoonShine\Pages\Crud\BaseIndexPage;
 use App\MoonShine\Resources\CalculatorTier\CalculatorTierResource;
 use MoonShine\Contracts\UI\FieldContract;
-use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
 
 /**
- * @extends IndexPage<CalculatorTierResource>
+ * @extends BaseIndexPage<CalculatorTierResource>
  */
-class CalculatorTierIndexPage extends IndexPage
+class CalculatorTierIndexPage extends BaseIndexPage
 {
     protected bool $isLazy = true;
 
