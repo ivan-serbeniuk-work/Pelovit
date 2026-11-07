@@ -16,9 +16,11 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # GHCR вимагає нижній регістр у назві образу.
-  LARAVEL_IMAGE: ghcr.io/ivanserbeniuk/pelovit-laravel
-  NUXT_IMAGE: ghcr.io/ivanserbeniuk/pelovit-nuxt
+  # GHCR вимагає нижній регістр у назві образу. Namespace — власник
+  # репозиторію (організація): GITHUB_TOKEN не має прав пушити пакети
+  # в чужий акаунт, а раніше тут лишався особистий ivanserbeniuk.
+  LARAVEL_IMAGE: ghcr.io/ivan-serbeniuk-work/pelovit-laravel
+  NUXT_IMAGE: ghcr.io/ivan-serbeniuk-work/pelovit-nuxt
 
 jobs:
   build:
@@ -34,11 +36,11 @@ jobs:
       matrix:
         include:
           - name: laravel
-            image: ghcr.io/ivanserbeniuk/pelovit-laravel
+            image: ghcr.io/ivan-serbeniuk-work/pelovit-laravel
             context: .
             dockerfile: docker/laravel/Dockerfile
           - name: nuxt
-            image: ghcr.io/ivanserbeniuk/pelovit-nuxt
+            image: ghcr.io/ivan-serbeniuk-work/pelovit-nuxt
             context: ./frontend
             dockerfile: ./frontend/Dockerfile
 

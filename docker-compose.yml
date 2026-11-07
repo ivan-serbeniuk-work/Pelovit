@@ -28,7 +28,7 @@ services:
   laravel:
     # Образ збирає CI й кладе в GHCR — на сервері лишається тільки pull.
     # build: збережено, щоб локально працювало `docker compose up --build`.
-    image: ghcr.io/ivanserbeniuk/pelovit-laravel:${IMAGE_TAG:-latest}
+    image: ghcr.io/ivan-serbeniuk-work/pelovit-laravel:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: docker/laravel/Dockerfile
@@ -71,7 +71,7 @@ services:
       - "127.0.0.1:8000:8000"
 
   nuxt:
-    image: ghcr.io/ivanserbeniuk/pelovit-nuxt:${IMAGE_TAG:-latest}
+    image: ghcr.io/ivan-serbeniuk-work/pelovit-nuxt:${IMAGE_TAG:-latest}
     build:
       context: ./frontend
     restart: unless-stopped

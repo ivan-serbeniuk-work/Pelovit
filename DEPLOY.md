@@ -17,7 +17,7 @@ docker compose version
 
 ## 1. Код і .env
 ```bash
-git clone git@github.com:IvanSerbeniuk/Pelovit.git /opt/pelovit
+git clone git@github.com:ivan-serbeniuk-work/Pelovit.git /opt/pelovit
 cd /opt/pelovit
 cp .env.docker.example .env
 # згенерувати APP_KEY:
