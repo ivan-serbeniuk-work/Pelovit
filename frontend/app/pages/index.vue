@@ -12,9 +12,23 @@ const { data } = await useFetch<any>(`${config.public.apiBase}/home`)
 
 const promotions = computed(() => data.value?.promotions ?? [])
 const allProducts = computed(() => data.value?.allProducts ?? [])
+
+// Картка товару в герої (перенесено з макета): перший featured, інакше перший
+// зі списку. Показується оверлеєм у правій частині героя на десктопі.
+const heroProduct = computed(() => promotions.value[0] ?? allProducts.value[0] ?? null)
+
+// Запасний слайд, коли в базі немає жодного банера.
+const fallbackBanner = {
+  title: 'Краса починається зі здорової шкіри.',
+  subtitle: 'Відкрийте для себе догляд для обличчя, що поєднує ефективність сучасних формул і силу натуральних компонентів.',
+  image: null,
+  button_text: 'Дивитися товари',
+  link: '/catalog',
+}
 const categories = computed(() => data.value?.categories ?? [])
 const latestPosts = computed(() => data.value?.latestPosts ?? [])
 const banners = computed(() => data.value?.banners ?? [])
+const faqs = computed<any[]>(() => data.value?.faqs ?? [])
 
 const CART_SVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M6.33105 8H17.67C17.9584 7.99997 18.2434 8.06229 18.5054 8.1827C18.7674 8.30311 19.0003 8.47876 19.1881 8.6976C19.3759 8.91645 19.5141 9.17331 19.5933 9.45059C19.6726 9.72786 19.6909 10.019 19.647 10.304L18.392 18.456C18.2831 19.1644 17.9241 19.8105 17.38 20.2771C16.836 20.7438 16.1428 21.0002 15.426 21H8.57405C7.85745 21 7.16453 20.7434 6.62068 20.2768C6.07683 19.8102 5.71797 19.1643 5.60905 18.456L4.35405 10.304C4.31022 10.019 4.32854 9.72786 4.40775 9.45059C4.48697 9.17331 4.62521 8.91645 4.81299 8.6976C5.00078 8.47876 5.23367 8.30311 5.49569 8.1827C5.75772 8.06229 6.04268 7.99997 6.33105 8Z" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 11V6C9 5.20435 9.31607 4.44129 9.87868 3.87868C10.4413 3.31607 11.2044 3 12 3C12.7956 3 13.5587 3.31607 14.1213 3.87868C14.6839 4.44129 15 5.20435 15 6V11" stroke="#1A1A1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`
 const ARROW_RIGHT = `<svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17.3172 10.442L11.6922 16.067C11.5749 16.1843 11.4159 16.2502 11.25 16.2502C11.0841 16.2502 10.9251 16.1843 10.8078 16.067C10.6905 15.9498 10.6247 15.7907 10.6247 15.6249C10.6247 15.459 10.6905 15.2999 10.8078 15.1827L15.3664 10.6249H3.125C2.95924 10.6249 2.80027 10.559 2.68306 10.4418C2.56585 10.3246 2.5 10.1656 2.5 9.99986C2.5 9.8341 2.56585 9.67513 2.68306 9.55792C2.80027 9.44071 2.95924 9.37486 3.125 9.37486H15.3664L10.8078 4.81705C10.6905 4.69977 10.6247 4.54071 10.6247 4.37486C10.6247 4.20901 10.6905 4.04995 10.8078 3.93267C10.9251 3.8154 11.0841 3.74951 11.25 3.74951C11.4159 3.74951 11.5749 3.8154 11.6922 3.93267L17.3172 9.55767C17.3753 9.61572 17.4214 9.68465 17.4529 9.76052C17.4843 9.8364 17.5005 9.91772 17.5005 9.99986C17.5005 10.082 17.4843 10.1633 17.4529 10.2392C17.4214 10.3151 17.3753 10.384 17.3172 10.442Z" fill="#1A1A1A"/></svg>`
@@ -42,32 +56,27 @@ function postImg(post: any) {
 <!-- Hero Carousel -->
 <section class="hero-carousel">
   <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+    <!-- Активну точку задаємо статично на першій кнопці, а не реактивно (i===0):
+         реактивний :class конфліктує з каруселлю Bootstrap. Решта — через v-for. -->
     <div class="carousel-indicators" v-if="banners.length > 1">
-      <button v-for="(b, i) in banners" :key="b.id" type="button" data-bs-target="#heroCarousel" :data-bs-slide-to="i" :class="i===0?'active':''"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Слайд 1"></button>
+      <button v-for="(b, i) in banners.slice(1)" :key="b.id" type="button" data-bs-target="#heroCarousel" :data-bs-slide-to="i + 1" :aria-label="`Слайд ${i + 2}`"></button>
     </div>
     <div class="carousel-inner">
+      <!-- Якщо банерів нема — один статичний слайд, каруселі немає. -->
       <div v-if="banners.length === 0" class="carousel-item active">
-        <div class="hero text-white" :style="`background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${assetUrl('images/gl_face.png')});`">
-          <div class="container">
-            <div class="col-lg-6 mob">
-              <h1 class="display-3 fw-bold mb-4">Краса починається зі здорової шкіри.</h1>
-              <p class="lead mb-5">Відкрийте для себе догляд для обличчя, що поєднує ефективність сучасних формул і силу натуральних компонентів.</p>
-              <NuxtLink to="/catalog" class="btn btn-light btn-lg px-5 py-3 fw-medium rad-16">Дивитися товари</NuxtLink>
-            </div>
-          </div>
-        </div>
+        <HeroSlide :banner="fallbackBanner" />
       </div>
-      <div v-for="(banner, i) in banners" :key="banner.id" :class="['carousel-item', i === 0 ? 'active' : '']">
-        <div class="hero text-white" :style="banner.image ? `background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${assetUrl(banner.image)})` : `background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url(${assetUrl('images/gl_face.png')})`">
-          <div class="container">
-            <div class="col-lg-6 mob">
-              <h1 class="display-3 fw-bold mb-4">{{ banner.title }}</h1>
-              <p v-if="banner.subtitle" class="lead mb-5">{{ banner.subtitle }}</p>
-              <NuxtLink v-if="banner.button_text && banner.link" :to="banner.link" class="btn btn-light btn-lg px-5 py-3 fw-medium rad-16">{{ banner.button_text }}</NuxtLink>
-            </div>
-          </div>
+      <!-- Банери: `active` на першому слайді задаємо статичним класом, щоб Vue ним
+           не керував і не відкочував карусель на перший слайд. -->
+      <template v-else>
+        <div class="carousel-item active">
+          <HeroSlide :banner="banners[0]" />
         </div>
-      </div>
+        <div v-for="banner in banners.slice(1)" :key="banner.id" class="carousel-item">
+          <HeroSlide :banner="banner" />
+        </div>
+      </template>
     </div>
     <template v-if="banners.length > 1">
       <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
@@ -78,10 +87,23 @@ function postImg(post: any) {
       </button>
     </template>
   </div>
+  <!-- Картка featured-товару поверх фото (перенесено з макета). Оверлей у правій
+       частині; на мобільному приховується, щоб не перекривати текст слайда. -->
+  <div v-if="heroProduct" class="hero-product-overlay">
+    <div class="container">
+      <ProductCard :product="heroProduct" class="hero-product-card" />
+    </div>
+  </div>
+  <!-- На мобільному оверлей приховано (перекривав би текст слайда); featured-товар
+       показуємо окремим блоком одразу під героєм, щоб перший екран не втрачав
+       картку з макета. d-lg-none — лише < 992px. -->
+  <div v-if="heroProduct" class="hero-product-mobile container d-lg-none">
+    <ProductCard :product="heroProduct" class="hero-product-card" />
+  </div>
 </section>
 
 <!-- Promotions -->
-<section class="py-5 bg-light promotions">
+<section v-if="promotions.length" class="py-5 bg-light promotions">
   <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="fw-bold">Акції</h2>
@@ -219,9 +241,6 @@ function postImg(post: any) {
   </div>
 </section>
 
-<!-- Partners -->
-<PartnersMarquee />
-
 <!-- Reviews -->
 <section class="py-5 reviews-section">
   <div class="container">
@@ -323,7 +342,7 @@ function postImg(post: any) {
 <section class="medical-journal">
   <div class="container">
     <div class="section-header">
-      <h2>Меджурнал</h2>
+      <h2>Блог</h2>
       <NuxtLink to="/catalog-journal" class="view-all">Переглянути більше</NuxtLink>
     </div>
     <div v-if="latestPosts.length > 0" class="articles-grid">
@@ -353,23 +372,28 @@ function postImg(post: any) {
         <p>Наш фахівець допоможе підібрати ідеальні засоби Pelovit саме для ваших потреб.</p>
         <LeadForm source="home" />
       </div>
-      <div class="container faq-container">
+      <div v-if="faqs.length" class="container faq-container">
         <h2 class="mb-4">Часті запитання</h2>
         <div class="accordion" id="faqAccordion">
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1" aria-expanded="true">Що таке PELOVIT і в чому його особливість?</button>
-            </h2>
-            <div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">Асортимент включає лікувальні препарати, доглядову косметику, а також контрактне виробництво.</div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">Яка доставка доступна?</button>
-            </h2>
-            <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-              <div class="accordion-body">Доставляємо по всій Україні через Нову Пошту.</div>
+          <div v-for="(faq, i) in faqs" :key="faq.id" class="accordion-item">
+            <h3 class="accordion-header">
+              <button
+                class="accordion-button"
+                :class="{ collapsed: i !== 0 }"
+                type="button"
+                data-bs-toggle="collapse"
+                :data-bs-target="`#home-faq-${faq.id}`"
+                :aria-expanded="i === 0"
+                :aria-controls="`home-faq-${faq.id}`"
+              >{{ faq.question }}</button>
+            </h3>
+            <div
+              :id="`home-faq-${faq.id}`"
+              class="accordion-collapse collapse"
+              :class="{ show: i === 0 }"
+              data-bs-parent="#faqAccordion"
+            >
+              <div class="accordion-body">{{ faq.answer }}</div>
             </div>
           </div>
         </div>

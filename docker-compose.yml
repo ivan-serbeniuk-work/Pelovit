@@ -1,7 +1,17 @@
+# Ротація логів контейнерів — запобіжник проти переповнення диска json-логами
+# (саме вони колись забили диск і поклали прод). Той самий дефолт продубльовано
+# глобально в /etc/docker/daemon.json на сервері.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
 services:
   db:
     image: mariadb:11
     restart: unless-stopped
+    logging: *default-logging
     environment:
       MARIADB_DATABASE: ${DB_DATABASE}
       MARIADB_USER: ${DB_USERNAME}
@@ -23,6 +33,7 @@ services:
       context: .
       dockerfile: docker/laravel/Dockerfile
     restart: unless-stopped
+    logging: *default-logging
     depends_on:
       db:
         condition: service_healthy
@@ -64,6 +75,7 @@ services:
     build:
       context: ./frontend
     restart: unless-stopped
+    logging: *default-logging
     environment:
       NUXT_PUBLIC_API_BASE: ${NUXT_PUBLIC_API_BASE}
       NUXT_PUBLIC_ASSET_BASE: ${NUXT_PUBLIC_ASSET_BASE}

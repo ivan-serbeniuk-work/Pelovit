@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
       <div class="container">
         <NuxtLink class="navbar-brand fw-bold" to="/">
-          <span style="color:#422928;">PELOVIT</span>
+          <span class="brand-wordmark">PELOVIT</span>
         </NuxtLink>
 
         <!-- Mobile-only: wishlist + cart always visible next to toggler -->
@@ -26,10 +26,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav mx-auto gap-1">
             <li class="nav-item cat-blue radius">
-              <div class="wrapper">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="#ffffff" stroke-width="1.5"/><rect x="12" y="1" width="7" height="7" rx="1.5" stroke="#ffffff" stroke-width="1.5"/><rect x="1" y="12" width="7" height="7" rx="1.5" stroke="#ffffff" stroke-width="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5" stroke="#ffffff" stroke-width="1.5"/></svg>
-                <NuxtLink class="nav-link" to="/catalog">Каталог</NuxtLink>
-              </div>
+              <NuxtLink class="nav-link wrapper" to="/catalog">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="1" y="1" width="7" height="7" rx="1.5" stroke="#ffffff" stroke-width="1.5"/><rect x="12" y="1" width="7" height="7" rx="1.5" stroke="#ffffff" stroke-width="1.5"/><rect x="1" y="12" width="7" height="7" rx="1.5" stroke="#ffffff" stroke-width="1.5"/><rect x="12" y="12" width="7" height="7" rx="1.5" stroke="#ffffff" stroke-width="1.5"/></svg>
+                <span>Каталог</span>
+              </NuxtLink>
             </li>
             <li class="nav-item">
               <NuxtLink class="nav-link" to="/">Головна</NuxtLink>
@@ -38,7 +38,7 @@
               <NuxtLink class="nav-link" to="/promotions">Акції</NuxtLink>
             </li>
             <li class="nav-item">
-              <NuxtLink class="nav-link" to="/journal">МедЖурнал</NuxtLink>
+              <NuxtLink class="nav-link" to="/journal">Блог</NuxtLink>
             </li>
             <li class="nav-item">
               <NuxtLink class="nav-link" to="/about">Про нас</NuxtLink>
@@ -194,7 +194,7 @@
               <li class="mb-2"><NuxtLink to="/kontractne-vyrobnyctvo" class="text-dark text-decoration-none">Контрактне виробництво</NuxtLink></li>
               <li class="mb-2"><NuxtLink to="/opt" class="text-dark text-decoration-none">Опт закупівлі</NuxtLink></li>
               <li class="mb-2"><NuxtLink to="/masters" class="text-dark text-decoration-none">Майстрам</NuxtLink></li>
-              <li class="mb-2"><NuxtLink to="/journal" class="text-dark text-decoration-none">МедЖурнал</NuxtLink></li>
+              <li class="mb-2"><NuxtLink to="/journal" class="text-dark text-decoration-none">Блог</NuxtLink></li>
               <li class="mb-2"><NuxtLink to="/contacts" class="text-dark text-decoration-none">Адреси магазинів</NuxtLink></li>
               <li><NuxtLink to="/obmin-ta-povernennya" class="text-dark text-decoration-none">Обмін та повернення</NuxtLink></li>
             </ul>

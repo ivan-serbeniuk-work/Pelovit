@@ -386,6 +386,7 @@ async function submitOrder() {
               <input v-model="form.payment_method" class="form-check-input" type="radio" value="liqpay" id="liqpayPayment">
               <label class="form-check-label" for="liqpayPayment">Оплатити карткою онлайн</label>
               <div class="text-muted small mt-1">Безпечна оплата карткою через LiqPay. Після підтвердження ви перейдете на сторінку оплати.</div>
+              <PaymentLogos />
             </div>
             <div class="form-check mb-3 p-3">
               <input v-model="form.payment_method" class="form-check-input" type="radio" value="card" id="cardPayment">

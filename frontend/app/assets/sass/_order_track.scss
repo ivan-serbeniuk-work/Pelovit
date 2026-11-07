@@ -9,18 +9,18 @@
  */
 .order-track-section {
   padding: 40px 0;
-  background-color: #FDFBF8;
+  background-color: $surface-raised;
 
   .track-card {
-    border-radius: 16px;
-    background-color: #ffffff;
-    border: 1px solid #F5EDE8;
+    border-radius: $radius-lg;
+    background-color: $surface;
+    border: 1px solid $surface-warm;
   }
 
   .track-card__header {
     padding: 1.25rem 1.5rem 0;
     font-weight: 600;
-    color: #422928;
+    color: $brown-700;
   }
 
   .product-img {
@@ -30,7 +30,7 @@
   }
 
   .track-item {
-    border-bottom: 1px solid #F5EDE8;
+    border-bottom: 1px solid $surface-warm;
 
     &:last-of-type {
       border-bottom: 0;
@@ -54,33 +54,33 @@
     align-items: center;
     justify-content: center;
     border-radius: 100%;
-    background-color: #EDEDED;
-    color: #9A9A9A;
+    background-color: $border;
+    color: $text-muted;
     font-weight: 600;
     transition: background-color .2s ease, color .2s ease;
   }
 
   .track-step__label {
-    font-size: 13px;
-    color: #9A9A9A;
+    font-size: $text-xs;
+    color: $neutral-300;
   }
 
   /* Пройдені кроки — фірмовий блакитний, поточний додатково виділено. */
   .track-step--done {
     .track-step__circle {
-      background-color: #D5EAF2;
-      color: #69BDDB;
+      background-color: $accent-tint;
+      color: $accent-light;
     }
 
     .track-step__label {
-      color: #422928;
+      color: $brown-700;
     }
   }
 
   .track-step--current {
     .track-step__circle {
-      background-color: #69BDDB;
-      color: #FFFEFC;
+      background-color: $accent-light;
+      color: $surface;
     }
 
     .track-step__label {
@@ -90,12 +90,12 @@
 
   .track-meta {
     dt {
-      color: #969696;
+      color: $text-muted;
       font-weight: 500;
     }
 
     dd {
-      color: #1A1A1A;
+      color: $text;
     }
   }
 }

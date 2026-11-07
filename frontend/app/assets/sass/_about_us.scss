@@ -16,19 +16,19 @@
   align-items: center;
   color: white;
   position: relative;
-  border-radius: 24px;
+  border-radius: $radius-xl;
   min-height: unset;
 }
 .stat-card {
   background-color: white;
-  color: #1A7B9E;
-  border-radius: 12px;
+  color: $accent;
+  border-radius: $radius-md;
   padding: 20px 15px;
 }
 .stat-number {
-  font-size: 2.8rem;
+  font-size: $text-5xl;
   font-weight: 700;
-  color: #1A7B9E;
+  color: $accent;
 }
 
 // Картки-цифри в шапці «Про нас». Розкладку задаємо явно: раніше вона
@@ -66,65 +66,65 @@
 
 .section-nagoroda{
   margin: 80px 3.5rem;
-  background-color: #F4F0E7;
-  border-radius: 24px;
+  background-color: $surface-tint;
+  border-radius: $radius-xl;
 }
 
 .doslidgenja_section{
   .sidebar-nav {
-    border-radius: 12px;
+    border-radius: $radius-md;
     overflow: hidden;
   }
   .sidebar-nav a {
     display: block;
     padding: 18px 24px;
-    color: #565454;
+    color: $text-muted;
     text-decoration: none;
     font-weight: 500;
     transition: all 0.3s;
   }
   .sidebar-nav a:hover {
-    background: #1a1a1a;
+    background: $text;
     color: white;
   }
   .sidebar-nav a.active {
-    background: #f8f1e3;
-    color: #111;
+    background: $surface-tint;
+    color: $text;
     font-weight: 600;
   }
   .research-img {
-    border-radius: 16px;
+    border-radius: $radius-lg;
     width: 400px;
     height: 360px;
   }
   .section-title {
-    font-size: 2.2rem;
+    font-size: $text-4xl;
     font-weight: 700;
   }
 }
 
 .values_section{
   .value-card {
-    color: #1a1a1a;
-    border-radius: 12px;
+    color: $text;
+    border-radius: $radius-md;
     padding: 28px 20px;
     height: 100%;
-    background-color: #F4F0E7;
+    background-color: $surface-tint;
   }
 
   .value-icon {
-    font-size: 2.8rem;
+    font-size: $text-5xl;
     color: #2a9d8f;
   }
 
   // У макеті це h5; тут h3 заради ієрархії заголовків, розмір фіксуємо.
   .value-title {
-    font-size: 1.25rem;
+    font-size: $text-xl;
     line-height: 1.2;
     margin-bottom: .5rem;
   }
   .founder-photo {
-    border-radius: 16px;
+    border-radius: $radius-lg;
     width: 200px;
     height: 200px;
   }
@@ -142,7 +142,7 @@
     top: 0;
     width: 2px;
     height: 100%;
-    background: #69BDDB;
+    background: $accent-light;
   }
   .timeline-item {
     position: relative;
@@ -150,7 +150,7 @@
     text-align: left;
   }
   .timeline-item img {
-    border-radius: 12px;
+    border-radius: $radius-md;
     width: 224px;
     height: 180px;
     object-fit: cover;
@@ -158,13 +158,13 @@
   .year {
     font-size: 2rem;
     font-weight: 700;
-    color: #1A7B9E;
+    color: $accent;
   }
   .d-line{
     height: 1px;
     background: repeating-linear-gradient(
             to right,
-            #69BDDB 0 8px,
+            $accent-light 0 8px,
             transparent 8px 16px
     );
   }
@@ -174,7 +174,7 @@
   img{
     width: 320px;
     height: 320px;
-    border-radius: 16px;
+    border-radius: $radius-lg;
     object-fit: cover;
   }
 }

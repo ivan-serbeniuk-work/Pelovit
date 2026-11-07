@@ -4,33 +4,13 @@
   transition: $transition-default;
   overflow: hidden;
   border-radius: $radius-lg;
+  background: $surface;
 
-  .tag_brown {
-    position: absolute;
-    left: 12px;
-    top: 15px;
-    background: $tag-bg;
-    color: $white;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 15px;
-    padding: $spacing-xs $spacing-sm;
-    border-radius: $radius-sm;
-
-    // Довгі назви категорій («Опорно-руховий апарат») у вузькій колонці
-    // заповзали під бейдж знижки. Лишаємо місце під нього і серце,
-    // решту ховаємо в трикрапку. display:block — інакше text-overflow
-    // не працює у flex-контейнері.
-    display: block;
-    max-width: calc(100% - 110px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  // Без знижки поруч лишається тільки серце — можна дати більше місця.
-  &:not(:has(.discount-badge)) .tag_brown {
-    max-width: calc(100% - 60px);
+  // Картка піднімається й поглиблює тінь під курсором — живий відгук,
+  // якого раніше не було (був лише перехід без змін стану).
+  &:hover {
+    box-shadow: $shadow-raised;
+    transform: translateY(-3px);
   }
 
   .like {
@@ -47,7 +27,7 @@
   // Заголовок картки — h3 заради коректної ієрархії; розміри фіксуємо тут,
   // щоб він виглядав як колишній h6.
   .card-title {
-    font-size: 1rem;
+    font-size: $text-base;
     font-weight: 500;
     line-height: 1.2;
     margin-bottom: .5rem;
@@ -60,21 +40,21 @@
   }
 
   .price {
-    font-size: 1.1rem;
+    font-size: $text-lg;
     color: $brown-dark;
   }
 
   .disc_price {
     text-decoration: line-through $discount-line;
     font-weight: 500;
-    font-size: 14px;
+    font-size: $text-sm;
     color: rgba($text-dark, 0.6);
   }
 
   .buy {
     padding: 7px $spacing-md;
     background-color: $buy-btn-bg;
-    color: $light-bg;
+    color: $white;
     border-radius: $radius-md;
   }
 }
@@ -84,10 +64,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #b5423a;
+  background: $danger-muted;
   color: $white;
   font-weight: 700;
-  font-size: 12px;
+  font-size: $text-xs;
   line-height: 1;
   padding: 5px 8px;
   border-radius: $radius-sm;
@@ -101,32 +81,24 @@
   z-index: 2;
 }
 
-// На вузькому екрані картка вдвічі вужча, і назва категорії поруч зі знижкою
-// стискалась до «Опо…». Тому знижку опускаємо рядком нижче — під серце,
-// а категорії дістається майже вся ширина.
+// На вузькому екрані картка вдвічі вужча — знижку опускаємо рядком нижче,
+// під серце, щоб бейджі не тіснилися в один рядок.
 @media (max-width: $bp-sm) {
-  .product-card {
-    .discount-badge {
-      top: 46px;
-      right: 12px;
-    }
-
-    .tag_brown,
-    &:not(:has(.discount-badge)) .tag_brown {
-      max-width: calc(100% - 52px);
-    }
+  .product-card .discount-badge {
+    top: 46px;
+    right: 12px;
   }
 }
 
 .discount-badge--inline {
-  font-size: 14px;
+  font-size: $text-sm;
 }
 
 .buy svg path,
 .buy:hover svg path,
 .buy:focus svg path,
 .buy:active svg path {
-  stroke: $light-bg;
+  stroke: $white;
 }
 
 // Category Cards
@@ -153,7 +125,7 @@
   .cat_name {
     position: absolute;
     bottom: 30px;
-    font-size: 24px;
+    font-size: $text-2xl;
     line-height: 1;
     letter-spacing: 0.02em;
     color: $white;
@@ -167,7 +139,7 @@
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.28);
-    border-radius: 16px;
+    border-radius: $radius-lg;
     transition: background 0.25s;
   }
   img{
@@ -182,18 +154,18 @@
 
 // Navbar custom
 .navbar {
-  box-shadow: 0 1px 8px rgba(0,0,0,.06);
+  box-shadow: $shadow-card;
 
   .navbar-brand {
-    font-size: 1.25rem;
+    font-size: $text-xl;
     letter-spacing: .04em;
   }
 
   .nav-link {
-    font-size: .9rem;
-    color: #3a2926;
+    font-size: $text-sm;
+    color: $brown-700;
     padding: .45rem .6rem;
-    border-radius: 6px;
+    border-radius: $radius-sm;
     transition: background .15s, color .15s;
 
     &:hover, &.active {
@@ -208,11 +180,11 @@
     justify-content: center;
     width: 36px;
     height: 36px;
-    border-radius: 8px;
+    border-radius: $radius-sm;
     transition: background .15s;
     text-decoration: none;
 
-    &:hover { background: #f5f0ef; }
+    &:hover { background: $surface-warm; }
 
     svg { display: block; }
   }
@@ -222,16 +194,16 @@
     align-items: center;
     gap: 5px;
     padding: 7px 14px;
-    border: 1.5px solid #d4b8ad;
-    border-radius: 8px;
-    color: #3a2926;
-    font-size: .85rem;
+    border: 1.5px solid $brown-200;
+    border-radius: $radius-sm;
+    color: $brown-700;
+    font-size: $text-xs;
     font-weight: 600;
     text-decoration: none;
     transition: background .15s, border-color .15s;
 
     &:hover {
-      background: #fdf7f5;
+      background: $surface-raised;
       border-color: $primary-blue;
     }
 
@@ -244,12 +216,12 @@
     right: 0;
     transform: translate(50%, -50%);
     background: $primary-blue;
-    color: #fff;
+    color: $surface;
     font-size: 10px;
     font-weight: 700;
     min-width: 16px;
     height: 16px;
-    border-radius: 8px;
+    border-radius: $radius-sm;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -258,19 +230,21 @@
   }
 }
 
+// Пункт «Каталог» — тепер уся плашка (іконка + текст) є одним посиланням,
+// тож клік і hover працюють на весь блок, а не лише на слові.
 .navbar-nav .nav-item .wrapper {
   display: flex;
   align-items: center;
+  gap: 0.4rem;
   margin: 0 4px;
+  color: $white;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: inherit;
 
-  .nav-link {
+  &:hover, &.active {
     color: $white;
-    font-weight: 700;
-
-    &:hover, &.active {
-      color: $white;
-      background: rgba(#fff, .15);
-    }
+    background: rgba($surface, .15);
   }
 }
 
@@ -283,18 +257,7 @@
 .rad-12 { border-radius: $radius-md; }
 .rad-8 { border-radius: $radius-sm; }
 
-// Tags & Likes
-.tag_brown {
-  color: $light-bg;
-  font-weight: 600;
-  position: absolute;
-  background-color: $brown-dark;
-  border-radius: $radius-sm;
-  padding: 4px 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+// Likes
 .like {
   position: absolute;
   right: 80px;
@@ -310,10 +273,10 @@
   width: 100%;
   padding: 6px 10px;
   border: 0;
-  border-radius: 8px;
+  border-radius: $radius-sm;
   background: transparent;
-  color: #3a2926;
-  font-size: .9rem;
+  color: $brown-700;
+  font-size: $text-sm;
   line-height: 1.3;
   text-align: left;
   transition: $transition-default;
@@ -330,12 +293,12 @@
     font-weight: 500;
 
     &:hover {
-      background: #533634;
+      background: $brown-600;
     }
   }
 
   &:disabled {
-    color: #b3a7a2;
+    color: $neutral-300;
     cursor: default;
   }
 
@@ -346,20 +309,20 @@
 
   &--sm {
     padding: 5px 10px;
-    font-size: .82rem;
+    font-size: $text-xs;
   }
 }
 
 .filter-option__count {
   flex-shrink: 0;
-  font-size: .75rem;
+  font-size: $text-xs;
   color: inherit;
   opacity: .6;
   font-variant-numeric: tabular-nums;
 }
 
 .filter-hint {
-  font-size: .78rem;
+  font-size: $text-xs;
   color: $text-muted;
 }
 
@@ -378,8 +341,8 @@
     width: auto;
     min-width: 200px;
     padding: .45rem 2.25rem .45rem .9rem;
-    border: 1px solid #E2D9D2;
-    border-radius: 999px;
+    border: 1px solid $border-strong;
+    border-radius: $radius-full;
     background-color: $white;
     // Своя стрілка: бутстрапівська синя й не тримає фірмову палітру.
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23422928' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
@@ -387,7 +350,7 @@
     background-position: right .8rem center;
     background-size: 14px 14px;
     color: $brown-dark;
-    font-size: .875rem;
+    font-size: $text-sm;
     font-weight: 500;
     cursor: pointer;
     transition: $transition-default;
@@ -398,13 +361,13 @@
 
     &:focus {
       border-color: $brown-dark;
-      box-shadow: 0 0 0 3px rgba(105, 189, 219, .25);
+      box-shadow: 0 0 0 3px rgba($accent, .25);
     }
   }
 }
 
 .catalog-sort__label {
-  font-size: .85rem;
+  font-size: $text-xs;
   color: $text-muted;
   white-space: nowrap;
 }
@@ -430,8 +393,8 @@
 
   .form-control {
     border-radius: 12px 0 0 12px;
-    border-color: #e2d5cf;
-    font-size: 1.1rem;
+    border-color: $border-strong;
+    font-size: $text-lg;
     &:focus { box-shadow: none; border-color: $primary-blue; }
   }
 
@@ -446,7 +409,7 @@
   border: none;
   cursor: pointer;
   padding: 6px;
-  color: #fff;
+  color: $surface;
   opacity: .8;
   &:hover { opacity: 1; }
 }
@@ -487,7 +450,7 @@
   border-radius: 50%;
   background: $white;
   color: $brown-dark;
-  font-size: .95rem;
+  font-size: $text-sm;
   font-weight: 500;
   line-height: 1;
   transition: $transition-default;
@@ -511,7 +474,7 @@
 }
 
 .pagination-nav__arrow {
-  font-size: 1.1rem;
+  font-size: $text-lg;
 
   &:disabled {
     opacity: .35;
@@ -534,14 +497,14 @@
   margin-bottom: 1rem;
   padding: .35rem .85rem;
   border: 1px dashed $primary-blue;
-  border-radius: 1rem;
-  color: #2C7B99;
-  font-size: .875rem;
+  border-radius: $radius-lg;
+  color: $accent;
+  font-size: $text-sm;
   text-decoration: none;
   transition: $transition-default;
 
   &:hover {
-    background: #F1F8FB;
-    color: #1F5C74;
+    background: $accent-tint;
+    color: $accent-dark;
   }
 }

@@ -18,7 +18,7 @@
   display: flex;
   gap: 0.5rem;
   background: rgba(66, 41, 40, 1);
-  border-radius: 16px;
+  border-radius: $radius-lg;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 .tab {
@@ -26,13 +26,13 @@
   border: none;
   background: transparent;
   color: white;
-  border-radius: 16px;
-  font-size: 1rem;
+  border-radius: $radius-lg;
+  font-size: $text-base;
   cursor: pointer;
   transition: all 0.3s;
 }
 .tab.active {
-  background: #fff;
+  background: $surface;
   color: #000;
   font-weight: 600;
 }
@@ -42,7 +42,7 @@
   gap: 1.5rem;
 }
 .review-card {
-  border-radius: 20px;
+  border-radius: $radius-xl;
   overflow: hidden;
   object-fit: cover;
   background-size: cover;
@@ -71,11 +71,11 @@
   height: 60px;
   object-fit: contain;
   margin: 1rem 1rem;
-  border-radius: 8px;
+  border-radius: $radius-sm;
   border: solid rgba(222, 222, 222, 1) 1px;
 }
 .rating {
-  color: #ffd700;
+  color: $star;
   font-size: 1.35rem;
   letter-spacing: 3px;
 }
@@ -88,7 +88,7 @@
   color: black;
   font-style: normal;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: $text-base;
   line-height: normal;
 }
 .reviews-section .content_wrapper {

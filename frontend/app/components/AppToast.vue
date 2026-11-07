@@ -49,8 +49,8 @@ const { toasts, remove } = useToast()
   border-radius: 14px;
   font-size: 14px;
   font-weight: 500;
-  color: #fff;
-  background: #422928;
+  color: var(--surface);
+  background: var(--brand-700);
   box-shadow: 0 4px 20px rgba(0,0,0,0.18);
   cursor: pointer;
   pointer-events: all;
@@ -58,7 +58,7 @@ const { toasts, remove } = useToast()
 }
 
 .app-toast--wishlist {
-  background: #6b4240;
+  background: var(--brand-500);
 }
 
 .toast-enter-active,

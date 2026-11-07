@@ -31,11 +31,11 @@
       white-space: nowrap;
       margin-bottom: 0;
       padding: 10px 16px;
-      background-color: #f8f1eb;
+      background-color: $surface-warm;
     }
 
     .nav-link.active {
-      background-color: #eadfd3;
+      background-color: $surface-tint;
     }
 
     > p.small {
@@ -58,9 +58,9 @@
           &.cat-blue { border-radius: $radius-md; }
 
           .nav-link {
-            font-size: 1rem;
+            font-size: $text-base;
             padding: .7rem .5rem;
-            border-radius: 8px;
+            border-radius: $radius-sm;
           }
 
           .wrapper {
@@ -68,7 +68,7 @@
             padding: .4rem .5rem;
 
             .nav-link {
-              font-size: 1rem;
+              font-size: $text-base;
               padding: .2rem .4rem;
             }
           }
@@ -77,7 +77,7 @@
 
       .nav-menu-action {
         color: $text-dark;
-        font-size: .9rem;
+        font-size: $text-sm;
         padding: .35rem 0;
 
         svg { flex-shrink: 0; }
@@ -96,14 +96,14 @@
     text-align: center;
   }
   .blue_tags_wrapper .blue_tag{
-    font-size: 1rem;
+    font-size: $text-base;
   }
   .social-icons a{
     margin-right: 0;
-    font-size: 1.3rem;
+    font-size: $text-xl;
   }
   .consultation-form p{
-    font-size:1rem;
+    font-size: $text-base;
   }
 
   .kontractne_vyrobnyctvo_page .develop_cons_section .social-icons a{
@@ -133,14 +133,6 @@
       }
       .table_rate { width: 100%; }
       .rating-card { max-width: 100%; }
-    }
-  }
-
-  .marquee-track {
-    svg {
-      height: 100px;
-      width: auto;
-      margin-right: 3rem;
     }
   }
   .articles-grid,
@@ -176,12 +168,12 @@
     }
 
     .card-title {
-      font-size: .8rem;
+      font-size: $text-xs;
       margin-bottom: .4rem;
     }
 
     .price {
-      font-size: .95rem;
+      font-size: $text-sm;
     }
 
     .buy {

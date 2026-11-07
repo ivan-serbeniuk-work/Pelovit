@@ -2,7 +2,7 @@
 /* Reviews Section */
 .cart-section {
   padding: 40px 0;
-  background-color: #FDFBF8;
+  background-color: $surface-raised;
 
 
   .product-img {
@@ -12,8 +12,8 @@
   }
 
   .step-circle{
-    background-color: #D5EAF2;
-    color: #69BDDB;
+    background-color: $accent-tint;
+    color: $accent-light;
     width: 30px;
     height: 30px;
     display: flex;
@@ -31,30 +31,30 @@
   .progress_bar{
     flex: 1;
     height: 0.5rem;
-    background: #D5EAF2;
+    background: $accent-tint;
   }
 
   .box-gift{
-    background-color: #F0F5F7;
+    background-color: $accent-tint;
   }
   .loyalty-box {
-    border-radius: 12px;
+    border-radius: $radius-md;
     padding: 16px;
   }
   .summary-box {
-    background-color: #fff;
-    color: #111;
-    border-radius: 16px;
+    background-color: $surface;
+    color: $text;
+    border-radius: $radius-lg;
     padding: 24px;
   }
   .btn-brown {
-    background-color: #422928;
-    color: #fff;
+    background-color: $brown-700;
+    color: $surface;
     border: none;
   }
   .btn-blue {
     background-color: #3b82f6;
-    color: #fff;
+    color: $surface;
   }
   .like_box{
     width: 40px;
@@ -62,7 +62,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FAF7F3;
+    background-color: $surface-raised;
   }
   .like{
     position: unset;
@@ -72,10 +72,10 @@
     text-decoration: none;
   }
   .gray_cl{
-    color: #969696;
+    color: $text-muted;
   }
   .gray_dr_cl{
-    color: #565454;
+    color: $text-muted;
   }
 
 }
@@ -100,17 +100,17 @@
   }
   .card_img{
     max-width: 145px;
-    border-radius: 16px;
-    border: 1px solid #E6E6E6;
+    border-radius: $radius-lg;
+    border: 1px solid $border;
   }
   .card_mod{
     max-width: 145px;
   }
   .gift-name{
     text-align: left;
-    color: #565454;
+    color: $text-muted;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: $text-sm;
   }
   .row{
     gap: 0;
@@ -118,7 +118,7 @@
     --bs-gutter-y: 1rem
   }
   .buy span{
-    font-size: 0.9rem;
+    font-size: $text-sm;
     font-weight: 600;
   }
   .gift-option{
@@ -136,28 +136,28 @@
     justify-content: center;
   }
   .btn-register{
-    background-color: #1A1A1A;
+    background-color: $text;
     color: white;
-    border-radius: 16px;
+    border-radius: $radius-lg;
   }
 }
 .count_rates{
-  border: 1px solid #F4F0E7;
+  border: 1px solid $surface-tint;
   width: fit-content;
 }
 
 .delete_item_modal img{
   width: 150px;
-  border: 1px solid #E6E6E6;
+  border: 1px solid $border;
 }
 .delete_item_modal .modal-content{
-  background-color: #FDFBF8;
+  background-color: $surface-raised;
   max-width: 430px;
 }
 .delete_item_modal p{
-  font-size: 0.9rem;
+  font-size: $text-sm;
   font-weight: 400;
-  color: #565454;
+  color: $text-muted;
 }
 .delete_item_modal .modal-header{
   position: absolute;
@@ -165,16 +165,16 @@
   right: 10px;
 }
 .btn_cancel{
-  border-radius: 16px;
+  border-radius: $radius-lg;
   border: 1px solid #00000033;
   background-color: white;
-  color: #422928;
+  color: $brown-700;
   padding: 0.5rem 2.8rem;
 }
 .btn_delete{
-  border-radius: 16px;
+  border-radius: $radius-lg;
   border: 1px solid #00000033;
-  background-color: #1A1A1A;
+  background-color: $text;
   color: white;
   padding: 0.5rem 2.8rem;
 }

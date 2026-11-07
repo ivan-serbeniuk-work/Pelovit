@@ -1,7 +1,7 @@
 @use 'variables' as *;
 
 .hero {
-  background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
+  background: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.55) 38%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.08) 100%),
   url('/app-images/gl_face.png') center/cover no-repeat;
   min-height: 85vh;
   display: flex;
@@ -17,7 +17,7 @@
   width: 4%;
 }
 .card-pelov .mt-3 {
-  font-size: 1rem;
+  font-size: $text-base;
   color: $brown-dark;
   width: 100%;
   text-align: justify;
@@ -34,13 +34,62 @@
 }
 
 .price {
-  font-size: 1rem;
-  color: #422928;
+  font-size: $text-base;
+  color: $brown-700;
 }
 
 .buy {
   padding: 7px 16px;
   background-color: $primary-blue;
   color: $light-bg;
-  border-radius: 12px;
+  border-radius: $radius-md;
+}
+
+// Оверлей картки товару в герої (перенесено з макета).
+// Секція-носій має бути позиційним контейнером для абсолютного оверлея.
+.hero-carousel{
+  position: relative;
+}
+.hero-product-overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none; // клики проходять до каруселі, крім самої картки
+
+  .container{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .hero-product-card{
+    pointer-events: auto;
+    width: 300px;
+    max-width: 40%;
+  }
+}
+
+// На мобільному картку-оверлей ховаємо: текст слайда займає всю ширину,
+// оверлей перекривав би його.
+@media (max-width: $bp-lg){
+  .hero-product-overlay{
+    display: none;
+  }
+}
+
+// Мобільний варіант featured-товару: окремий блок під героєм. Картка трохи
+// заходить на нижній край героя (як у макеті) й центрується.
+.hero-product-mobile{
+  position: relative;
+  z-index: 3;
+  margin-top: -3rem;
+  margin-bottom: 1.5rem;
+
+  .hero-product-card{
+    max-width: 320px;
+    margin: 0 auto;
+  }
 }

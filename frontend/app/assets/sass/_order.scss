@@ -1,16 +1,16 @@
 @use 'variables' as *;
 
 body{
-  background-color: #FDFBF8;
+  background-color: $surface-raised;
 }
 .order_section{
   .checkout-card {
-    border-radius: 16px;
+    border-radius: $radius-lg;
     transition: all 0.2s;
-    background-color: #ffffff;
-    border: 1px solid #F5EDE8;
+    background-color: $surface;
+    border: 1px solid $surface-warm;
     .card-body .row{
-      color: #969696;
+      color: $text-muted;
     }
   }
   .cartItemsList{
@@ -28,19 +28,19 @@ body{
       min-width: 26px;
       height: 26px;
       padding: 0 6px;
-      border: 1px solid #E4DCD2;
-      border-radius: 8px;
-      background: #FFFEFC;
-      color: #422928;
+      border: 1px solid $border-strong;
+      border-radius: $radius-sm;
+      background: $surface;
+      color: $brown-700;
       line-height: 1;
       cursor: pointer;
 
       &:hover:not(:disabled){
-        background: #F4F0E7;
+        background: $surface-tint;
       }
 
       &:disabled{
-        color: #C2BAB1;
+        color: $brown-200;
         cursor: default;
       }
     }
@@ -49,26 +49,26 @@ body{
       min-width: 22px;
       text-align: center;
       font-weight: 600;
-      color: #422928;
+      color: $brown-700;
     }
 
     .checkout-qty__remove{
       margin-left: 0.35rem;
       border: 0;
       background: none;
-      color: #9A8F84;
-      font-size: 13px;
+      color: $text-subtle;
+      font-size: $text-xs;
       text-decoration: underline;
 
       &:hover{
-        color: #B5423A;
+        color: $danger-muted;
         background: none;
       }
     }
   }
 
   .count_rates{
-    border: 1px solid #F4F0E7;
+    border: 1px solid $surface-tint;
     width: fit-content;
   }
 
@@ -79,13 +79,13 @@ body{
   }
 
   .col-lg-5 .sticky-lg-top{
-    background-color: #FAF7F3;
+    background-color: $surface-raised;
   }
   .form-control::placeholder {
-    color: #E6E6E6;
+    color: $border;
   }
   .form-check label{
-    font-size: 0.9rem;
+    font-size: $text-sm;
   }
   .payment_icons svg{
     width: 3rem;
@@ -96,8 +96,8 @@ body{
   }
   .leve_comment{
      padding: 0 1.5rem;
-    color: #969696;
-    font-size: 0.9rem;
+    color: $text-muted;
+    font-size: $text-sm;
   }
 
   .card-header-custom {
@@ -110,24 +110,24 @@ body{
     color: #2c7d6c;
   }
   .btn-checkout-primary {
-    background-color: #69BDDB;
+    background-color: $accent-light;
     border: none;
     padding: 0.85rem 1.5rem;
     font-weight: 600;
-    font-size: 1rem;
+    font-size: $text-base;
     transition: all 0.2s;
-    border-radius: 16px;
+    border-radius: $radius-lg;
   }
   .btn-checkout-primary:hover {
     background-color: #5498b1;
-    box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+    box-shadow: $shadow-card;
   }
   .product-quantity-group {
     max-width: 110px;
   }
   .product-quantity-group .btn-outline-secondary {
-    background-color: #fff;
-    border-color: #dee2e6;
+    background-color: $surface;
+    border-color: $border-strong;
     color: #2d3e50;
   }
   .product-quantity-group .quantity-input {
@@ -135,60 +135,60 @@ body{
     text-align: center;
     border-left: none;
     border-right: none;
-    border-color: #dee2e6;
+    border-color: $border-strong;
     font-weight: 500;
   }
   .gift-change-link {
-    font-size: 0.8rem;
+    font-size: $text-xs;
     text-decoration: none;
-    border-bottom: 1px dashed #adb5bd;
+    border-bottom: 1px dashed $neutral-300;
     cursor: pointer;
   }
   .discount-badge {
-    background-color: #fef9e3;
-    border-radius: 12px;
+    background-color: $surface-tint;
+    border-radius: $radius-md;
     padding: 0.2rem 0.8rem;
   }
   hr {
     opacity: 0.5;
   }
   .payment-method-desc {
-    font-size: 0.8rem;
+    font-size: $text-xs;
     color: #556b82;
-    border-radius: 14px;
+    border-radius: $radius-md;
     padding: 0.8rem 1rem;
     margin-top: 0.5rem;
   }
   .bonus-note {
-    font-size: 0.8rem;
+    font-size: $text-xs;
     border-radius: 2rem;
     padding: 0.4rem 1rem;
     display: inline-block;
-    color: #565454;
+    color: $text-muted;
   }
   .order-total-card {
-    background: #fafcfd;
-    border-radius: 1rem;
+    background: $surface;
+    border-radius: $radius-lg;
     padding: 0.8rem;
   }
 
   .promocode_block .form-label{
-    color: #969696;
-    font-size: 0.9rem;
+    color: $text-muted;
+    font-size: $text-sm;
   }
   .promocode_block .actualize{
-    background-color: #969696CC;
+    background-color: #565454CC;
     color: white;
   }
   .text-gr{
-    color: #969696;
+    color: $text-muted;
   }
 
   .bottom_sum{
-    border-top: 1px solid #E9E8E8;
+    border-top: 1px solid $border;
   }
   .input-group{
-    border-radius: 16px;
+    border-radius: $radius-lg;
   }
 
   .np-dropdown {
@@ -200,32 +200,47 @@ body{
     margin-top: 4px;
     max-height: 240px;
     overflow-y: auto;
-    background: #ffffff;
-    border: 1px solid #F5EDE8;
-    border-radius: 12px;
-    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+    background: $surface;
+    border: 1px solid $surface-warm;
+    border-radius: $radius-md;
+    box-shadow: $shadow-raised;
     padding: 0.4rem 0;
     list-style: none;
 
     li {
       padding: 0.5rem 0.9rem;
-      font-size: 0.85rem;
+      font-size: $text-xs;
       cursor: pointer;
       color: #2d3e50;
     }
     li:hover {
-      background-color: #FAF7F3;
+      background-color: $surface-raised;
     }
   }
 
 
 
-  @media (max-width: 768px) {
+  @media (max-width: $bp-md) {
     body {
       padding: 1rem;
     }
     .card-header-custom {
       padding: 1rem 1.2rem;
     }
+  }
+}
+
+// Логотипи платіжних систем біля онлайн-оплати (компонент PaymentLogos)
+.payment-logos{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+
+  &__item{
+    width: 44px;
+    height: 28px;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
   }
 }

@@ -6,7 +6,7 @@
 }
 
 .lik_prof{
-  background-color: #E7F1F4;
+  background-color: $accent-tint;
 }
 .wrapper_date{
   display: flex;
@@ -33,11 +33,11 @@
 
 .article_section{
   .date_artc{
-    font-size: 0.9rem;
-    color: #969696;
+    font-size: $text-sm;
+    color: $text-muted;
   }
   .date{
-    font-size: 1rem;
+    font-size: $text-base;
     color: black;
   }
 

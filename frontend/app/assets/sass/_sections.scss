@@ -6,10 +6,6 @@
 }
 .promotions .product-card,
 .all_categories .product-card {
-  .tag_brown {
-    left: 12px;
-    top: 15px;
-  }
   .like {
     width: 26px;
     right: 12px;
@@ -26,9 +22,9 @@
     position: sticky;
     top: 1rem;
     padding: 1.25rem;
-    background: #FFFEFC;
-    border: 1px solid #F5EDE8;
-    border-radius: 16px;
+    background: $surface;
+    border: 1px solid $surface-warm;
+    border-radius: $radius-lg;
   }
 
   .catalog-chip {
@@ -36,25 +32,25 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.35rem 0.75rem;
-    background: #F4F0E7;
-    border: 1px solid #E4DCD2;
-    border-radius: 999px;
-    color: #422928;
-    font-size: 14px;
+    background: $surface-tint;
+    border: 1px solid $border-strong;
+    border-radius: $radius-full;
+    color: $brown-700;
+    font-size: $text-sm;
     line-height: 1.2;
     cursor: pointer;
     transition: background-color .15s ease, border-color .15s ease;
 
     &:hover {
-      background: #EDE6DE;
-      border-color: #C9BEB2;
+      background: $surface-tint;
+      border-color: $brown-200;
     }
   }
 
   .catalog-chip__x {
-    font-size: 16px;
+    font-size: $text-base;
     line-height: 1;
-    color: #8A7C6E;
+    color: $text-subtle;
   }
 
   .catalog-grid {
@@ -84,7 +80,7 @@
     padding-bottom: 4px;
     border-bottom: 1px solid;
     font-weight: 600;
-    font-size: 16px;
+    font-size: $text-base;
     line-height: 1;
     white-space: nowrap;
 
@@ -139,9 +135,9 @@
     width: 56px;
     height: 56px;
   border-radius: 50%;
-  border: 1.5px solid #d9cac4;
-  background: #fff;
-  color: #422928;
+  border: 1.5px solid $brown-200;
+  background: $surface;
+  color: $brown-700;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -149,9 +145,9 @@
   transition: background .15s, border-color .15s, color .15s;
 
   &:hover {
-    background: #422928;
-    border-color: #422928;
-    color: #fff;
+    background: $brown-700;
+    border-color: $brown-700;
+    color: $surface;
   }
 }
 
@@ -164,12 +160,12 @@
 .contact_info {
   position: relative;
   width: 100%;
-  background: linear-gradient(135deg, #3A2521 0%, $brown-bg 100%);
+  background: linear-gradient(135deg, $brown-700 0%, $brown-bg 100%);
   overflow: hidden;
   display: flex;
   align-items: center;
   padding: 2rem;
-  border-radius: 24px;
+  border-radius: $radius-xl;
 
   &::before {
     content: '';
@@ -188,7 +184,7 @@
   &_text {
     width: 75%;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: $text-base;
     line-height: 160%;
     margin-bottom: 3rem;
   }
@@ -201,7 +197,7 @@
 }
 .image-wrapper {
   flex: 1;
-  border-radius: 24px;
+  border-radius: $radius-xl;
   overflow: hidden;
   padding: 0;
 
@@ -228,7 +224,7 @@
           url('/app-images/face_washing.png');
   background-size: cover;
   background-position: center;
-  border-radius: 24px;
+  border-radius: $radius-xl;
   display: flex;
   flex-direction: row;
   align-content: center;
@@ -246,12 +242,12 @@
     margin: 0;
 
     li {
-      font-size: 20px;
+      font-size: $text-xl;
       color: white;
 
       &::before {
         content: '✔';
-        color: #444343;
+        color: $neutral-700;
       }
     }
   }
@@ -277,15 +273,20 @@
     border-radius: 1.5rem;
     padding: 1.5rem 1.5rem;
     transition: $transition-default;
-    background: #F7F4EE;
+    background: $surface-raised;
     text-align: unset;
     display: flex;
     flex-direction: column;
 
+    &:hover {
+      box-shadow: $shadow-raised;
+      transform: translateY(-3px);
+    }
+
     h3 {
       margin-bottom: 0.75rem;
       font-weight: 500;
-      font-size: 1.3rem;
+      font-size: $text-xl;
       letter-spacing: 0.02em;
       color: $blue-alt;
     }
@@ -293,7 +294,7 @@
     p {
       line-height: 1.55;
       margin: 0;
-      font-size: 18px;
+      font-size: $text-lg;
       letter-spacing: -0.02em;
       color: $text-muted;
     }
@@ -310,85 +311,3 @@
   border-radius: 50%;
 }
 
-// Partners Marquee
-.partners-section {
-  padding: 5rem 0;
-
-  h2 {
-    font-size: 2.25rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-  }
-
-  p {
-    max-width: 680px;
-    margin: 0 auto 3rem;
-    font-size: 1.1rem;
-    opacity: 0.85;
-  }
-}
-.marquee-wrapper {
-  overflow: hidden;
-  position: relative;
-  padding: 2.5rem 0;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100px;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  &::before {
-    left: 0;
-    background: linear-gradient(to right, #ffffff, transparent);
-  }
-
-  &::after {
-    right: 0;
-    background: linear-gradient(to left, #ffffff, transparent);
-  }
-
-  .marquee-track {
-    display: flex;
-    align-items: center;
-    animation: marquee 40s linear infinite;
-    width: max-content;
-      will-change: transform;
-
-      svg {
-      opacity: 0.75;
-      transition: opacity 0.3s;
-      // spacing lives on the item, not as a gap: the track holds two identical
-      // sets, so the -50% shift only lines up if the trailing space is included
-      margin-right: 4.5rem;
-      flex-shrink: 0;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-
-  &:hover .marquee-track {
-    animation-play-state: paused;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-wrapper .marquee-track {
-    animation: none;
-  }
-}
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-.container.sponsers {
-  margin: 0;
-  max-width: 100%;
-}

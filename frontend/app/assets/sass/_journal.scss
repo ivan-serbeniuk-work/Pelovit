@@ -21,7 +21,7 @@
 
 /* Medical Journal */
 .medical-journal {
-  color: #fff;
+  color: $surface;
   padding: 5rem 0;
 }
 .medical-journal .section-header h2 {
@@ -29,16 +29,16 @@
 }
 .view-all {
   text-decoration: none;
-  font-size: 1rem;
+  font-size: $text-base;
   font-weight: 500;
-  color: #1A1A1A;
+  color: $text;
   display: flex;
   align-items: center;
   padding: 16px 18px;
   gap: 10px;
   height: 51px;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 16px;
+  border-radius: $radius-lg;
 }
 .articles-grid {
   display: grid;
@@ -46,7 +46,7 @@
   gap: 1.75rem;
 }
 .article-card {
-  border-radius: 20px;
+  border-radius: $radius-xl;
   overflow: hidden;
   border: solid rgba(233, 232, 232, 1) 1px;
 }
@@ -58,7 +58,7 @@
   align-items: center;
 }
 .article-image img {
-  border-radius: 12px;
+  border-radius: $radius-md;
   background-size: cover;
   background-position: center;
   object-fit: cover;
@@ -67,8 +67,8 @@
 }
 .tag {
   position: absolute;
-  color: #1a1a1a;
-  font-size: 0.85rem;
+  color: $text;
+  font-size: $text-xs;
   font-weight: 500;
   display: flex;
   justify-content: center;
@@ -77,19 +77,19 @@
   height: 33px;
   left: 27px;
   top: 27px;
-  background: #F4F0E7;
-  border-radius: 12px;
+  background: $surface-tint;
+  border-radius: $radius-md;
 }
 .article-info {
   padding: 0 1rem 1rem 1rem;
 }
 .date {
-  font-size: 0.9rem;
-  color: #888;
+  font-size: $text-sm;
+  color: $neutral-500;
   display: block;
 }
 .article-info h3 {
-  font-size: 1.25rem;
+  font-size: $text-xl;
   line-height: 1.35;
   font-weight: 600;
   margin-bottom: 1rem;
@@ -97,12 +97,12 @@
 }
 .read-more {
   text-decoration: none !important;
-  font-size: 1rem;
+  font-size: $text-base;
   height: 19px;
   font-weight: 500;
   line-height: 19px;
   letter-spacing: 0.01em;
-  color: #1A1A1A;
+  color: $text;
   display: flex;
   width: 100%;
   justify-content: flex-end;
