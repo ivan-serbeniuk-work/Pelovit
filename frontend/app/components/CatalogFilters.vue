@@ -82,7 +82,6 @@ function resetFilters() {
           @click="toggleCategory(cat.slug)"
         >
           <span class="filter-option__name">{{ cat.name }}</span>
-          <span class="filter-option__count">{{ cat.products_count ?? 0 }}</span>
         </button>
 
         <div v-if="cat.children?.length" class="ps-2 mt-1">
@@ -97,7 +96,6 @@ function resetFilters() {
             @click="toggleCategory(child.slug)"
           >
             <span class="filter-option__name">{{ child.name }}</span>
-            <span class="filter-option__count">{{ child.products_count ?? 0 }}</span>
           </button>
         </div>
       </div>
