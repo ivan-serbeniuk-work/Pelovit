@@ -17,7 +17,8 @@ const uid = (name: string) => `${props.idPrefix}-${name}`
 const route = useRoute()
 const router = useRouter()
 
-const selectedCategory = computed(() => (route.query.category as string) ?? '')
+// Категорія переїхала в шлях (/catalog/<slug>), решта фільтрів лишилась у query.
+const selectedCategory = computed(() => (route.params.category as string) ?? '')
 const selectedBrand = computed(() => (route.query.brand as string) ?? '')
 
 const minPrice = ref((route.query.min_price as string) ?? '')
@@ -41,7 +42,11 @@ function pushQuery(patch: Record<string, any>) {
 }
 
 function toggleCategory(slug: string) {
-  pushQuery({ category: selectedCategory.value === slug ? undefined : slug })
+  const next = selectedCategory.value === slug ? '/catalog' : `/catalog/${slug}`
+
+  // Сторінку скидаємо, інші фільтри лишаємо — людина звужує вибір, а не
+  // починає з нуля.
+  router.push({ path: next, query: { ...route.query, page: undefined } })
 }
 
 function toggleBrand(brand: string) {

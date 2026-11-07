@@ -85,7 +85,7 @@ useJsonLd(() => {
   ]
 
   if (p.category?.slug) {
-    crumbs.push({ name: p.category.name, path: `/catalog?category=${p.category.slug}` })
+    crumbs.push({ name: p.category.name, path: `/catalog/${p.category.slug}` })
   }
 
   crumbs.push({ name: p.name, path: `/product/${route.params.slug}` })
@@ -209,7 +209,7 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
           <li class="breadcrumb-item"><NuxtLink to="/">Головна</NuxtLink></li>
           <li class="breadcrumb-item"><NuxtLink to="/catalog">Каталог</NuxtLink></li>
           <li v-if="product.category" class="breadcrumb-item">
-            <NuxtLink :to="`/catalog?category=${product.category.slug}`">{{ product.category.name }}</NuxtLink>
+            <NuxtLink :to="`/catalog/${product.category.slug}`">{{ product.category.name }}</NuxtLink>
           </li>
           <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
         </ol>
@@ -384,7 +384,7 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
         <div class="container">
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold">З цим товаром часто купують</h2>
-            <NuxtLink :to="product.category ? `/catalog?category=${product.category.slug}` : '/catalog'" class="view-all">Переглянути більше</NuxtLink>
+            <NuxtLink :to="product.category ? `/catalog/${product.category.slug}` : '/catalog'" class="view-all">Переглянути більше</NuxtLink>
           </div>
           <div class="row g-4">
             <div v-for="rel in related" :key="rel.id" class="col-md-3 col-6">
