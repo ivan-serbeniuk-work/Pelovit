@@ -37,6 +37,15 @@ const activeCategory = computed<any | null>(() => {
   return null
 })
 
+// Невідомий слаг бекенд просто ігнорує й віддає весь каталог із кодом 200 —
+// тобто /catalog/<що завгодно> ставало ще однією копією каталогу, яку
+// пошуковик міг проіндексувати. Віддаємо чесний 404.
+// Перевіряємо лише коли категорії приїхали: якщо API відпав, не варто
+// ховати за 404 весь каталог.
+if (categorySlug.value && categories.value.length && !activeCategory.value) {
+  throw createError({ statusCode: 404, message: 'Категорію не знайдено' })
+}
+
 const activeCategoryId = computed<number | undefined>(() => activeCategory.value?.id)
 
 // Заголовок сторінки: назва категорії, запит пошуку або просто «Каталог».
