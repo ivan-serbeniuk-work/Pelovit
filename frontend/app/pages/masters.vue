@@ -73,7 +73,7 @@ const { data: settings } = await useSettings()
     <div class="container">
       <div class="row g-5">
         <div class="col-lg-6 left-content">
-          <h1>Отримайте безкоштовний відеопротокол та розрахунок процедури</h1>
+          <h2>Отримайте безкоштовний відеопротокол та розрахунок процедури</h2>
           <p class="lead" style="font-size: 1.2rem; line-height: 1.5;">
             Залиште свої контакти — ми надішлемо 1 відеопротокол безкоштовно, а також підготуємо калькуляцію собівартості.
           </p>

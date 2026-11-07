@@ -1,11 +1,4 @@
 <script setup lang="ts">
-useSeoPage({
-  pageKey: 'catalog',
-  fallbackTitle: 'Каталог товарів — PELOVIT',
-  fallbackDescription: 'Каталог косметики PELOVIT. Лікувальні препарати, доглядова косметика, парфумована лінійка ART17. Замовляйте з доставкою по Україні.',
-  canonicalPath: '/catalog',
-})
-
 const config = useRuntimeConfig()
 const { assetUrl } = useAsset()
 const route = useRoute()
@@ -28,16 +21,66 @@ const filters = computed<Record<string, string>>(() => {
 
 const priceRange = computed(() => data.value?.price_range)
 
-// Якщо вибрана категорія — ведемо одразу в її форму, а не лише в список.
-const activeCategoryId = computed<number | undefined>(() => {
+// Вибрана категорія — потрібна і для SEO, і для дока адмінки.
+const activeCategory = computed<any | null>(() => {
   const slug = filters.value.category
-  if (!slug) return undefined
+  if (!slug) return null
   for (const cat of categories.value) {
-    if (cat.slug === slug) return cat.id
+    if (cat.slug === slug) return cat
     const child = cat.children?.find((c: any) => c.slug === slug)
-    if (child) return child.id
+    if (child) return child
   }
-  return undefined
+  return null
+})
+
+const activeCategoryId = computed<number | undefined>(() => activeCategory.value?.id)
+
+// Заголовок сторінки: назва категорії, запит пошуку або просто «Каталог».
+const pageHeading = computed(() => {
+  if (filters.value.q) return `Результати: «${filters.value.q}»`
+  return activeCategory.value?.name || 'Каталог'
+})
+
+useSeoPage({
+  pageKey: 'catalog',
+  fallbackTitle: 'Каталог товарів — PELOVIT',
+  fallbackDescription: 'Каталог косметики PELOVIT. Лікувальні препарати, доглядова косметика, парфумована лінійка ART17. Замовляйте з доставкою по Україні.',
+
+  // Категорія отримує власний canonical. Раніше він вів на /catalog — тобто
+  // ми самі казали Google, що категорія це копія каталогу, і вона не могла
+  // боротися за свої запити. Сортування й сторінки, навпаки, лишаються
+  // склеєними з базовою адресою: це той самий набір товарів.
+  canonicalPath: () => activeCategory.value
+    ? `/catalog?category=${activeCategory.value.slug}`
+    : '/catalog',
+
+  override: () => activeCategory.value
+    ? {
+        title: `${activeCategory.value.name} — купити в Україні | PELOVIT`,
+        description: `${activeCategory.value.name} від PELOVIT: натуральний склад на основі мінералів Куяльницького лиману. Доставка по Україні.`,
+      }
+    : null,
+
+  // Видача пошуку — нескінченні тонкі сторінки під кожен запит, їх не
+  // індексуємо. Посилання з них усе одно обходимо (follow).
+  robots: () => (filters.value.q ? 'noindex, follow' : null),
+})
+
+// Крихти: Головна → Каталог → Категорія.
+useJsonLd(() => {
+  const crumbs = [
+    { name: 'Головна', path: '/' },
+    { name: 'Каталог', path: '/catalog' },
+  ]
+
+  if (activeCategory.value) {
+    crumbs.push({
+      name: activeCategory.value.name,
+      path: `/catalog?category=${activeCategory.value.slug}`,
+    })
+  }
+
+  return breadcrumbList(crumbs, config.public.siteUrl)
 })
 
 useAdminEditTargets(() => [
@@ -148,7 +191,7 @@ function removeChip(patch: Record<string, any>) {
   <section class="py-5 bg-light all_categories">
     <div class="container">
       <div class="catalog-head d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
-        <h2 class="fw-bold mb-0">{{ filters.q ? `Результати: «${filters.q}»` : 'Каталог' }}</h2>
+        <h1 class="fw-bold mb-0">{{ pageHeading }}</h1>
         <div
           class="filters d-lg-none"
           data-bs-toggle="offcanvas"

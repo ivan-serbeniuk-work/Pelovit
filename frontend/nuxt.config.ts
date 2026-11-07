@@ -38,8 +38,16 @@ export default defineNuxtConfig({
         { property: 'og:locale', content: 'uk_UA' },
         { name: 'twitter:card', content: 'summary_large_image' },
         { name: 'twitter:site', content: '@pelovit' },
+        // Колір адресного рядка в мобільних браузерах — фірмовий синій.
+        { name: 'theme-color', content: '#1A7B9E' },
       ],
       link: [
+        // Іконки: без явних тегів Google бере лише /favicon.ico за замовчуванням
+        // і вимагає мінімум 48px, а iOS без apple-touch-icon малює скріншот.
+        { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+        { rel: 'icon', type: 'image/png', sizes: '192x192', href: '/icon-192.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/site.webmanifest' },
         // Раннє з'єднання з CDN шрифтів — інакше DNS+TLS до gstatic починається
         // лише після завантаження CSS і затримує промальовування тексту.
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },

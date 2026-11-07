@@ -4,6 +4,12 @@
 .promotions .card-body {
   border-top: solid $border-light;
 }
+// Слайди каруселі мають тягнутися під найвищий, інакше height:100% у
+// картки нема від чого рахуватися.
+.swiper-with-nav .swiper-slide {
+  height: auto;
+}
+
 .promotions .product-card,
 .all_categories .product-card {
   .like {
@@ -13,7 +19,9 @@
   }
 }
 .all_categories {
-  .catalog-head h2 {
+  // h1, а не h2: на сторінці каталогу не було жодного заголовка першого
+  // рівня, тож назву розділу підняли до h1.
+  .catalog-head h1 {
     font-size: clamp(1.35rem, 5vw, 2rem);
     line-height: 1.2;
   }
