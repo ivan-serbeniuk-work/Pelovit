@@ -176,7 +176,6 @@ const galleryItems = computed<GalleryItem[]>(() => {
 })
 
 const galleryImages = computed(() => galleryItems.value.filter(i => i.kind === 'image').map(i => i.src))
-const galleryVideos = computed(() => galleryItems.value.filter(i => i.kind === 'video').map(i => i.src))
 
 // Зупиняємо всі ролики при зміні слайда: інакше звук грає з-за кадру.
 function pauseGalleryVideos() {
@@ -193,22 +192,7 @@ function preloadDims(src: string) {
   img.src = src
 }
 
-// Те саме для роликів: без реальних розмірів лайтбокс відкривав вертикальне
-// відео в 16:9-рамці. preload="metadata" тягне лише заголовок файлу.
-function preloadVideoDims(src: string) {
-  if (!import.meta.client || !src || galleryDims[src]) return
-  const probe = document.createElement('video')
-  probe.preload = 'metadata'
-  probe.addEventListener('loadedmetadata', () => {
-    if (probe.videoWidth && probe.videoHeight) {
-      galleryDims[src] = { w: probe.videoWidth, h: probe.videoHeight }
-    }
-  })
-  probe.src = src
-}
-
 watch(galleryImages, (imgs) => imgs.forEach(preloadDims), { immediate: true })
-watch(galleryVideos, (srcs) => srcs.forEach(preloadVideoDims), { immediate: true })
 
 const pswpGalleryEl = ref<HTMLElement | null>(null)
 let lightbox: PhotoSwipeLightbox | null = null
@@ -218,41 +202,6 @@ onMounted(() => {
     gallery: pswpGalleryEl.value!,
     children: 'a.pswp-item',
     pswpModule: () => import('photoswipe'),
-  })
-
-  // data-pswp-type PhotoSwipe читає сам, а от свої поля треба покласти
-  // в itemData руками — інакше відео-слайд не знає, що програвати.
-  lightbox.on('itemData', (e: any) => {
-    const el = e.itemData.element as HTMLElement | undefined
-    if (el?.dataset.pswpType !== 'video') return
-
-    e.itemData.type = 'video'
-    e.itemData.videoSrc = el.dataset.videoSrc
-    e.itemData.msrc = el.querySelector('img')?.getAttribute('src') ?? undefined
-  })
-
-  // Відео PhotoSwipe «з коробки» не вміє: слайди з data-pswp-type="video"
-  // наповнюємо самі — інакше на весь екран відкрився б постер як картинка.
-  lightbox.on('contentLoad', (e: any) => {
-    const { content } = e
-    if (content.type !== 'video') return
-
-    e.preventDefault()
-    content.element = document.createElement('div')
-    content.element.className = 'pswp__video'
-
-    const video = document.createElement('video')
-    video.controls = true
-    video.playsInline = true
-    video.preload = 'metadata'
-    video.src = content.data.videoSrc
-    if (content.data.msrc) video.poster = content.data.msrc
-    content.element.appendChild(video)
-  })
-
-  // Закрили лайтбокс — ролик не має грати далі у фоні.
-  lightbox.on('close', () => {
-    document.querySelectorAll<HTMLVideoElement>('.pswp__video video').forEach(v => v.pause())
   })
 
   lightbox.init()
@@ -330,26 +279,18 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
                 >
                   <img :src="item.src" :alt="product.name" class="img-fluid product-image shadow-sm rounded">
                 </a>
-                <!-- Відео теж відкривається на весь екран: href тут потрібен
-                     лише як fallback, якщо JS не завантажився. -->
-                <a
+                <!-- Відео грає прямо в слайді: клік по постеру запускає
+                     ролик тут же, а на весь екран його розгортає штатна
+                     кнопка плеєра. Лайтбокс лишився для фото. -->
+                <video
                   v-else
-                  :href="item.src"
-                  class="pswp-item product-video-slide"
-                  data-pswp-type="video"
-                  :data-video-src="item.src"
-                  :data-pswp-width="galleryDims[item.src]?.w || 1280"
-                  :data-pswp-height="galleryDims[item.src]?.h || 720"
-                >
-                  <img v-if="item.poster" :src="item.poster" :alt="product.name" class="img-fluid product-image shadow-sm rounded">
-                  <!-- Без постера прев'ю малює сам браузер: перший кадр із
-                       метаданих. pointer-events вимкнено, щоб клік діставався
-                       посилання і відкривав лайтбокс. -->
-                  <video v-else :src="item.src" preload="metadata" muted playsinline class="img-fluid product-image shadow-sm rounded product-video-preview" />
-                  <span class="product-video-play" aria-hidden="true">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                  </span>
-                </a>
+                  :src="item.src"
+                  :poster="item.poster"
+                  controls
+                  preload="metadata"
+                  playsinline
+                  class="img-fluid product-image shadow-sm rounded product-video-slide"
+                />
               </SwiperSlide>
             </Swiper>
             <button class="gallery-nav-btn gallery-nav-prev" @click="galleryPrev" aria-label="Назад">
