@@ -183,6 +183,36 @@ function pauseGalleryVideos() {
   document.querySelectorAll<HTMLVideoElement>('.product-gallery-main video').forEach(v => v.pause())
 }
 
+// Індекс ролика, який зараз грає: по ньому ховаємо накладку з «play».
+const playingVideo = ref<number | null>(null)
+
+function playVideo(el?: HTMLVideoElement | null) {
+  if (!el) return
+
+  // Клік по стрілці чи мініатюрі — це жест користувача, тож зі звуком
+  // браузер зазвичай пускає. Якщо все ж заблокував (політика автоплею
+  // в Safari суворіша) — вмикаємо без звуку, щоб кадр не завис.
+  el.play().catch(() => {
+    el.muted = true
+    el.play().catch(() => {})
+  })
+}
+
+// Перемкнулися на слайд з відео — запускаємо його одразу, без зайвого кліку.
+function onSlideChange(swiper: any) {
+  pauseGalleryVideos()
+
+  if (!import.meta.client) return
+
+  playVideo(swiper?.slides?.[swiper.activeIndex]?.querySelector('video'))
+}
+
+function playSlideVideo(event: MouseEvent) {
+  const wrap = (event.currentTarget as HTMLElement | null)?.closest('.product-video-wrap')
+
+  playVideo(wrap?.querySelector('video'))
+}
+
 const galleryDims = reactive<Record<string, { w: number; h: number }>>({})
 
 function preloadDims(src: string) {
@@ -267,7 +297,7 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
               :thumbs="{ swiper: thumbsSwiper }"
               class="product-gallery-main mb-2"
               @swiper="setMainSwiper"
-              @slide-change="pauseGalleryVideos"
+              @slide-change="onSlideChange"
             >
               <SwiperSlide v-for="(item, i) in galleryItems" :key="i">
                 <a
@@ -282,15 +312,33 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
                 <!-- Відео грає прямо в слайді: клік по постеру запускає
                      ролик тут же, а на весь екран його розгортає штатна
                      кнопка плеєра. Лайтбокс лишився для фото. -->
-                <video
-                  v-else
-                  :src="item.src"
-                  :poster="item.poster"
-                  controls
-                  preload="metadata"
-                  playsinline
-                  class="img-fluid product-image shadow-sm rounded product-video-slide"
-                />
+                <div v-else class="product-video-wrap">
+                  <video
+                    :src="item.src"
+                    :poster="item.poster"
+                    controls
+                    preload="metadata"
+                    playsinline
+                    class="img-fluid product-image shadow-sm rounded product-video-slide"
+                    @play="playingVideo = i"
+                    @pause="playingVideo = null"
+                    @ended="playingVideo = null"
+                  />
+                  <!-- Поки ролик не йде, постер нічим не відрізняється від
+                       фото — звідси накладка, яка прямо каже, що тут відео
+                       і його треба запустити. -->
+                  <button
+                    v-if="playingVideo !== i"
+                    type="button"
+                    class="product-video-overlay"
+                    @click="playSlideVideo"
+                  >
+                    <span class="product-video-play">
+                      <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </span>
+                    <span class="product-video-hint">Дивитися відео</span>
+                  </button>
+                </div>
               </SwiperSlide>
             </Swiper>
             <button class="gallery-nav-btn gallery-nav-prev" @click="galleryPrev" aria-label="Назад">

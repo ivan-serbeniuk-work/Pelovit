@@ -67,6 +67,43 @@
   border-radius: $radius-md;
 }
 
+.product-video-wrap {
+  position: relative;
+}
+
+// Накладка поверх постера: клік по ній запускає ролик. Зникає, щойно
+// відео пішло, щоб не перекривати рідні контроли плеєра.
+.product-video-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  width: 100%;
+  border: 0;
+  border-radius: $radius-md;
+  background: rgba(44, 26, 23, .35);
+  cursor: pointer;
+
+  &:hover .product-video-play,
+  &:focus-visible .product-video-play {
+    background: rgba(44, 26, 23, .9);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
+}
+
+.product-video-hint {
+  color: $on-dark;
+  font-size: $text-sm;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .5);
+}
+
 .product-video-play {
   position: absolute;
   top: 50%;
@@ -86,6 +123,8 @@
     width: 28px;
     height: 28px;
   }
+
+  transition: background .15s;
 }
 
 // Прев'ю відео без постера: кадр малює сам <video>, але клікати по ньому
