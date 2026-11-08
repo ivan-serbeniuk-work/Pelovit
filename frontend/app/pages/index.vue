@@ -20,7 +20,12 @@ const allProducts = computed(() => data.value?.allProducts ?? [])
 
 // Картка товару в герої (перенесено з макета): перший featured, інакше перший
 // зі списку. Показується оверлеєм у правій частині героя на десктопі.
+// Картку в слайді задає сам банер (поле «Товар у картці» в адмінці).
+// Для банерів, де його не вибрали, лишається автопідбір як був.
 const heroProduct = computed(() => promotions.value[0] ?? allProducts.value[0] ?? null)
+
+// Мобільний блок під героєм показує товар першого слайда.
+const mobileHeroProduct = computed(() => banners.value[0]?.product ?? heroProduct.value)
 
 // Запасний слайд, коли в базі немає жодного банера.
 const fallbackBanner = {
@@ -76,10 +81,10 @@ function postImg(post: any) {
            не керував і не відкочував карусель на перший слайд. -->
       <template v-else>
         <div class="carousel-item active">
-          <HeroSlide :banner="banners[0]" :product="heroProduct" primary />
+          <HeroSlide :banner="banners[0]" :product="banners[0].product || heroProduct" primary />
         </div>
         <div v-for="banner in banners.slice(1)" :key="banner.id" class="carousel-item">
-          <HeroSlide :banner="banner" :product="heroProduct" />
+          <HeroSlide :banner="banner" :product="banner.product || heroProduct" />
         </div>
       </template>
     </div>
@@ -95,8 +100,8 @@ function postImg(post: any) {
   <!-- На мобільному оверлей приховано (перекривав би текст слайда); featured-товар
        показуємо окремим блоком одразу під героєм, щоб перший екран не втрачав
        картку з макета. d-lg-none — лише < 992px. -->
-  <div v-if="heroProduct" class="hero-product-mobile container d-lg-none">
-    <ProductCard :product="heroProduct" class="hero-product-card" />
+  <div v-if="mobileHeroProduct" class="hero-product-mobile container d-lg-none">
+    <ProductCard :product="mobileHeroProduct" class="hero-product-card" />
   </div>
 </section>
 

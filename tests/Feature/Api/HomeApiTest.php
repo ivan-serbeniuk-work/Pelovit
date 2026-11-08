@@ -110,4 +110,28 @@ class HomeApiTest extends TestCase
         $this->assertArrayHasKey('discount_percent', $product);
         $this->assertNotNull($product['discount_percent']);
     }
+
+    /**
+     * Товар картки в слайді героя задається в банері; неактивний товар
+     * не має приїжджати на головну навіть якщо його колись вибрали.
+     */
+    public function test_banner_carries_its_product(): void
+    {
+        $product = Product::factory()->create();
+        Banner::factory()->create(['product_id' => $product->id, 'is_active' => true]);
+
+        $banner = $this->getJson('/api/home')->assertOk()->json('banners.0');
+
+        $this->assertSame($product->id, $banner['product']['id']);
+    }
+
+    public function test_inactive_banner_product_is_not_returned(): void
+    {
+        $product = Product::factory()->inactive()->create();
+        Banner::factory()->create(['product_id' => $product->id, 'is_active' => true]);
+
+        $banner = $this->getJson('/api/home')->assertOk()->json('banners.0');
+
+        $this->assertNull($banner['product']);
+    }
 }

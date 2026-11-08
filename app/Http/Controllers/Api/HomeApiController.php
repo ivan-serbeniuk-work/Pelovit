@@ -35,7 +35,10 @@ class HomeApiController extends Controller
             ->limit(3)
             ->get();
 
+        // product — картка в слайді героя; у кожного банера свій товар,
+        // порожній лишає автовибір на боці вітрини.
         $banners = Banner::where('is_active', true)
+            ->with(['product' => fn ($q) => $q->where('is_active', true)->with('category')])
             ->orderBy('sort_order')
             ->get();
 

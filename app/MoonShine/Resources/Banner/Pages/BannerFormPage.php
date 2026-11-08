@@ -6,10 +6,12 @@ namespace App\MoonShine\Resources\Banner\Pages;
 
 use App\MoonShine\Concerns\ValidatesUploadedImages;
 use App\MoonShine\Resources\Banner\BannerResource;
+use App\MoonShine\Resources\Product\ProductResource;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
+use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\UI\Components\FormBuilder;
@@ -43,6 +45,12 @@ class BannerFormPage extends FormPage
                         Text::make('Підзаголовок', 'subtitle'),
                         Text::make('Текст кнопки', 'button_text'),
                         Url::make('Посилання', 'link'),
+                        // Картка товару в правій частині слайда. Порожньо —
+                        // вітрина сама візьме перший «обраний» товар.
+                        BelongsTo::make('Товар у картці', 'product', fn ($item) => $item->name, resource: ProductResource::class)
+                            ->nullable()
+                            ->searchable()
+                            ->hint('Показується карткою праворуч у цьому слайді. Якщо порожньо — береться перший обраний товар.'),
                     ])->columnSpan(7),
                     Column::make([
                         Image::make('Зображення', 'image')->dir('banners')->disk('public_root'),
