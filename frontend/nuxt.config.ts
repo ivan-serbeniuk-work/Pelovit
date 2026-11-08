@@ -82,6 +82,13 @@ export default defineNuxtConfig({
         '/images/**': { proxy: 'http://localhost:8000/images/**' },
         '/products/**': { proxy: 'http://localhost:8000/products/**' },
 
+        // Категорію «Лікувальні препарати» прибрано, її підкатегорії
+        // переїхали в «Мед Вироби» — старий URL веде туди ж, щоб
+        // проіндексоване посилання не давало 404.
+        '/catalog/likuvalni': {
+          redirect: { to: '/catalog/med-vyroby', statusCode: 301 },
+        },
+
         // Ребрендинг PELOVIT-R -> PELOVIT: старі URL статей
         '/journal/likuvalni-procedury-z-pelovit-r-dlya-oblychchya': {
           redirect: { to: '/journal/likuvalni-procedury-z-pelovit-dlya-oblychchya', statusCode: 301 },
