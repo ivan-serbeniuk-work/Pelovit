@@ -21,16 +21,31 @@ class HomeApiTest extends TestCase
             ->assertJsonStructure(['promotions', 'allProducts', 'categories', 'latestPosts', 'banners']);
     }
 
-    public function test_promotions_returns_only_featured_active_products(): void
+    /**
+     * Блок «Акції» наповнюється знижкою, а не прапорцем «підняти в
+     * каталозі»: раніше під цим заголовком висів товар без знижки.
+     */
+    public function test_promotions_returns_only_discounted_active_products(): void
     {
+        Product::factory()->withDiscount()->create();
+        Product::factory()->withDiscount()->inactive()->create();
         Product::factory()->featured()->create();
-        Product::factory()->featured()->inactive()->create();
         Product::factory()->create();
 
         $response = $this->getJson('/api/home');
 
         $response->assertOk()
             ->assertJsonCount(1, 'promotions');
+    }
+
+    public function test_promotions_are_sorted_by_discount_size(): void
+    {
+        Product::factory()->create(['name' => 'Мала', 'price' => 900, 'old_price' => 1000]);
+        Product::factory()->create(['name' => 'Велика', 'price' => 300, 'old_price' => 1000]);
+
+        $promotions = $this->getJson('/api/home')->assertOk()->json('promotions');
+
+        $this->assertSame('Велика', $promotions[0]['name']);
     }
 
     public function test_all_products_excludes_inactive(): void
@@ -102,7 +117,7 @@ class HomeApiTest extends TestCase
 
     public function test_product_discount_percent_is_appended(): void
     {
-        Product::factory()->featured()->withDiscount()->create();
+        Product::factory()->withDiscount()->create();
 
         $response = $this->getJson('/api/home');
 

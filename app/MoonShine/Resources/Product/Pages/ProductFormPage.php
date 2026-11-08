@@ -87,7 +87,10 @@ class ProductFormPage extends FormPage
                         Number::make('Ціна (₴)', 'price')->required()->step(0.01),
                         Number::make('Стара ціна (₴)', 'old_price')->step(0.01)->nullable(),
                         Switcher::make('Активний', 'is_active'),
-                        Switcher::make('Хіт продажів', 'is_featured'),
+                        // Не «хіт продажів»: жодної статистики за цим немає.
+                        // Прапорець лише піднімає товар у видачі.
+                        Switcher::make('Підняти в каталозі', 'is_featured')
+                            ->hint('Товар стає першим у каталозі (сортування за замовчуванням) і в блоці «Схожі товари». На блок «Акції» не впливає — туди потрапляють товари зі знижкою.'),
                     ])->columnSpan(4),
                 ]),
             ]),

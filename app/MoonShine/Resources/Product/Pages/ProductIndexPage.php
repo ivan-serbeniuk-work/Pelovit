@@ -43,7 +43,7 @@ class ProductIndexPage extends BaseIndexPage
             Text::make('Бренд', 'brand'),
             Number::make('Ціна', 'price')->sortable(),
             Switcher::make('Активний', 'is_active')->updateOnPreview(),
-            Switcher::make('Хіт', 'is_featured')->updateOnPreview(),
+            Switcher::make('Угорі', 'is_featured')->updateOnPreview(),
         ];
     }
 
@@ -80,7 +80,7 @@ class ProductIndexPage extends BaseIndexPage
             Text::make('Бренд', 'brand'),
             Range::make('Ціна (₴)', 'price')->step(10)->nullable(),
             Switcher::make('Активний', 'is_active'),
-            Switcher::make('Хіт', 'is_featured'),
+            Switcher::make('Угорі', 'is_featured'),
         ];
     }
 
@@ -92,7 +92,7 @@ class ProductIndexPage extends BaseIndexPage
         return [
             QueryTag::make('Всі', fn ($q) => $q),
             QueryTag::make('Активні', fn ($q) => $q->where('is_active', true)),
-            QueryTag::make('Хіти', fn ($q) => $q->where('is_featured', true)),
+            QueryTag::make('Підняті', fn ($q) => $q->where('is_featured', true)),
         ];
     }
 

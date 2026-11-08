@@ -14,8 +14,15 @@ class HomeApiController extends Controller
 {
     public function index(): JsonResponse
     {
+        // Блок «Акції» — товари зі справжньою знижкою. Раніше сюди
+        // потрапляли позначені «Хіт продажів», і на вітрині під заголовком
+        // «Акції» висів товар без жодної знижки. Найбільша знижка вперед.
         $promotions = Product::where('is_active', true)
-            ->where('is_featured', true)
+            ->whereNotNull('old_price')
+            ->whereColumn('old_price', '>', 'price')
+            // * 1.0 обов'язково: у SQLite (тести) ділення цілих дає ціле,
+            // і всі знижки стають нулем, тобто сортування зникає.
+            ->orderByRaw('(old_price - price) * 1.0 / old_price DESC')
             ->limit(4)
             ->with('category')
             ->get();
