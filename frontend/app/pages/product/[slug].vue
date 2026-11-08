@@ -186,31 +186,30 @@ function pauseGalleryVideos() {
 // Індекс ролика, який зараз грає: по ньому ховаємо накладку з «play».
 const playingVideo = ref<number | null>(null)
 
-function playVideo(el?: HTMLVideoElement | null) {
-  if (!el) return
-
-  // Клік по стрілці чи мініатюрі — це жест користувача, тож зі звуком
-  // браузер зазвичай пускає. Якщо все ж заблокував (політика автоплею
-  // в Safari суворіша) — вмикаємо без звуку, щоб кадр не завис.
-  el.play().catch(() => {
-    el.muted = true
-    el.play().catch(() => {})
-  })
-}
-
-// Перемкнулися на слайд з відео — запускаємо його одразу, без зайвого кліку.
-function onSlideChange(swiper: any) {
-  pauseGalleryVideos()
-
-  if (!import.meta.client) return
-
-  playVideo(swiper?.slides?.[swiper.activeIndex]?.querySelector('video'))
-}
-
 function playSlideVideo(event: MouseEvent) {
   const wrap = (event.currentTarget as HTMLElement | null)?.closest('.product-video-wrap')
+  const video = wrap?.querySelector('video')
 
-  playVideo(wrap?.querySelector('video'))
+  video?.play().catch(() => {})
+}
+
+// Пробіл/Enter запускають і ставлять на паузу ролик активного слайда —
+// але тільки коли фокус усередині галереї, щоб не відбирати пробіл у
+// прокрутки сторінки. Автозапуску немає навмисно: відео зі звуком, яке
+// починає грати саме, дратує більше, ніж зайвий клік.
+function onGalleryKeydown(event: KeyboardEvent) {
+  if (event.key !== ' ' && event.key !== 'Enter') return
+
+  const target = event.target as HTMLElement | null
+
+  // На самому плеєрі й на кнопці-накладці клавіші обробляє браузер.
+  if (target?.closest('video, button, a, input, textarea')) return
+
+  const video = mainSwiper.value?.slides?.[mainSwiper.value.activeIndex]?.querySelector('video')
+  if (!video) return
+
+  event.preventDefault()
+  video.paused ? video.play().catch(() => {}) : video.pause()
 }
 
 const galleryDims = reactive<Record<string, { w: number; h: number }>>({})
@@ -291,13 +290,13 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
 
         <!-- Галерея -->
         <template v-if="galleryItems.length > 1">
-          <div class="product-gallery-wrap">
+          <div class="product-gallery-wrap" tabindex="-1" @keydown="onGalleryKeydown">
             <Swiper
               :modules="[Thumbs]"
               :thumbs="{ swiper: thumbsSwiper }"
               class="product-gallery-main mb-2"
               @swiper="setMainSwiper"
-              @slide-change="onSlideChange"
+              @slide-change="pauseGalleryVideos"
             >
               <SwiperSlide v-for="(item, i) in galleryItems" :key="i">
                 <a
