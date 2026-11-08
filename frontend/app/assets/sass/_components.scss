@@ -354,6 +354,21 @@
   }
 }
 
+// Фільтр ціни: на телефоні поля й кнопка мають бути заввишки з палець.
+// Висота саме тут, а не в .form-control-sm, щоб не чіпати решту форм.
+.price-row {
+  @media (max-width: $bp-md) {
+    .form-control,
+    .price-apply {
+      min-height: 44px;
+    }
+
+    .price-apply {
+      padding-inline: $spacing-md;
+    }
+  }
+}
+
 .filter-hint {
   font-size: $text-xs;
   color: $text-muted;

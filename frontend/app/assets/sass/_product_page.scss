@@ -198,6 +198,13 @@
 .breadcrumb a{
   text-decoration: none;
   color: rgba(150, 150, 150, 1);
+
+  // Рядок крихт висотою 20px — для пальця замало. На телефоні додаємо
+  // вертикальні поля: висота росте до 40px, вигляд не змінюється.
+  @media (max-width: $bp-md) {
+    display: inline-block;
+    padding: 10px 0;
+  }
 }
 .breadcrumb-item.active{
   color: black;

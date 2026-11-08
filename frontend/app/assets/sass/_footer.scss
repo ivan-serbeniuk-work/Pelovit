@@ -12,6 +12,22 @@
   line-height: 1.2;
 }
 
+// Посилання в колонках футера — 20px заввишки: пальцем у таке влучають
+// через раз, а саме звідси ходять у «Обмін та повернення» й контакти.
+// На телефоні робимо рядки блоковими з полями — зона дотику 40px.
+@media (max-width: $bp-md) {
+  .loyalty-footer {
+    .list-unstyled a {
+      display: block;
+      padding: 10px 0;
+    }
+
+    .list-unstyled li {
+      margin-bottom: 0 !important;
+    }
+  }
+}
+
 .loyalty-form {
   .form-control {
     background: rgba(211, 211, 211, 0.4);

@@ -828,7 +828,10 @@ const { data: brandProducts, pending: brandProductsPending } = await useAsyncDat
         <AppPicture src="images/makeup_pencil.png" alt="Пеловіт" img-class="img-fluid" />
       </div>
 
-      <div class="table-responsive mt-5">
+      <!-- Таблиця ширша за екран телефона і скролиться вбік. Без підказки
+           це не видно: людина бачить обрізану колонку й думає, що так і є. -->
+      <p class="table-swipe-hint d-md-none">Таблицю можна гортати вбік →</p>
+      <div class="table-responsive mt-5 table-swipe">
         <table class="table align-middle custom-table">
           <thead>
             <tr>

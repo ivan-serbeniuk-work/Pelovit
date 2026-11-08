@@ -509,6 +509,11 @@
       button {
         width: 10px;
         height: 10px;
+        // Крапка лишається 10px, а палець отримує 34px: прозорі поля
+        // через background-clip, щоб вигляд не змінився.
+        padding: 12px 12px;
+        background-clip: content-box;
+        box-sizing: content-box;
         border-radius: 50%;
         border: 0;
         background-color: $brown-200;
@@ -528,6 +533,22 @@
   // (і посилання в підвалі) ховаються під нею назавжди.
   @media (max-width: $bp-md) {
     padding-bottom: calc(76px + env(safe-area-inset-bottom));
+  }
+
+  .table-swipe-hint {
+    margin: 0 0 -1rem;
+    color: $text-muted;
+    font-size: $text-sm;
+  }
+
+  // Тінь праворуч, поки є куди гортати: показує, що таблиця продовжується.
+  .table-swipe {
+    background:
+      linear-gradient(to right, $surface 30%, rgba(255, 255, 255, 0)) left center / 40px 100% no-repeat,
+      linear-gradient(to left, $surface 30%, rgba(255, 255, 255, 0)) right center / 40px 100% no-repeat,
+      radial-gradient(farthest-side at 0 50%, rgba(66, 41, 40, .18), transparent) left center / 14px 100% no-repeat,
+      radial-gradient(farthest-side at 100% 50%, rgba(66, 41, 40, .18), transparent) right center / 14px 100% no-repeat;
+    background-attachment: local, local, scroll, scroll;
   }
 
   .mobile-cta{

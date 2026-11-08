@@ -118,7 +118,7 @@ function resetFilters() {
 
     <div class="mb-4">
       <h6 class="fw-semibold mb-3">Ціна (₴)</h6>
-      <div class="d-flex gap-2 align-items-center">
+      <div class="d-flex gap-2 align-items-center price-row">
         <input
           v-model="minPrice"
           type="number"
@@ -138,7 +138,7 @@ function resetFilters() {
           aria-label="Ціна до"
           @keyup.enter="applyPrice"
         >
-        <button class="btn btn-sm btn-dark" @click="applyPrice">OK</button>
+        <button class="btn btn-sm btn-dark price-apply" @click="applyPrice">OK</button>
       </div>
       <p v-if="priceRange" class="filter-hint mt-2 mb-0">
         Товари від {{ priceRange.min }} до {{ priceRange.max }} ₴

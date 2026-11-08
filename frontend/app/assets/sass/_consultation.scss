@@ -70,6 +70,12 @@
   cursor: pointer;
   display: flex;
   margin: 0.6rem 0;
+  // Сам радіо-кружечок 16px, але клікається весь рядок — на телефоні
+  // доводимо його висоту до 44px, щоб вибір способу зв'язку не був
+  // вправою на влучність.
+  @media (max-width: $bp-md) {
+    min-height: 44px;
+  }
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
@@ -107,6 +113,12 @@
   font-size: $text-3xl;
   margin-right: 1rem;
   text-decoration: none;
+  // Іконка 25px — зона дотику має бути більшою за саму картинку.
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
 }
 .faq-section h2 {
   font-size: 2rem;
