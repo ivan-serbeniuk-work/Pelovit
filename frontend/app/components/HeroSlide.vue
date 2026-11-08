@@ -17,7 +17,14 @@ const props = withDefaults(defineProps<{
     button_text?: string | null
     link?: string | null
   }
-}>(), { primary: false })
+  /**
+   * Картка товару в правій частині слайда. Раніше вона висіла окремим
+   * оверлеєм над усією каруселлю й лишалася на місці, поки слайди
+   * їхали — виглядало так, ніби вона не частина героя. Тепер картка
+   * живе всередині слайда й рухається разом з ним.
+   */
+  product?: Record<string, any> | null
+}>(), { primary: false, product: null })
 
 const { assetUrl } = useAsset()
 
@@ -45,6 +52,15 @@ const bgStyle = computed(() => {
         >
           {{ banner.button_text }}
         </NuxtLink>
+      </div>
+    </div>
+
+    <!-- Картка товару: лежить усередині слайда, тому їде разом з ним.
+         На мобільному прихована — там вона окремим блоком під героєм,
+         інакше перекривала б текст. -->
+    <div v-if="product" class="hero-product-overlay">
+      <div class="container">
+        <ProductCard :product="product" class="hero-product-card" />
       </div>
     </div>
   </div>

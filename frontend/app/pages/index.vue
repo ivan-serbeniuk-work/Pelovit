@@ -70,16 +70,16 @@ function postImg(post: any) {
     <div class="carousel-inner">
       <!-- Якщо банерів нема — один статичний слайд, каруселі немає. -->
       <div v-if="banners.length === 0" class="carousel-item active">
-        <HeroSlide :banner="fallbackBanner" primary />
+        <HeroSlide :banner="fallbackBanner" :product="heroProduct" primary />
       </div>
       <!-- Банери: `active` на першому слайді задаємо статичним класом, щоб Vue ним
            не керував і не відкочував карусель на перший слайд. -->
       <template v-else>
         <div class="carousel-item active">
-          <HeroSlide :banner="banners[0]" primary />
+          <HeroSlide :banner="banners[0]" :product="heroProduct" primary />
         </div>
         <div v-for="banner in banners.slice(1)" :key="banner.id" class="carousel-item">
-          <HeroSlide :banner="banner" />
+          <HeroSlide :banner="banner" :product="heroProduct" />
         </div>
       </template>
     </div>
@@ -91,13 +91,6 @@ function postImg(post: any) {
         <span class="carousel-control-next-icon"></span>
       </button>
     </template>
-  </div>
-  <!-- Картка featured-товару поверх фото (перенесено з макета). Оверлей у правій
-       частині; на мобільному приховується, щоб не перекривати текст слайда. -->
-  <div v-if="heroProduct" class="hero-product-overlay">
-    <div class="container">
-      <ProductCard :product="heroProduct" class="hero-product-card" />
-    </div>
   </div>
   <!-- На мобільному оверлей приховано (перекривав би текст слайда); featured-товар
        показуємо окремим блоком одразу під героєм, щоб перший екран не втрачав
