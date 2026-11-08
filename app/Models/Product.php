@@ -61,6 +61,15 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Супутні товари, вибрані руками в адмінці. Якщо порожньо —
+     * ProductApiController бере товари тієї самої категорії.
+     */
+    public function related()
+    {
+        return $this->belongsToMany(self::class, 'product_related', 'product_id', 'related_product_id');
+    }
+
     public function getDiscountPercentAttribute(): ?int
     {
         if (! $this->old_price || $this->old_price <= $this->price) {

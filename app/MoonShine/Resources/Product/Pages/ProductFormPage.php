@@ -12,6 +12,7 @@ use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
+use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\TinyMce\Fields\TinyMce;
@@ -71,6 +72,12 @@ class ProductFormPage extends FormPage
                         Text::make('Назва', 'name')->required(),
                         Text::make('Slug', 'slug')->hint('Заповниться автоматично від назви'),
                         BelongsTo::make('Категорія', 'category', fn ($item) => $item->name, resource: CategoryResource::class)->required(),
+                        // Блок «З цим товаром часто купують» на сторінці товару.
+                        // Порожньо — вітрина показує сусідів по категорії.
+                        BelongsToMany::make('Супутні товари', 'related', fn ($item) => $item->name, resource: ProductResource::class)
+                            ->selectMode()
+                            ->searchable()
+                            ->hint('До 4 товарів у блоці «З цим товаром часто купують». Якщо порожньо — підтягнуться товари тієї ж категорії.'),
                         Text::make('Бренд', 'brand'),
                         TinyMce::make('Опис', 'description'),
                         TinyMce::make('Інструкція', 'instruction')

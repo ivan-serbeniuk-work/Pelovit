@@ -113,4 +113,53 @@ class ProductApiTest extends TestCase
         $this->assertCount(1, $videos);
         $this->assertSame('videos/clip.mp4', $videos[0]['file']);
     }
+
+    /**
+     * Блок «З цим товаром часто купують»: ручна добірка має перевагу.
+     */
+    public function test_manual_related_products_win_over_category(): void
+    {
+        $category = Category::factory()->create();
+        $other = Category::factory()->create();
+        $product = Product::factory()->create(['category_id' => $category->id]);
+        Product::factory(3)->create(['category_id' => $category->id]);
+        $picked = Product::factory()->create(['category_id' => $other->id]);
+
+        $product->related()->attach($picked->id);
+
+        $related = $this->getJson("/api/products/{$product->slug}")->assertOk()->json('related');
+
+        $this->assertCount(1, $related);
+        $this->assertSame($picked->id, $related[0]['id']);
+    }
+
+    /**
+     * Без ручної добірки — сусіди по категорії, спершу обрані, далі нові.
+     * Раніше сортування не було зовсім, тобто висіли найстаріші товари.
+     */
+    public function test_fallback_related_prefers_featured_then_newest(): void
+    {
+        $category = Category::factory()->create();
+        $product = Product::factory()->create(['category_id' => $category->id]);
+        Product::factory(5)->create(['category_id' => $category->id, 'is_featured' => false]);
+        $featured = Product::factory()->create(['category_id' => $category->id, 'is_featured' => true]);
+
+        $related = $this->getJson("/api/products/{$product->slug}")->assertOk()->json('related');
+
+        $this->assertCount(4, $related);
+        $this->assertSame($featured->id, $related[0]['id']);
+        $this->assertNotContains($product->id, array_column($related, 'id'));
+    }
+
+    public function test_inactive_product_is_not_offered_as_related(): void
+    {
+        $category = Category::factory()->create();
+        $product = Product::factory()->create(['category_id' => $category->id]);
+        $hidden = Product::factory()->inactive()->create(['category_id' => $category->id]);
+        $product->related()->attach($hidden->id);
+
+        $related = $this->getJson("/api/products/{$product->slug}")->assertOk()->json('related');
+
+        $this->assertNotContains($hidden->id, array_column($related, 'id'));
+    }
 }

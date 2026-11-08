@@ -17,6 +17,12 @@ if (error.value) throw createError({ statusCode: 404, message: 'Товар не 
 const product = computed(() => data.value?.product)
 const related = computed(() => data.value?.related ?? [])
 
+// «Часто купують» чесно звучить лише для добірки, яку зібрали руками в
+// адмінці. Коли це просто сусіди по категорії — називаємо їх схожими.
+const relatedTitle = computed(() =>
+  data.value?.related_source === 'manual' ? 'З цим товаром часто купують' : 'Схожі товари',
+)
+
 const { siteUrl } = useRuntimeConfig().public
 const canonicalUrl = computed(() => `${siteUrl}/product/${route.params.slug}`)
 
@@ -324,18 +330,17 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
                     @ended="playingVideo = null"
                   />
                   <!-- Поки ролик не йде, постер нічим не відрізняється від
-                       фото — звідси накладка, яка прямо каже, що тут відео
-                       і його треба запустити. -->
+                       фото — звідси накладка з кнопкою запуску. -->
                   <button
                     v-if="playingVideo !== i"
                     type="button"
                     class="product-video-overlay"
+                    aria-label="Відтворити відео"
                     @click="playSlideVideo"
                   >
                     <span class="product-video-play">
                       <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                     </span>
-                    <span class="product-video-hint">Дивитися відео</span>
                   </button>
                 </div>
               </SwiperSlide>
@@ -481,7 +486,7 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
       <section v-if="related.length > 0" class="py-5 all_categories often_bought">
         <div class="container">
           <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold">З цим товаром часто купують</h2>
+            <h2 class="fw-bold">{{ relatedTitle }}</h2>
             <NuxtLink :to="product.category ? `/catalog/${product.category.slug}` : '/catalog'" class="view-all">Переглянути більше</NuxtLink>
           </div>
           <div class="row g-4">
