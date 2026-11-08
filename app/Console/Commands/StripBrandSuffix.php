@@ -52,6 +52,12 @@ class StripBrandSuffix extends Command
             'og_title', 'og_description',
         ],
         'faqs' => ['question', 'answer'],
+        // Сторінка «Про нас»: тексти вкладок додалися пізніше за команду,
+        // і суфікс заїхав назад разом з ними.
+        'about_sections' => ['title', 'text'],
+        'about_values' => ['title', 'text'],
+        'about_milestones' => ['text'],
+        'about_founder' => ['name', 'role', 'quote'],
     ];
 
     public function handle(): int

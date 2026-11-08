@@ -41,6 +41,11 @@ services:
       APP_NAME: PELOVIT
       APP_ENV: production
       APP_DEBUG: "false"
+      # Логи: канал single ріс одним файлом без обмежень — у листопаді
+      # laravel.log доріс до 800 МБ на 20-гігабайтному диску. daily ріже
+      # по днях і тримає два тижні.
+      LOG_CHANNEL: daily
+      LOG_DAILY_DAYS: "14"
       APP_KEY: ${APP_KEY}
       APP_URL: ${APP_URL}
       FRONTEND_URL: ${FRONTEND_URL}
