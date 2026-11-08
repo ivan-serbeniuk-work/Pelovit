@@ -22,8 +22,8 @@ COPY . .
 # її немає в образі, Docker створює точку монтування тому від root — і
 # php-fpm (www-data) не може туди записати жодного ролика.
 RUN composer dump-autoload --optimize --no-dev --no-interaction \
-    && mkdir -p public/videos \
-    && chown -R www-data:www-data storage bootstrap/cache public/videos
+    && mkdir -p public/videos public/images/videos \
+    && chown -R www-data:www-data storage bootstrap/cache public/videos public/images/videos
 
 COPY docker/laravel/php.ini /usr/local/etc/php/conf.d/app.ini
 COPY docker/laravel/nginx.conf /etc/nginx/sites-available/default

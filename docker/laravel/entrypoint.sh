@@ -11,7 +11,9 @@ echo "Database is up."
 # Make sure storage is writable and linked (volumes may reset ownership).
 # public/videos — свіжий том, який монтується від root; тека мала, тож
 # recursive chown тут дешевий (на відміну від public/images).
+mkdir -p public/videos public/images/videos || true
 chown -R www-data:www-data storage bootstrap/cache public/videos || true
+chown www-data:www-data public/images public/images/videos || true
 php artisan storage:link || true
 
 # Run migrations, then cache config/routes/views for production

@@ -92,6 +92,12 @@ docker compose up -d --build
 - **Дані**: свіжа БД порожня. Товари/категорії — через `/admin`, або імпортуй дамп своєї
   локальної БД (`docker compose exec -T db mariadb -u root -p pelovit < dump.sql`).
 - **Ресурси**: збірка Nuxt важка для 1 ГБ RAM — swap (у тебе 2 ГБ) обов'язковий.
+- **Заливання файлів у томи руками**: розпаковувати архів у `public/images` чи
+  `public/products` тільки з `tar --no-same-owner`. Інакше tar ставить власником uid
+  з архіву (локальний користувач, 1000), php-fpm у контейнері працює від `www-data`
+  і втрачає право запису — адмінка починає віддавати 500 на будь-яке завантаження
+  («Unable to create a directory at …»). Лікується
+  `docker compose exec laravel chown -R www-data:www-data public/images public/products`.
 - **Відео в тілі статті**: редактор працює з `relative_urls: false`, тож вставлений ролик
   зберігається з абсолютним URL (`https://домен/videos/...`). Зміна домену вимагатиме
   `UPDATE posts SET body = REPLACE(body, 'https://старий', 'https://новий')`.
