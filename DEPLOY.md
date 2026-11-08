@@ -92,6 +92,9 @@ docker compose up -d --build
 - **Дані**: свіжа БД порожня. Товари/категорії — через `/admin`, або імпортуй дамп своєї
   локальної БД (`docker compose exec -T db mariadb -u root -p pelovit < dump.sql`).
 - **Ресурси**: збірка Nuxt важка для 1 ГБ RAM — swap (у тебе 2 ГБ) обов'язковий.
+- **Відео в тілі статті**: редактор працює з `relative_urls: false`, тож вставлений ролик
+  зберігається з абсолютним URL (`https://домен/videos/...`). Зміна домену вимагатиме
+  `UPDATE posts SET body = REPLACE(body, 'https://старий', 'https://новий')`.
 - **Відео**: залиті ролики лежать у томі `uploads_videos` (`public/videos`), як і фото в
   `uploads_images`. Том створюється сам при `docker compose up -d`, але на старому стеку
   його немає — тобто реліз з відео вимагає саме деплою, а не лише міграції. Ліміт файлу —

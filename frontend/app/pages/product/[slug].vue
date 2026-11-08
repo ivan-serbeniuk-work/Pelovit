@@ -4,7 +4,6 @@ import { Thumbs } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/thumbs'
 import PhotoSwipeLightbox from 'photoswipe/lightbox'
-import { videoMime } from '~/utils/media'
 import 'photoswipe/style.css'
 
 const config = useRuntimeConfig()
@@ -142,7 +141,6 @@ type GalleryItem = {
   kind: 'image' | 'video'
   src: string
   poster?: string
-  mime?: string
 }
 
 // Галерея — фото, далі залиті ролики. YouTube лишається окремим блоком
@@ -170,7 +168,6 @@ const galleryItems = computed<GalleryItem[]>(() => {
         kind: 'video',
         src: assetUrl(video.file, ''),
         poster: video.poster ? assetUrl(video.poster, '') : (product.value.image ? assetUrl(product.value.image) : undefined),
-        mime: videoMime(video.file),
       })
     })
   }
@@ -178,8 +175,8 @@ const galleryItems = computed<GalleryItem[]>(() => {
   return items
 })
 
-// Розміри підвантажуються лише для фото — у відео вони фіксовані.
 const galleryImages = computed(() => galleryItems.value.filter(i => i.kind === 'image').map(i => i.src))
+const galleryVideos = computed(() => galleryItems.value.filter(i => i.kind === 'video').map(i => i.src))
 
 // Зупиняємо всі ролики при зміні слайда: інакше звук грає з-за кадру.
 function pauseGalleryVideos() {
@@ -196,7 +193,22 @@ function preloadDims(src: string) {
   img.src = src
 }
 
+// Те саме для роликів: без реальних розмірів лайтбокс відкривав вертикальне
+// відео в 16:9-рамці. preload="metadata" тягне лише заголовок файлу.
+function preloadVideoDims(src: string) {
+  if (!import.meta.client || !src || galleryDims[src]) return
+  const probe = document.createElement('video')
+  probe.preload = 'metadata'
+  probe.addEventListener('loadedmetadata', () => {
+    if (probe.videoWidth && probe.videoHeight) {
+      galleryDims[src] = { w: probe.videoWidth, h: probe.videoHeight }
+    }
+  })
+  probe.src = src
+}
+
 watch(galleryImages, (imgs) => imgs.forEach(preloadDims), { immediate: true })
+watch(galleryVideos, (srcs) => srcs.forEach(preloadVideoDims), { immediate: true })
 
 const pswpGalleryEl = ref<HTMLElement | null>(null)
 let lightbox: PhotoSwipeLightbox | null = null
@@ -326,10 +338,14 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
                   class="pswp-item product-video-slide"
                   data-pswp-type="video"
                   :data-video-src="item.src"
-                  data-pswp-width="1280"
-                  data-pswp-height="720"
+                  :data-pswp-width="galleryDims[item.src]?.w || 1280"
+                  :data-pswp-height="galleryDims[item.src]?.h || 720"
                 >
                   <img v-if="item.poster" :src="item.poster" :alt="product.name" class="img-fluid product-image shadow-sm rounded">
+                  <!-- Без постера прев'ю малює сам браузер: перший кадр із
+                       метаданих. pointer-events вимкнено, щоб клік діставався
+                       посилання і відкривав лайтбокс. -->
+                  <video v-else :src="item.src" preload="metadata" muted playsinline class="img-fluid product-image shadow-sm rounded product-video-preview" />
                   <span class="product-video-play" aria-hidden="true">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                   </span>
@@ -353,7 +369,8 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
           >
             <SwiperSlide v-for="(item, i) in galleryItems" :key="i">
               <span class="product-thumb">
-                <img :src="item.poster || item.src" :alt="product.name + ' ' + (i + 1)" class="img-fluid rounded product-thumb-img" loading="lazy" decoding="async">
+                <img v-if="item.kind === 'image' || item.poster" :src="item.poster || item.src" :alt="product.name + ' ' + (i + 1)" class="img-fluid rounded product-thumb-img" loading="lazy" decoding="async">
+                <video v-else :src="item.src" preload="metadata" muted playsinline class="img-fluid rounded product-thumb-img product-video-preview" />
                 <span v-if="item.kind === 'video'" class="product-video-play product-video-play--thumb" aria-hidden="true">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                 </span>

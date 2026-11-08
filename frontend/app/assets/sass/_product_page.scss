@@ -83,6 +83,13 @@
   }
 }
 
+// Прев'ю відео без постера: кадр малює сам <video>, але клікати по ньому
+// не можна — клік має дістатися посилання, яке відкриває лайтбокс.
+.product-video-preview {
+  pointer-events: none;
+  background: $brown-900;
+}
+
 .product-thumb {
   position: relative;
   display: block;

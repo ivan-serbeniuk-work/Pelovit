@@ -99,6 +99,7 @@ class PostFormPage extends FormPage
                     ->dir('videos')
                     ->disk('public_root')
                     ->allowedExtensions(['mp4', 'webm'])
+                    ->removable()
                     ->hint('MP4 або WebM, до 50 МБ. Показується під шапкою статті.'),
                 Image::make('Постер', 'video_poster')
                     ->dir('images/videos')

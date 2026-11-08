@@ -62,7 +62,9 @@ defineExpose({ pause: () => videoEl.value?.pause() })
 .video-player {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  /* contain, а не cover: знімають переважно вертикально, і cover різав
+     такі ролики по боках. Темна підкладка робить поля навмисними. */
+  object-fit: contain;
   background: var(--brand-700);
 }
 </style>

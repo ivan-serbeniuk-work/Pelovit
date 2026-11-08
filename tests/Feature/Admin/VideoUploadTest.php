@@ -182,4 +182,30 @@ class VideoUploadTest extends TestCase
             'video_file' => UploadedFile::fake()->image('photo.png', 400, 300),
         ])->assertSessionHasErrors('video_file', null, 'post-resource');
     }
+
+    /**
+     * Постер лежить усередині json-колонки videos, тож під звичайний
+     * оптимізатор він не підпадав і великий PNG ліг би як є.
+     */
+    public function test_video_poster_is_downscaled_after_save(): void
+    {
+        $disk = Storage::fake('public_root');
+        $product = $this->product();
+
+        $this->submit('product-resource', $product->getKey(), [
+            ...$this->productPayload($product),
+            'videos' => [[
+                'file' => $this->fakeVideo(),
+                'poster' => UploadedFile::fake()->image('poster.png', 3200, 2400),
+            ]],
+        ])->assertStatus(302)->assertSessionHasNoErrors();
+
+        $poster = $product->fresh()->videos[0]['poster'] ?? null;
+        $this->assertNotNull($poster);
+
+        [$width, $height] = getimagesize($disk->path($poster));
+
+        $this->assertSame(1920, $width);
+        $this->assertSame(1440, $height);
+    }
 }

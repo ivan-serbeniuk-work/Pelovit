@@ -26,6 +26,9 @@ class ProductResource extends ModelResource
     /** @var list<string> Колонки-галереї: масив шляхів. */
     protected array $imageGalleryColumns = ['images'];
 
+    /** @var array<string, string> Картинки всередині json: постер кожного ролика. */
+    protected array $imageJsonColumns = ['videos' => 'poster'];
+
     protected string $model = Product::class;
 
     protected string $title = 'Товари';

@@ -15,6 +15,10 @@ use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
  *
  *     protected array $imageColumns = ['image'];
  *     protected array $imageGalleryColumns = ['images'];
+ *     protected array $imageJsonColumns = ['videos' => 'poster'];
+ *
+ * Останній — для картинок усередині json-колонки з рядками-об'єктами
+ * (постер відео лежить саме так), інакше такий файл повз оптимізатор.
  */
 trait OptimizesUploadedImages
 {
@@ -47,6 +51,19 @@ trait OptimizesUploadedImages
             if (\is_array($value)) {
                 $optimizer->optimizeMany($value, $this->imageDisk());
             }
+        }
+
+        foreach ($this->imageJsonColumns ?? [] as $column => $key) {
+            $rows = $model->{$column} ?? null;
+
+            if (! \is_array($rows)) {
+                continue;
+            }
+
+            $optimizer->optimizeMany(
+                array_filter(array_column($rows, $key)),
+                $this->imageDisk(),
+            );
         }
     }
 

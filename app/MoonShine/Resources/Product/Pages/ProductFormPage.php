@@ -119,10 +119,14 @@ class ProductFormPage extends FormPage
                 // перший кадр, бо плеєр вантажиться з preload="metadata".
                 Json::make('Відеофайли', 'videos')
                     ->fields([
+                        // removable, на відміну від полів із картинками:
+                        // ролик на 50 МБ не можна лишати на диску назавжди
+                        // тільки тому, що його нема чим прибрати.
                         File::make('Відео', 'file')
                             ->dir('videos')
                             ->disk('public_root')
-                            ->allowedExtensions(['mp4', 'webm']),
+                            ->allowedExtensions(['mp4', 'webm'])
+                            ->removable(),
                         Image::make('Постер', 'poster')
                             ->dir('images/videos')
                             ->disk('public_root'),
