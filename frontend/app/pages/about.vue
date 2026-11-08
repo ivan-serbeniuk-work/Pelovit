@@ -165,7 +165,7 @@ const watchUsShots = ['catname4.png', 'face_washing.png', 'catname5.png', 'catna
             decoding="async"
           >
 
-          <h4 class="fw-bold">{{ founder.name }}</h4>
+          <h4 v-if="founder.name" class="fw-bold">{{ founder.name }}</h4>
           <p v-if="founder.role" class="mb-3">{{ founder.role }}</p>
 
           <p v-if="founder.quote" class="fst-italic">«{{ founder.quote }}»</p>
