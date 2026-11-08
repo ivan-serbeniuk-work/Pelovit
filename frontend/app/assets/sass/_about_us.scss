@@ -274,6 +274,50 @@
     object-fit: cover;
   }
 }
+// Нік поруч із заголовком: єдине місце, звідки видно, куди ведуть плитки.
+.watcheus_handle{
+  margin-left: $spacing-md;
+  color: $accent;
+  text-decoration: none;
+  font-size: $text-lg;
+
+  &:hover,
+  &:focus-visible{
+    color: $accent-dark;
+    text-decoration: underline;
+  }
+}
+// Плитка-посилання: іконка проявляється на ховері, картинка трохи темнішає,
+// щоб білий значок читався на будь-якому фото.
+.watcheus_tile{
+  position: relative;
+  display: block;
+  width: fit-content;
+  border-radius: $radius-lg;
+  overflow: hidden;
+
+  &__badge{
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $on-dark;
+    background: rgba(44, 26, 23, .35);
+    opacity: 0;
+    transition: $transition-default;
+  }
+
+  &:hover &__badge,
+  &:focus-visible &__badge{
+    opacity: 1;
+  }
+
+  &:focus-visible{
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
+}
 .section-title{
   margin-bottom: 48px;
 }

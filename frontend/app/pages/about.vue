@@ -16,7 +16,8 @@ const { data } = await useFetch<any>(`${config.public.apiBase}/about`)
 const { data: settings } = await useSettings()
 
 useAdminEditTargets(() => [
-  'about-founder', 'about-stat', 'about-value', 'about-milestone', 'about-section', 'settings',
+  'about-founder', 'about-stat', 'about-value', 'about-milestone', 'about-section',
+  'about-social-shot', 'settings',
 ])
 
 const founder = computed<any | null>(() => data.value?.founder ?? null)
@@ -65,7 +66,22 @@ const intro = text('about_intro', 'Аксімед — це інноваційн�
 const awardsTitle = text('about_awards_title', 'Робота Аксімед неодноразово відмічена нагородами')
 const certTitle = text('about_cert_title', 'Аксімед має європейську сертифікацію GMP ISO 22716')
 
-const watchUsShots = ['catname4.png', 'face_washing.png', 'catname5.png', 'catname3.png']
+// Блок «Слідкуйте за нами». Раніше тут був масив із чотирьох картинок
+// каталогу без підписів і посилань — заголовок кликав стежити, а плитки
+// нікуди не вели. Тепер вони редагуються в адмінці.
+const socialShots = computed<any[]>(() => data.value?.social_shots ?? [])
+const instagramUrl = computed(() => settings.value?.instagram_url || '')
+
+// Нік дістаємо з посилання, щоб не заводити окреме поле в налаштуваннях.
+const instagramHandle = computed(() => {
+  const match = String(instagramUrl.value).match(/instagram\.com\/([^/?#]+)/i)
+
+  return match?.[1] ? `@${match[1]}` : ''
+})
+
+// Плитка без власного посилання веде на профіль: клік по фото не має
+// лишатися без відповіді. Нема ні того, ні того — лишається картинкою.
+const shotLink = (shot: any) => shot.url || instagramUrl.value || ''
 </script>
 
 <template>
@@ -226,13 +242,37 @@ const watchUsShots = ['catname4.png', 'face_washing.png', 'catname5.png', 'catna
   </div>
 </section>
 
-<section class="watcheus_section">
+<section v-if="socialShots.length" class="watcheus_section">
   <div class="container">
     <div class="row g-4">
-      <h2>Слідкуйте за нами</h2>
+      <h2>
+        Слідкуйте за нами
+        <a
+          v-if="instagramHandle"
+          :href="instagramUrl"
+          target="_blank"
+          rel="noopener"
+          class="watcheus_handle"
+        >{{ instagramHandle }}</a>
+      </h2>
 
-      <div v-for="shot in watchUsShots" :key="shot" class="col-md-3 col-6">
-        <img :src="assetUrl(`images/${shot}`)" alt="" class="img-fluid" loading="lazy" decoding="async">
+      <div v-for="shot in socialShots" :key="shot.id" class="col-md-3 col-6">
+        <!-- Плитка стає посиланням лише коли є куди вести: порожнє <a>
+             ловить фокус і обіцяє перехід, якого не буде. -->
+        <component
+          :is="shotLink(shot) ? 'a' : 'div'"
+          v-bind="shotLink(shot) ? { href: shotLink(shot), target: '_blank', rel: 'noopener' } : {}"
+          class="watcheus_tile"
+        >
+          <img :src="assetUrl(shot.image)" :alt="shot.alt || ''" class="img-fluid" loading="lazy" decoding="async">
+          <span v-if="shotLink(shot)" class="watcheus_tile__badge" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+            </svg>
+          </span>
+        </component>
       </div>
     </div>
   </div>

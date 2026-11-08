@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AboutFounder;
 use App\Models\AboutMilestone;
 use App\Models\AboutSection;
+use App\Models\AboutSocialShot;
 use App\Models\AboutStat;
 use App\Models\AboutValue;
 use Illuminate\Http\JsonResponse;
@@ -23,6 +24,9 @@ class AboutApiController extends Controller
             'stats' => AboutStat::active()->get(['id', 'value', 'label']),
             'sections' => AboutSection::active()->get(['id', 'title', 'text', 'image']),
             'values' => AboutValue::active()->get(['id', 'title', 'text', 'icon']),
+            // Плитки блоку «Слідкуйте за нами». Посилання може бути
+            // порожнім — вітрина тоді веде на профіль із налаштувань.
+            'social_shots' => AboutSocialShot::active()->get(['id', 'image', 'url', 'alt']),
             // Віхи розкладені двома рядами, як у макеті, — щоб вітрина
             // не фільтрувала той самий список двічі.
             'milestones' => [

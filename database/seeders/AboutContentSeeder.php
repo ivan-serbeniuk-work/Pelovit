@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\AboutFounder;
 use App\Models\AboutMilestone;
 use App\Models\AboutSection;
+use App\Models\AboutSocialShot;
 use App\Models\AboutStat;
 use App\Models\AboutValue;
 use Illuminate\Database\Seeder;
@@ -135,6 +136,24 @@ SVG,
         foreach ($values as $i => $item) {
             AboutValue::updateOrCreate(
                 ['title' => $item['title']],
+                [...$item, 'sort_order' => $i + 1, 'is_active' => true],
+            );
+        }
+
+        // Плитки «Слідкуйте за нами». Раніше це був захардкожений у
+        // about.vue масив із чотирьох картинок каталогу — переносимо їх
+        // як є, щоб блок не спорожнів, але вже з alt і без посилань:
+        // справжні кадри з інстаграму має дати клієнт.
+        $shots = [
+            ['image' => 'images/catname4.png', 'alt' => 'Догляд за шкірою Pelovit'],
+            ['image' => 'images/face_washing.png', 'alt' => 'Очищення шкіри обличчя'],
+            ['image' => 'images/catname5.png', 'alt' => 'Засоби Pelovit'],
+            ['image' => 'images/catname3.png', 'alt' => 'Косметика на основі пелоїдів'],
+        ];
+
+        foreach ($shots as $i => $item) {
+            AboutSocialShot::updateOrCreate(
+                ['image' => $item['image']],
                 [...$item, 'sort_order' => $i + 1, 'is_active' => true],
             );
         }

@@ -8,6 +8,7 @@ use App\MoonShine\Pages\SettingsPage;
 use App\MoonShine\Resources\AboutFounder\AboutFounderResource;
 use App\MoonShine\Resources\AboutMilestone\AboutMilestoneResource;
 use App\MoonShine\Resources\AboutSection\AboutSectionResource;
+use App\MoonShine\Resources\AboutSocialShot\AboutSocialShotResource;
 use App\MoonShine\Resources\AboutStat\AboutStatResource;
 use App\MoonShine\Resources\AboutValue\AboutValueResource;
 use App\MoonShine\Resources\Banner\BannerResource;
@@ -60,6 +61,7 @@ class MoonShineServiceProvider extends ServiceProvider
                 AboutMilestoneResource::class,
                 AboutSectionResource::class,
                 AboutFounderResource::class,
+                AboutSocialShotResource::class,
             ])
             ->pages([
                 ...$core->getConfig()->getPages(),

@@ -8,6 +8,7 @@ use App\MoonShine\Pages\SettingsPage;
 use App\MoonShine\Resources\AboutFounder\AboutFounderResource;
 use App\MoonShine\Resources\AboutMilestone\AboutMilestoneResource;
 use App\MoonShine\Resources\AboutSection\AboutSectionResource;
+use App\MoonShine\Resources\AboutSocialShot\AboutSocialShotResource;
 use App\MoonShine\Resources\AboutStat\AboutStatResource;
 use App\MoonShine\Resources\AboutValue\AboutValueResource;
 use App\MoonShine\Resources\Banner\BannerResource;
@@ -71,6 +72,7 @@ final class MoonShineLayout extends AppLayout
                 MenuItem::make(AboutMilestoneResource::class, 'Історія')->icon('clock'),
                 MenuItem::make(AboutSectionResource::class, 'Вкладки')->icon('rectangle-stack'),
                 MenuItem::make(AboutFounderResource::class, 'Засновник')->icon('user-circle'),
+                MenuItem::make(AboutSocialShotResource::class, 'Слідкуйте за нами')->icon('camera'),
             ])->icon('pencil-square'),
             MenuGroup::make('Калькулятор', [
                 MenuItem::make(CalculatorOptionResource::class, 'Опції')->icon('adjustments-horizontal'),
