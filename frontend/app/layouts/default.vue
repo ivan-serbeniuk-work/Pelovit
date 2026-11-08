@@ -104,11 +104,29 @@
                 class="form-control form-control-lg"
                 placeholder="Пошук товарів..."
                 autocomplete="off"
+                role="combobox"
+                aria-controls="search-suggest-list"
+                aria-autocomplete="list"
+                :aria-expanded="suggestOpen"
+                :aria-activedescendant="activeIndex >= 0 ? `search-suggest-${activeIndex}` : undefined"
+                @input="onSearchInput"
+                @keydown.down.prevent="moveActive(1)"
+                @keydown.up.prevent="moveActive(-1)"
               >
               <button type="submit" class="btn btn-dark px-4">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="#fff" stroke-width="1.5"/><path d="M13.5 13.5L17 17" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
               </button>
             </form>
+            <SearchSuggest
+              v-if="suggestOpen"
+              :items="suggestItems"
+              :active-index="activeIndex"
+              :loading="suggestLoading"
+              :query="searchQuery.trim()"
+              :total="suggestResults.total"
+              @select="selectSuggestion"
+              @hover="activeIndex = $event"
+            />
             <button class="search-overlay-close" @click="closeSearch" aria-label="Закрити">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"/></svg>
             </button>
@@ -249,6 +267,7 @@
 </template>
 
 <script setup lang="ts">
+import type { SuggestItem } from '~/components/SearchSuggest.vue'
 import { useCartStore } from '~/stores/cart'
 import { useWishlistStore } from '~/stores/wishlist'
 
@@ -319,6 +338,44 @@ const searchOpen = ref(false)
 const searchQuery = ref('')
 const searchInput = ref<HTMLInputElement | null>(null)
 
+const {
+  results: suggestResults,
+  loading: suggestLoading,
+  search: runSuggest,
+  clear: clearSuggest,
+  MIN_LENGTH,
+} = useSearchSuggest()
+
+const activeIndex = ref(-1)
+
+// Плоский список: стрілки мають ходити крізь групи як по одному переліку.
+const suggestItems = computed<SuggestItem[]>(() => {
+  const items: SuggestItem[] = [
+    ...suggestResults.value.products.map(product => ({ kind: 'product' as const, product })),
+    ...suggestResults.value.categories.map(category => ({ kind: 'category' as const, category })),
+  ]
+
+  if (suggestResults.value.total > suggestResults.value.products.length) {
+    items.push({ kind: 'all' })
+  }
+
+  return items
+})
+
+const suggestOpen = computed(() => searchQuery.value.trim().length >= MIN_LENGTH)
+
+function onSearchInput() {
+  activeIndex.value = -1
+  runSuggest(searchQuery.value)
+}
+
+function moveActive(step: number) {
+  const count = suggestItems.value.length
+  if (!count) return
+
+  activeIndex.value = (activeIndex.value + step + count + 1) % (count + 1) - 1
+}
+
 function openSearch() {
   searchOpen.value = true
   nextTick(() => searchInput.value?.focus())
@@ -327,9 +384,38 @@ function openSearch() {
 function closeSearch() {
   searchOpen.value = false
   searchQuery.value = ''
+  activeIndex.value = -1
+  clearSuggest()
+}
+
+function selectSuggestion(item: SuggestItem) {
+  if (item.kind === 'product') {
+    const slug = item.product.slug
+    closeSearch()
+    router.push(`/product/${slug}`)
+    return
+  }
+
+  if (item.kind === 'category') {
+    const slug = item.category.slug
+    closeSearch()
+    router.push(`/catalog/${slug}`)
+    return
+  }
+
+  submitSearch()
 }
 
 function submitSearch() {
+  // Enter із підсвіченим рядком відкриває саме його, без підсвітки —
+  // звичайний перехід у каталог.
+  const active = suggestItems.value[activeIndex.value]
+
+  if (active && active.kind !== 'all') {
+    selectSuggestion(active)
+    return
+  }
+
   const q = searchQuery.value.trim()
   if (!q) return
   closeSearch()

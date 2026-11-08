@@ -279,9 +279,22 @@ function removeChip(chip: { patch?: Record<string, any>, path?: string }) {
               <span class="visually-hidden">Завантаження товарів</span>
             </div>
 
-            <p v-if="!products.data?.length && !isLoading" class="text-muted py-4">
-              За цими фільтрами товарів немає. Спробуйте прибрати частину умов.
-            </p>
+            <!-- Порожня видача: для пошуку текст про фільтри був мимо —
+                 людина шукала слово, а їй радили «прибрати умови». -->
+            <div v-if="!products.data?.length && !isLoading" class="py-4">
+              <template v-if="filters.q">
+                <p class="fw-medium mb-1">Нічого не знайшли за запитом «{{ filters.q }}»</p>
+                <p class="text-muted mb-3">
+                  Перевірте розкладку клавіатури й друкарські помилки або спробуйте коротший запит.
+                </p>
+                <button class="btn btn-outline-dark rounded-pill px-4" @click="removeChip({ patch: { q: undefined } })">
+                  Очистити пошук
+                </button>
+              </template>
+              <p v-else class="text-muted mb-0">
+                За цими фільтрами товарів немає. Спробуйте прибрати частину умов.
+              </p>
+            </div>
 
             <div v-else class="row g-4">
               <div v-for="product in products.data" :key="product.id" class="col-xl-4 col-md-6 col-6">

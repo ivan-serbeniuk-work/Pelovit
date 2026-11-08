@@ -428,6 +428,91 @@
   &:hover { opacity: 1; }
 }
 
+// Випадайка підказок під полем пошуку.
+.search-suggest {
+  margin-top: $spacing-sm;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  box-shadow: $shadow-raised;
+  overflow: hidden;
+  // На мобільному оверлей починається з відступу зверху, тож довгий
+  // список має скролитися всередині себе, а не ховатися за екраном.
+  max-height: 60vh;
+  overflow-y: auto;
+
+  &__status {
+    margin: 0;
+    padding: $spacing-md;
+    color: $text-muted;
+    font-size: $text-sm;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    padding: $spacing-sm $spacing-md;
+    cursor: pointer;
+
+    & + & {
+      border-top: 1px solid $border;
+    }
+
+    &.is-active {
+      background: $accent-tint;
+    }
+  }
+
+  &__thumb {
+    width: 44px;
+    height: 44px;
+    object-fit: cover;
+    border-radius: $radius-sm;
+    flex: 0 0 auto;
+  }
+
+  &__badge {
+    padding: 2px $spacing-sm;
+    border-radius: $radius-full;
+    background: $surface-tint;
+    color: $text-muted;
+    font-size: $text-xs;
+    flex: 0 0 auto;
+  }
+
+  &__name {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__price {
+    flex: 0 0 auto;
+    color: $brown-700;
+    font-size: $text-sm;
+
+    s {
+      margin-left: $spacing-xs;
+      color: $text-subtle;
+    }
+  }
+
+  &__all {
+    color: $accent;
+    font-weight: 500;
+  }
+}
+
+
 .search-fade-enter-active,
 .search-fade-leave-active { transition: opacity .2s ease; }
 .search-fade-enter-from,

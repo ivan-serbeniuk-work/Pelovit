@@ -46,19 +46,31 @@ class CatalogApiController extends Controller
         $products = Product::where('is_active', true)
             ->with('category')
             ->when($categoryIds, fn ($q) => $q->whereIn('category_id', $categoryIds))
-            ->when($request->q, fn ($q, $search) => $q->where('name', 'like', "%{$search}%"))
+            ->search($request->query('q'))
             ->when($request->brand, fn ($q, $brand) => $q->where('brand', $brand))
             ->when($request->min_price, fn ($q, $min) => $q->where('price', '>=', $min))
             ->when($request->max_price, fn ($q, $max) => $q->where('price', '<=', $max))
             ->when($request->boolean('on_sale'), fn ($q) => $q->whereNotNull('old_price')->whereColumn('old_price', '>', 'price'))
-            ->when($request->sort, function ($q, $sort) {
-                match ($sort) {
-                    'price_asc' => $q->orderBy('price'),
-                    'price_desc' => $q->orderByDesc('price'),
-                    'new' => $q->orderByDesc('created_at'),
-                    default => $q->orderByDesc('is_featured'),
-                };
-            })
+            // Явний вибір користувача головніший за релевантність; якщо
+            // сортування не задано, але є пошук — сортуємо за збігом.
+            // Без жодного ORDER BY (як було раніше) порядок визначало
+            // сховище, і той самий товар міг з'явитися на двох сторінках.
+            ->when(
+                $request->sort,
+                function ($q, $sort) {
+                    match ($sort) {
+                        'price_asc' => $q->orderBy('price'),
+                        'price_desc' => $q->orderByDesc('price'),
+                        'new' => $q->orderByDesc('created_at'),
+                        default => $q->orderByDesc('is_featured'),
+                    };
+
+                    $q->orderBy('id');
+                },
+                fn ($q) => $request->filled('q')
+                    ? $q->orderByRelevance($request->query('q'))
+                    : $q->orderByDesc('is_featured')->orderBy('id'),
+            )
             ->paginate(12)
             ->withQueryString();
 

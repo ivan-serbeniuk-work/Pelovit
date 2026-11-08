@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Concerns\CleansUpVideoFiles;
 use App\Models\Concerns\HasYoutubeId;
+use App\Models\Concerns\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -13,6 +14,7 @@ class Product extends Model
     use CleansUpVideoFiles;
     use HasFactory;
     use HasYoutubeId;
+    use Searchable;
 
     protected static function boot(): void
     {
@@ -55,6 +57,14 @@ class Product extends Model
     ];
 
     protected $appends = ['discount_percent', 'youtube_id'];
+
+    /**
+     * Колонки пошуку в порядку важливості: назва важить найбільше,
+     * опис — найменше (див. трейт Searchable).
+     *
+     * @var list<string>
+     */
+    protected static array $searchColumns = ['name', 'brand', 'description', 'meta_keywords'];
 
     public function category()
     {

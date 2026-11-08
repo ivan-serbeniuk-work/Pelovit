@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\OrderApiController;
 use App\Http\Controllers\Api\OrderTrackController;
 use App\Http\Controllers\Api\ProductApiController;
 use App\Http\Controllers\Api\PromoCodeApiController;
+use App\Http\Controllers\Api\SearchApiController;
 use App\Http\Controllers\Api\SubscribeController;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,10 @@ Route::get('/journal', [JournalApiController::class, 'index']);
 Route::get('/journal/{slug}', [JournalApiController::class, 'show']);
 Route::get('/contacts', [ContactsApiController::class, 'index']);
 Route::get('/about', [AboutApiController::class, 'index']);
+
+// Підказки пошуку: ендпоїнт смикається на кожне натискання клавіші,
+// тож тротлінг тут обов'язковий, інакше це найдешевший спосіб покласти сайт.
+Route::get('/search/suggest', [SearchApiController::class, 'suggest'])->middleware('throttle:120,1');
 
 // Посилання на редагування в адмінці — потребує сесійної куки MoonShine.
 // Сторінка просить одразу всі свої цілі: /admin/edit-links?targets=product:18,faq

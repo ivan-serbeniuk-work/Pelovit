@@ -136,6 +136,90 @@ class CatalogApiTest extends TestCase
         $this->assertEquals(1, $response->json('products.total'));
     }
 
+    /**
+     * Нижній регістр кирилиці: LOWER() у SQLite знає лише ASCII, тому цей
+     * тест ловить розходження тестів із продом (див. AppServiceProvider).
+     */
+    public function test_search_is_case_insensitive_for_cyrillic(): void
+    {
+        Product::factory()->create(['name' => 'Крем для обличчя']);
+
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=крем')->json('products.total'));
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=КРЕМ')->json('products.total'));
+    }
+
+    /** Слова шукаються окремо й у будь-якому порядку. */
+    public function test_search_matches_separate_words_in_any_order(): void
+    {
+        Product::factory()->create(['name' => 'Крем для обличчя денний']);
+        Product::factory()->create(['name' => 'Маска глиняна']);
+
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=крем денний')->json('products.total'));
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=денний крем')->json('products.total'));
+        $this->assertEquals(0, $this->getJson('/api/catalog?q=крем нічний')->json('products.total'));
+    }
+
+    public function test_search_looks_into_brand_and_description(): void
+    {
+        Product::factory()->create(['name' => 'Маска глиняна', 'brand' => 'PELOVIT']);
+        Product::factory()->create(['name' => 'Гель', 'description' => 'З екстрактом пелоїдів Куяльника']);
+
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=pelovit')->json('products.total'));
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=куяльника')->json('products.total'));
+    }
+
+    /** Забули перемкнути розкладку або пишуть латиницею. */
+    public function test_search_handles_keyboard_layout_and_translit(): void
+    {
+        Product::factory()->create(['name' => 'Крем для обличчя']);
+
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=rhtv')->json('products.total'));
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=krem')->json('products.total'));
+    }
+
+    /** «%» і «_» — звичайні символи запиту, а не шаблон LIKE. */
+    public function test_search_treats_wildcards_literally(): void
+    {
+        Product::factory()->create(['name' => 'Знижка 50% на догляд']);
+        Product::factory()->create(['name' => 'Крем для обличчя']);
+
+        // %25 — це «%» у адресі; без кодування PHP просто викине символ.
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=50%25')->json('products.total'));
+        // Якби «%» лишався шаблоном, тут повернувся б увесь каталог (2).
+        // Він шукається буквально, тож знаходиться лише товар зі знижкою.
+        $this->assertEquals(1, $this->getJson('/api/catalog?q=%25')->json('products.total'));
+        $this->assertEquals(0, $this->getJson('/api/catalog?q='.urlencode('к_ем'))->json('products.total'));
+    }
+
+    public function test_search_ranks_name_matches_above_description_matches(): void
+    {
+        Product::factory()->create(['name' => 'Гель очищувальний', 'description' => 'Крем у складі немає']);
+        Product::factory()->create(['name' => 'Крем нічний відновлювальний']);
+        Product::factory()->create(['name' => 'Крем']);
+
+        $slugs = collect($this->getJson('/api/catalog?q=крем')->json('products.data'))->pluck('name')->all();
+
+        $this->assertSame(['Крем', 'Крем нічний відновлювальний', 'Гель очищувальний'], $slugs);
+    }
+
+    public function test_explicit_sort_wins_over_relevance(): void
+    {
+        Product::factory()->create(['name' => 'Крем', 'price' => 900]);
+        Product::factory()->create(['name' => 'Крем нічний', 'price' => 100]);
+
+        $names = collect($this->getJson('/api/catalog?q=крем&sort=price_asc')->json('products.data'))
+            ->pluck('name')->all();
+
+        $this->assertSame(['Крем нічний', 'Крем'], $names);
+    }
+
+    public function test_search_skips_inactive_products(): void
+    {
+        Product::factory()->inactive()->create(['name' => 'Крем прихований']);
+
+        $this->assertEquals(0, $this->getJson('/api/catalog?q=крем')->json('products.total'));
+    }
+
     public function test_sort_price_asc(): void
     {
         Product::factory()->create(['price' => 300]);
