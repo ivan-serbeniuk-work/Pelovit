@@ -524,6 +524,12 @@
     }
   }
 
+  // Плаваюча кнопка перекриває низ сторінки: без відступу останній блок
+  // (і посилання в підвалі) ховаються під нею назавжди.
+  @media (max-width: $bp-md) {
+    padding-bottom: calc(76px + env(safe-area-inset-bottom));
+  }
+
   .mobile-cta{
     display: none;
 

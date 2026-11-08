@@ -1,5 +1,23 @@
 @use 'variables' as *;
 
+// Поля вводу на телефоні — не менше 16px. Safari на iOS автоматично
+// наближає сторінку, щойно фокус потрапляє в поле з меншим шрифтом, і
+// назад вона вже не від'їжджає — користувач лишається на «зумленому»
+// каталозі. Це стосується і .form-control-sm у фільтрах ціни.
+@media (max-width: $bp-md) {
+  input,
+  select,
+  textarea,
+  .form-control,
+  .form-select,
+  // Тег + клас навмисно: інакше правило програє бутстраповському
+  // .form-select-sm, який приїжджає з CDN після наших стилів.
+  input.form-control-sm,
+  select.form-select-sm {
+    font-size: 16px;
+  }
+}
+
 @media (max-width: $bp-lg) {
   // .hero має min-height: 85vh і align-items: center. На телефоні його вміст
   // (заголовок + список + картки) вищий за екран, а центрований flex-вміст,
@@ -214,6 +232,15 @@
     .hero { min-height: 55vh; }
     .row.align-items-center .mob{
       text-align: center !important;
+    }
+
+    // Крапки перемикання були 30×23 — промахнутися пальцем легше, ніж
+    // влучити. Сама смужка лишається тією ж, росте тільки зона дотику
+    // (прозорі поля через background-clip).
+    .carousel-indicators button {
+      height: 44px;
+      padding: 20px 0;
+      background-clip: content-box;
     }
   }
 

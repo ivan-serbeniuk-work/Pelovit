@@ -31,9 +31,18 @@
 
   .like {
     position: absolute;
-    width: 26px;
-    right: 12px;
-    top: 13px;
+    right: 4px;
+    top: 5px;
+    // Сама іконка лишається 26px, але кнопка має бути не меншою за палець:
+    // 26×26 на телефоні промахуються майже всі.
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+
+    svg { width: 23px; height: 21px; }
   }
 
   .card-body {
@@ -148,13 +157,23 @@
     position: absolute;
     bottom: 30px;
     font-size: $text-2xl;
-    line-height: 1;
+    line-height: 1.1;
     letter-spacing: 0.02em;
     color: $white;
-    width: 201px;
-    height: 48px;
+    // Було width: 201px; height: 48px — на телефоні плитка вужча за цю
+    // ширину, і довга назва («Парфумована лінійка ART17») вилазила за її
+    // межі. Тепер підпис тягнеться по плитці з полями з обох боків.
     left: 25px;
+    right: 25px;
+    margin: 0;
     text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+
+    @media (max-width: $bp-md) {
+      bottom: 18px;
+      left: 16px;
+      right: 16px;
+      font-size: $text-xl;
+    }
   }
   &::before {
     content: "";
@@ -365,6 +384,14 @@
     background-size: 14px 14px;
     color: $brown-dark;
     font-size: $text-sm;
+
+    // 16px на телефоні: Safari на iOS наближає сторінку, щойно фокус
+    // потрапляє в поле з меншим шрифтом. Блок має стояти саме після
+    // font-size вище — інакше Sass виносить @media перед ним, і
+    // правило програє за порядком.
+    @media (max-width: $bp-md) {
+      font-size: 16px;
+    }
     font-weight: 500;
     cursor: pointer;
     transition: $transition-default;
