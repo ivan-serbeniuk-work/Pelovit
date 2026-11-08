@@ -439,6 +439,12 @@
   align-items: flex-start;
   justify-content: center;
   padding-top: 100px;
+
+  // Коли на телефоні відкривається клавіатура, вьюпорт стискається
+  // приблизно вдвічі, і 100px згори з'їдають цілий рядок підказок.
+  @media (max-height: 500px) {
+    padding-top: 48px;
+  }
 }
 
 .search-box {
@@ -480,8 +486,11 @@
   overflow: hidden;
   // На мобільному оверлей починається з відступу зверху, тож довгий
   // список має скролитися всередині себе, а не ховатися за екраном.
-  max-height: 60vh;
+  // Запас знизу, щоб останній рядок не прилипав до краю екрана —
+  // і щоб було видно, що список можна прокрутити.
+  max-height: min(60vh, calc(100vh - 180px));
   overflow-y: auto;
+  overscroll-behavior: contain;
 
   &__status {
     margin: 0;

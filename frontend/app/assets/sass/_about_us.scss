@@ -276,6 +276,9 @@
 }
 // Нік поруч із заголовком: єдине місце, звідки видно, куди ведуть плитки.
 .watcheus_handle{
+  // Зона дотику під палець: саме посилання — 21px заввишки.
+  display: inline-block;
+  padding: 10px 0;
   margin-left: $spacing-md;
   color: $accent;
   text-decoration: none;
