@@ -4,6 +4,7 @@ import { Thumbs } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/thumbs'
 import PhotoSwipeLightbox from 'photoswipe/lightbox'
+import { videoMime } from '~/utils/media'
 import 'photoswipe/style.css'
 
 const config = useRuntimeConfig()
@@ -137,18 +138,54 @@ function setMainSwiper(swiper: any) { mainSwiper.value = swiper }
 function galleryPrev() { mainSwiper.value?.slidePrev() }
 function galleryNext() { mainSwiper.value?.slideNext() }
 
-const galleryImages = computed(() => {
+type GalleryItem = {
+  kind: 'image' | 'video'
+  src: string
+  poster?: string
+  mime?: string
+}
+
+// Галерея — фото, далі залиті ролики. YouTube лишається окремим блоком
+// під описом: чужий iframe у лайтбоксі PhotoSwipe поводиться непередбачувано.
+const galleryItems = computed<GalleryItem[]>(() => {
   if (!product.value) return []
-  const imgs: string[] = []
-  if (product.value.image) imgs.push(assetUrl(product.value.image))
-  if (Array.isArray(product.value.images)) {
-    product.value.images.forEach((img: string) => {
-      const src = assetUrl(img)
-      if (!imgs.includes(src)) imgs.push(src)
+  const items: GalleryItem[] = []
+  const seen = new Set<string>()
+
+  const pushImage = (path?: string | null) => {
+    if (!path) return
+    const src = assetUrl(path)
+    if (seen.has(src)) return
+    seen.add(src)
+    items.push({ kind: 'image', src })
+  }
+
+  pushImage(product.value.image)
+  if (Array.isArray(product.value.images)) product.value.images.forEach(pushImage)
+
+  if (Array.isArray(product.value.videos)) {
+    product.value.videos.forEach((video: any) => {
+      if (!video?.file) return
+      items.push({
+        kind: 'video',
+        src: assetUrl(video.file, ''),
+        poster: video.poster ? assetUrl(video.poster, '') : (product.value.image ? assetUrl(product.value.image) : undefined),
+        mime: videoMime(video.file),
+      })
     })
   }
-  return imgs
+
+  return items
 })
+
+// Розміри підвантажуються лише для фото — у відео вони фіксовані.
+const galleryImages = computed(() => galleryItems.value.filter(i => i.kind === 'image').map(i => i.src))
+
+// Зупиняємо всі ролики при зміні слайда: інакше звук грає з-за кадру.
+function pauseGalleryVideos() {
+  if (!import.meta.client) return
+  document.querySelectorAll<HTMLVideoElement>('.product-gallery-main video').forEach(v => v.pause())
+}
 
 const galleryDims = reactive<Record<string, { w: number; h: number }>>({})
 
@@ -170,6 +207,42 @@ onMounted(() => {
     children: 'a.pswp-item',
     pswpModule: () => import('photoswipe'),
   })
+
+  // data-pswp-type PhotoSwipe читає сам, а от свої поля треба покласти
+  // в itemData руками — інакше відео-слайд не знає, що програвати.
+  lightbox.on('itemData', (e: any) => {
+    const el = e.itemData.element as HTMLElement | undefined
+    if (el?.dataset.pswpType !== 'video') return
+
+    e.itemData.type = 'video'
+    e.itemData.videoSrc = el.dataset.videoSrc
+    e.itemData.msrc = el.querySelector('img')?.getAttribute('src') ?? undefined
+  })
+
+  // Відео PhotoSwipe «з коробки» не вміє: слайди з data-pswp-type="video"
+  // наповнюємо самі — інакше на весь екран відкрився б постер як картинка.
+  lightbox.on('contentLoad', (e: any) => {
+    const { content } = e
+    if (content.type !== 'video') return
+
+    e.preventDefault()
+    content.element = document.createElement('div')
+    content.element.className = 'pswp__video'
+
+    const video = document.createElement('video')
+    video.controls = true
+    video.playsInline = true
+    video.preload = 'metadata'
+    video.src = content.data.videoSrc
+    if (content.data.msrc) video.poster = content.data.msrc
+    content.element.appendChild(video)
+  })
+
+  // Закрили лайтбокс — ролик не має грати далі у фоні.
+  lightbox.on('close', () => {
+    document.querySelectorAll<HTMLVideoElement>('.pswp__video video').forEach(v => v.pause())
+  })
+
   lightbox.init()
 })
 
@@ -226,22 +299,40 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
         </div>
 
         <!-- Галерея -->
-        <template v-if="galleryImages.length > 1">
+        <template v-if="galleryItems.length > 1">
           <div class="product-gallery-wrap">
             <Swiper
               :modules="[Thumbs]"
               :thumbs="{ swiper: thumbsSwiper }"
               class="product-gallery-main mb-2"
               @swiper="setMainSwiper"
+              @slide-change="pauseGalleryVideos"
             >
-              <SwiperSlide v-for="(img, i) in galleryImages" :key="i">
+              <SwiperSlide v-for="(item, i) in galleryItems" :key="i">
                 <a
-                  :href="img"
+                  v-if="item.kind === 'image'"
+                  :href="item.src"
                   class="pswp-item"
-                  :data-pswp-width="galleryDims[img]?.w || 1200"
-                  :data-pswp-height="galleryDims[img]?.h || 1200"
+                  :data-pswp-width="galleryDims[item.src]?.w || 1200"
+                  :data-pswp-height="galleryDims[item.src]?.h || 1200"
                 >
-                  <img :src="img" :alt="product.name" class="img-fluid product-image shadow-sm rounded">
+                  <img :src="item.src" :alt="product.name" class="img-fluid product-image shadow-sm rounded">
+                </a>
+                <!-- Відео теж відкривається на весь екран: href тут потрібен
+                     лише як fallback, якщо JS не завантажився. -->
+                <a
+                  v-else
+                  :href="item.src"
+                  class="pswp-item product-video-slide"
+                  data-pswp-type="video"
+                  :data-video-src="item.src"
+                  data-pswp-width="1280"
+                  data-pswp-height="720"
+                >
+                  <img v-if="item.poster" :src="item.poster" :alt="product.name" class="img-fluid product-image shadow-sm rounded">
+                  <span class="product-video-play" aria-hidden="true">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </span>
                 </a>
               </SwiperSlide>
             </Swiper>
@@ -260,15 +351,27 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
             @swiper="setThumbsSwiper"
             class="product-gallery-thumbs"
           >
-            <SwiperSlide v-for="(img, i) in galleryImages" :key="i">
-              <img :src="img" :alt="product.name + ' ' + (i + 1)" class="img-fluid rounded product-thumb-img" loading="lazy" decoding="async">
+            <SwiperSlide v-for="(item, i) in galleryItems" :key="i">
+              <span class="product-thumb">
+                <img :src="item.poster || item.src" :alt="product.name + ' ' + (i + 1)" class="img-fluid rounded product-thumb-img" loading="lazy" decoding="async">
+                <span v-if="item.kind === 'video'" class="product-video-play product-video-play--thumb" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                </span>
+              </span>
             </SwiperSlide>
           </Swiper>
         </template>
 
         <!-- Одне фото -->
         <div v-else class="text-center">
+          <VideoPlayer
+            v-if="galleryItems[0]?.kind === 'video'"
+            :src="galleryItems[0].src"
+            :poster="galleryItems[0].poster"
+            :title="product.name"
+          />
           <a
+            v-else
             :href="galleryImages[0] ?? assetUrl(null)"
             class="pswp-item"
             :data-pswp-width="galleryDims[galleryImages[0]]?.w || 1200"
@@ -322,17 +425,7 @@ const HEART_FILLED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none
 
           <template v-if="product.youtube_id">
             <h5 class="mt-5 mb-3">Відео</h5>
-            <div class="ratio ratio-16x9 product-video">
-              <iframe
-                :src="`https://www.youtube-nocookie.com/embed/${product.youtube_id}?rel=0`"
-                :title="`Відео: ${product.name}`"
-                loading="lazy"
-                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen
-                class="rounded"
-              />
-            </div>
+            <VideoPlayer :video-url="product.video_url" :title="product.name" class="product-video" />
           </template>
 
           <!-- Повний текст інструкції: склад, активи, спосіб застосування. -->

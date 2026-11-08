@@ -20,6 +20,8 @@
 /public/hot
 /public/products
 /public/team
+/public/videos/*
+!/public/videos/.gitkeep
 /public/storage
 /storage/*.key
 /storage/pail

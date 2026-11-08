@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\HasYoutubeId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -9,6 +10,7 @@ use Illuminate\Support\Str;
 class Product extends Model
 {
     use HasFactory;
+    use HasYoutubeId;
 
     protected static function boot(): void
     {
@@ -36,12 +38,13 @@ class Product extends Model
         'category_id', 'name', 'slug', 'description', 'instruction',
         'meta_title', 'meta_description', 'meta_keywords',
         'og_title', 'og_description', 'no_index',
-        'price', 'old_price', 'image', 'images', 'video_url',
+        'price', 'old_price', 'image', 'images', 'video_url', 'videos',
         'brand', 'stock', 'is_active', 'is_featured',
     ];
 
     protected $casts = [
         'images' => 'array',
+        'videos' => 'array',
         'is_active' => 'boolean',
         'is_featured' => 'boolean',
         'no_index' => 'boolean',
@@ -63,17 +66,5 @@ class Product extends Model
         }
 
         return (int) round((1 - $this->price / $this->old_price) * 100);
-    }
-
-    // ID ролика з будь-якого формату посилання: watch?v=, youtu.be/, shorts/, embed/.
-    public function getYoutubeIdAttribute(): ?string
-    {
-        if (! $this->video_url) {
-            return null;
-        }
-
-        preg_match('~(?:youtube(?:-nocookie)?\.com/(?:watch\?(?:.*&)?v=|shorts/|embed/|live/)|youtu\.be/)([\w-]{11})~', $this->video_url, $m);
-
-        return $m[1] ?? null;
     }
 }

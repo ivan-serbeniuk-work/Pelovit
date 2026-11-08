@@ -8,8 +8,10 @@ until php -r "new PDO('mysql:host='.getenv('DB_HOST').';port='.getenv('DB_PORT')
 done
 echo "Database is up."
 
-# Make sure storage is writable and linked (volumes may reset ownership)
-chown -R www-data:www-data storage bootstrap/cache || true
+# Make sure storage is writable and linked (volumes may reset ownership).
+# public/videos — свіжий том, який монтується від root; тека мала, тож
+# recursive chown тут дешевий (на відміну від public/images).
+chown -R www-data:www-data storage bootstrap/cache public/videos || true
 php artisan storage:link || true
 
 # Run migrations, then cache config/routes/views for production

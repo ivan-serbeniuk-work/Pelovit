@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources\Product\Pages;
 
 use App\MoonShine\Concerns\ValidatesUploadedImages;
+use App\MoonShine\Concerns\ValidatesUploadedVideos;
 use App\MoonShine\Resources\Category\CategoryResource;
 use App\MoonShine\Resources\Product\ProductResource;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
@@ -19,7 +20,9 @@ use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Layout\Column;
 use MoonShine\UI\Components\Layout\Grid;
+use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\Image;
+use MoonShine\UI\Fields\Json;
 use MoonShine\UI\Fields\Number;
 use MoonShine\UI\Fields\Switcher;
 use MoonShine\UI\Fields\Text;
@@ -32,6 +35,7 @@ use Throwable;
 class ProductFormPage extends FormPage
 {
     use ValidatesUploadedImages;
+    use ValidatesUploadedVideos;
 
     /**
      * @return list<ComponentContract|FieldContract>
@@ -110,6 +114,23 @@ class ProductFormPage extends FormPage
                     ->multiple(),
                 Text::make('Відео (YouTube)', 'video_url')
                     ->hint('Посилання на ролик з YouTube, напр. https://www.youtube.com/watch?v=... або https://youtu.be/... Показується на сторінці товару.'),
+                // Залиті ролики стають слайдами галереї поряд з фото.
+                // Постер необов'язковий: без нього браузер сам показує
+                // перший кадр, бо плеєр вантажиться з preload="metadata".
+                Json::make('Відеофайли', 'videos')
+                    ->fields([
+                        File::make('Відео', 'file')
+                            ->dir('videos')
+                            ->disk('public_root')
+                            ->allowedExtensions(['mp4', 'webm']),
+                        Image::make('Постер', 'poster')
+                            ->dir('images/videos')
+                            ->disk('public_root'),
+                        Text::make('Підпис', 'title'),
+                    ])
+                    ->creatable()
+                    ->removable()
+                    ->hint('MP4 або WebM, до 50 МБ на файл.'),
             ]),
         ];
     }
@@ -130,6 +151,8 @@ class ProductFormPage extends FormPage
             'video_url' => ['nullable', 'url', 'regex:~(youtube(-nocookie)?\.com|youtu\.be)/~i'],
             'image' => $this->imageRules(),
             'images.*' => $this->imageRules(),
+            'videos.*.file' => $this->videoRules(),
+            'videos.*.poster' => $this->imageRules(),
         ];
     }
 

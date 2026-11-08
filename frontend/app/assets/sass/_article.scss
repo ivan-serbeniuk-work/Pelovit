@@ -54,3 +54,13 @@
   color: black;
   text-decoration: none;
 }
+
+// Відео в тілі статті (вставлене через редактор) і головне відео під
+// заголовком: ті самі поля й кути, що в картинок статті.
+.article-video{
+  display: block;
+  width: 100%;
+  margin-bottom: $spacing-lg;
+  border-radius: $radius-lg;
+  overflow: hidden;
+}

@@ -100,4 +100,17 @@ class ProductApiTest extends TestCase
 
         $this->assertNull($response->json('product.discount_percent'));
     }
+
+    public function test_response_includes_uploaded_videos(): void
+    {
+        Product::factory()->create([
+            'slug' => 'krem-z-video',
+            'videos' => [['file' => 'videos/clip.mp4', 'poster' => 'images/videos/clip.png', 'title' => 'Як наносити']],
+        ]);
+
+        $videos = $this->getJson('/api/products/krem-z-video')->assertOk()->json('product.videos');
+
+        $this->assertCount(1, $videos);
+        $this->assertSame('videos/clip.mp4', $videos[0]['file']);
+    }
 }

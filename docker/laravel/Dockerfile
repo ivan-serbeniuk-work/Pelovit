@@ -18,8 +18,12 @@ RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-in
 
 # App source (frontend/ excluded via .dockerignore)
 COPY . .
+# public/videos створюємо тут навмисно: тека порожня й ґітігнорена, а якщо
+# її немає в образі, Docker створює точку монтування тому від root — і
+# php-fpm (www-data) не може туди записати жодного ролика.
 RUN composer dump-autoload --optimize --no-dev --no-interaction \
-    && chown -R www-data:www-data storage bootstrap/cache
+    && mkdir -p public/videos \
+    && chown -R www-data:www-data storage bootstrap/cache public/videos
 
 COPY docker/laravel/php.ini /usr/local/etc/php/conf.d/app.ini
 COPY docker/laravel/nginx.conf /etc/nginx/sites-available/default

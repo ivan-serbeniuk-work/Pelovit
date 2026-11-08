@@ -55,6 +55,39 @@
   .swiper-slide-thumb-active { opacity: 1; }
 }
 
+// Відео-слайд: постер плюс кнопка «play» по центру. Клік відкриває той
+// самий лайтбокс, що й фото, тому курсор лишається zoom-in від .pswp-item.
+.product-video-slide {
+  position: relative;
+  display: block;
+}
+
+.product-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: $radius-full;
+  background: rgba(66, 41, 40, .72);
+  color: $on-dark;
+  pointer-events: none;
+
+  &--thumb {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.product-thumb {
+  position: relative;
+  display: block;
+}
+
 .product-thumb-img {
   width: 100%;
   aspect-ratio: 1;
@@ -465,5 +498,22 @@
       border: 1px solid $brown-700;
       border-radius: $radius-sm;
     }
+  }
+}
+
+// Відео в лайтбоксі PhotoSwipe: слайд наповнюється вручну (див. contentLoad
+// у product/[slug].vue), тож і розміри задаємо тут.
+.pswp__video {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+
+  video {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: $radius-md;
+    background: $brown-900;
   }
 }

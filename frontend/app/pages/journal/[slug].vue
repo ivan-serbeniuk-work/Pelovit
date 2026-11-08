@@ -86,7 +86,18 @@ function copyUrl() {
 <section v-if="post" class="article_section">
   <div class="container py-5">
     <h1 class="fw-bold mb-4">{{ post.title }}</h1>
-    <div v-if="post.image" class="mb-4">
+    <!-- Головне відео замість обкладинки: якщо до статті залили ролик або
+         дали посилання, шапкою стає він. Саме фото лишається постером
+         і og:image — соцмережі відео не показують. -->
+    <VideoPlayer
+      v-if="post.video_file || post.youtube_id"
+      :src="post.video_file"
+      :video-url="post.video_url"
+      :poster="post.video_poster || post.image"
+      :title="post.title"
+      class="mb-4"
+    />
+    <div v-else-if="post.image" class="mb-4">
       <img :src="assetUrl(post.image)" class="img-fluid rounded-4 w-100 article-image" :alt="post.title">
     </div>
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">

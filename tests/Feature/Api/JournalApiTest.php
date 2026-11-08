@@ -74,4 +74,32 @@ class JournalApiTest extends TestCase
         $this->assertArrayHasKey('formatted_date', $response->json('post'));
         $this->assertNotEmpty($response->json('post.formatted_date'));
     }
+
+    /**
+     * Відео приїжджає на сторінку статті, але не в картки списку —
+     * CARD_FIELDS лишається вузьким навмисно.
+     */
+    public function test_show_returns_video_fields(): void
+    {
+        Post::factory()->create([
+            'slug' => 'post-z-video',
+            'video_file' => 'videos/clip.mp4',
+            'video_url' => 'https://youtu.be/dQw4w9WgXcQ',
+        ]);
+
+        $response = $this->getJson('/api/journal/post-z-video')->assertOk();
+
+        $this->assertSame('videos/clip.mp4', $response->json('post.video_file'));
+        $this->assertSame('dQw4w9WgXcQ', $response->json('post.youtube_id'));
+    }
+
+    public function test_index_cards_do_not_expose_video(): void
+    {
+        Post::factory()->create(['video_file' => 'videos/clip.mp4']);
+
+        $card = $this->getJson('/api/journal')->assertOk()->json('posts.data.0');
+
+        $this->assertArrayNotHasKey('video_file', $card);
+        $this->assertArrayNotHasKey('video_url', $card);
+    }
 }

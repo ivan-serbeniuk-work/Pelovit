@@ -21,7 +21,7 @@ class PostResource extends ModelResource
     use OptimizesUploadedImages;
 
     /** @var list<string> Колонки з картинками — великі фото стискаються після збереження. */
-    protected array $imageColumns = ['image'];
+    protected array $imageColumns = ['image', 'video_poster'];
 
     protected string $model = Post::class;
 

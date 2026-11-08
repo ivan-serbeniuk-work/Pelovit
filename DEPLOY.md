@@ -48,6 +48,12 @@ docker compose exec laravel php artisan moonshine:user
 nginx -t && systemctl reload nginx
 ```
 
+**Після релізу з відео** хостовий конфіг треба оновити руками — деплой його не чіпає:
+додати `location /videos/` (є в `deploy/nginx-host.conf` і в
+`deploy/develop-site.online.conf`) і підняти `client_max_body_size` до `60M`, інакше
+завантаження ролика впаде з 413, а сам ролик віддаватиметься 404. Далі той самий
+`nginx -t && systemctl reload nginx`.
+
 ## 5. Перевірка
 - `https://develop-site.online` — вітрина (Nuxt).
 - `https://develop-site.online/admin` — адмінка.
@@ -86,6 +92,11 @@ docker compose up -d --build
 - **Дані**: свіжа БД порожня. Товари/категорії — через `/admin`, або імпортуй дамп своєї
   локальної БД (`docker compose exec -T db mariadb -u root -p pelovit < dump.sql`).
 - **Ресурси**: збірка Nuxt важка для 1 ГБ RAM — swap (у тебе 2 ГБ) обов'язковий.
+- **Відео**: залиті ролики лежать у томі `uploads_videos` (`public/videos`), як і фото в
+  `uploads_images`. Том створюється сам при `docker compose up -d`, але на старому стеку
+  його немає — тобто реліз з відео вимагає саме деплою, а не лише міграції. Ліміт файлу —
+  50 МБ у валідації, 60 МБ у php.ini і nginx. Транскодування немає: що залили, те й
+  віддається, тож стежити за розміром роликів доводиться вручну.
 - **Логи / диск**: json-логи контейнерів обмежено ротацією (10 МБ × 5 на контейнер),
   щоб не повторилось переповнення диска. Задано у двох місцях: `logging:` у
   `docker-compose.yml` (діє з наступного деплою) і глобально в `/etc/docker/daemon.json`

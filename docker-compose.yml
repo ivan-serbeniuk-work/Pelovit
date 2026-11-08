@@ -67,6 +67,7 @@ services:
       - uploads_products:/var/www/html/public/products
       - uploads_categories:/var/www/html/public/categories
       - uploads_images:/var/www/html/public/images
+      - uploads_videos:/var/www/html/public/videos
     ports:
       - "127.0.0.1:8000:8000"
 
@@ -89,3 +90,4 @@ volumes:
   uploads_products:
   uploads_categories:
   uploads_images:
+  uploads_videos:

@@ -6,6 +6,7 @@ namespace App\MoonShine\Resources\Post\Pages;
 
 use App\Models\Post;
 use App\MoonShine\Concerns\ValidatesUploadedImages;
+use App\MoonShine\Concerns\ValidatesUploadedVideos;
 use App\MoonShine\Resources\Post\PostResource;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
@@ -20,6 +21,7 @@ use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Layout\Column;
 use MoonShine\UI\Components\Layout\Grid;
 use MoonShine\UI\Fields\Date;
+use MoonShine\UI\Fields\File;
 use MoonShine\UI\Fields\Image;
 use MoonShine\UI\Fields\Json;
 use MoonShine\UI\Fields\Select;
@@ -34,6 +36,7 @@ use Throwable;
 class PostFormPage extends FormPage
 {
     use ValidatesUploadedImages;
+    use ValidatesUploadedVideos;
 
     /**
      * @return list<ComponentContract|FieldContract>
@@ -86,6 +89,22 @@ class PostFormPage extends FormPage
                     ])->columnSpan(6),
                 ]),
             ]),
+            // Головне відео статті: або посилання на YouTube, або залитий
+            // файл. Обидва поля заповнювати не треба — якщо є файл, він
+            // має перевагу: своє відео швидше й без чужих лічильників.
+            Box::make('Відео', [
+                Text::make('Відео (YouTube)', 'video_url')
+                    ->hint('Посилання на ролик, напр. https://www.youtube.com/watch?v=... або https://youtu.be/...'),
+                File::make('Відеофайл', 'video_file')
+                    ->dir('videos')
+                    ->disk('public_root')
+                    ->allowedExtensions(['mp4', 'webm'])
+                    ->hint('MP4 або WebM, до 50 МБ. Показується під шапкою статті.'),
+                Image::make('Постер', 'video_poster')
+                    ->dir('images/videos')
+                    ->disk('public_root')
+                    ->hint('Кадр-заставка до запуску. Якщо порожньо — браузер візьме перший кадр.'),
+            ]),
             Box::make('SEO', [
                 Grid::make([
                     Column::make([
@@ -123,6 +142,9 @@ class PostFormPage extends FormPage
     {
         return [
             'image' => $this->imageRules(),
+            'video_url' => ['nullable', 'url', 'regex:~(youtube(-nocookie)?\.com|youtu\.be)/~i'],
+            'video_file' => $this->videoRules(),
+            'video_poster' => $this->imageRules(),
         ];
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\EditorVideoUploadController;
 use App\Models\Lead;
 use App\Models\Order;
 use App\Models\Setting;
@@ -24,6 +25,15 @@ Route::get('/pay/{order}', function (Order $order, LiqPayService $liqpay) {
         ->view('liqpay.redirect', ['liqpay' => $liqpay->checkoutData($order, forApp: true)])
         ->header('Cache-Control', 'no-store');
 })->middleware('signed')->name('liqpay.pay');
+
+/*
+ * Завантаження відео з редактора статті (TinyMCE, плагін media).
+ * Під тією самою охороною, що й решта адмінських маршрутів: без неї
+ * будь-хто міг би класти файли в public/videos.
+ */
+Route::post('/admin/editor/upload-video', EditorVideoUploadController::class)
+    ->middleware(['moonshine', 'MoonShine\Laravel\Http\Middleware\Authenticate'])
+    ->name('admin.editor.upload-video');
 
 Route::get('/admin/orders/export-csv', function () {
     $orders = Order::orderBy('created_at', 'desc')->get();
