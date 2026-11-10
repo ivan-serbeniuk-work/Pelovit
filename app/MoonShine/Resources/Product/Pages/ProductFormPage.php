@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources\Product\Pages;
 
+use App\Models\Product;
 use App\MoonShine\Concerns\ValidatesUploadedImages;
 use App\MoonShine\Concerns\ValidatesUploadedVideos;
 use App\MoonShine\Resources\Category\CategoryResource;
 use App\MoonShine\Resources\Product\ProductResource;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
+use MoonShine\Contracts\UI\ActionButtonContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FormBuilderContract;
 use MoonShine\Laravel\Fields\Relationships\BelongsTo;
@@ -16,6 +18,7 @@ use MoonShine\Laravel\Fields\Relationships\BelongsToMany;
 use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\Support\ListOf;
 use MoonShine\TinyMce\Fields\TinyMce;
+use MoonShine\UI\Components\ActionButton;
 use MoonShine\UI\Components\FlexibleRender;
 use MoonShine\UI\Components\FormBuilder;
 use MoonShine\UI\Components\Layout\Box;
@@ -152,6 +155,32 @@ class ProductFormPage extends FormPage
     protected function buttons(): ListOf
     {
         return parent::buttons();
+    }
+
+    /**
+     * Глазик веде на сторінку товару у вітрині (новою вкладкою),
+     * а не на внутрішню detail-сторінку адмінки: на практиці звідси
+     * завжди йдуть дивитися, як товар виглядає на сайті.
+     */
+    protected function modifyDetailButton(ActionButtonContract $button): ActionButtonContract
+    {
+        return ActionButton::make(
+            '',
+            static function (mixed $item, ?DataWrapperContract $data): string {
+                $product = $data?->getOriginal();
+
+                return $product instanceof Product ? $product->publicUrl() : '#';
+            }
+        )
+            ->name('product-public-url-button')
+            ->withoutLoading()
+            ->blank()
+            ->customAttributes(['title' => 'Переглянути на сайті'])
+            ->canSee(static fn (mixed $item, ?DataWrapperContract $data): bool => $data?->getOriginal() instanceof Product
+                && filled($data->getOriginal()->slug))
+            ->icon('eye')
+            ->square()
+            ->showInLine();
     }
 
     protected function formButtons(): ListOf

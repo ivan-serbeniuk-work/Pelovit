@@ -27,6 +27,16 @@ class Product extends Model
         });
     }
 
+    /**
+     * Посилання на сторінку товару у вітрині (Nuxt), а не в Laravel:
+     * на проді все, крім /api та /admin, віддає Nuxt.
+     */
+    public function publicUrl(): string
+    {
+        return rtrim((string) config('app.frontend_url'), '/')
+            .'/product/'.$this->slug;
+    }
+
     private static function uniqueSlug(string $base): string
     {
         $slug = $base;
