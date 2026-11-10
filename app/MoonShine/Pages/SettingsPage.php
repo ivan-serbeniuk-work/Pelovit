@@ -79,16 +79,9 @@ class SettingsPage extends Page
             $field('Дефолтне OG Image (URL)', 'default_og_image', 'url', 'Зображення для сторінок без власного OG Image. Повна URL-адреса.').
             $textarea('Дефолтний опис сайту', 'site_description', 'Використовується як fallback description для сторінок без власного опису.');
 
-        $pageLabels = [
-            'home' => 'Головна (/)',
-            'catalog' => 'Каталог (/catalog)',
-            'journal' => 'Меджурнал (/journal)',
-            'contacts' => 'Контакти (/contacts)',
-            'about' => 'Про нас (/about)',
-            'opt' => 'Опт (/opt)',
-            'masters' => 'Майстрам (/masters)',
-            'contract' => 'Контрактне виробництво (/kontractne-vyrobnyctvo)',
-        ];
+        // Список сторінок — у Setting::SEO_PAGES, разом з білим списком ключів
+        // у routes/web.php: два окремі списки вже одного разу розійшлися.
+        $pageLabels = Setting::SEO_PAGES;
 
         $pageSeoHtml = '';
         foreach ($pageLabels as $pageKey => $pageLabel) {

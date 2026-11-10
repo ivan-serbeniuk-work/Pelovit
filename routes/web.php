@@ -75,16 +75,12 @@ Route::post('/admin/settings/save', function (Request $request) {
         'about_intro', 'about_awards_title', 'about_cert_title',
         // Global SEO
         'google_analytics_id', 'default_og_image', 'site_description',
-        // Per-page SEO
-        'seo_home_title', 'seo_home_description', 'seo_home_og_image',
-        'seo_catalog_title', 'seo_catalog_description', 'seo_catalog_og_image',
-        'seo_journal_title', 'seo_journal_description', 'seo_journal_og_image',
-        'seo_contacts_title', 'seo_contacts_description', 'seo_contacts_og_image',
-        'seo_about_title', 'seo_about_description', 'seo_about_og_image',
-        'seo_opt_title', 'seo_opt_description', 'seo_opt_og_image',
-        'seo_masters_title', 'seo_masters_description', 'seo_masters_og_image',
-        'seo_contract_title', 'seo_contract_description', 'seo_contract_og_image',
     ];
+
+    // Per-page SEO: ключі всіх сторінок з Setting::SEO_PAGES, щоб форма
+    // в адмінці й цей список не розходилися.
+    $keys = [...$keys, ...Setting::seoPageKeys()];
+
     foreach ($keys as $key) {
         if ($request->has($key)) {
             Setting::set($key, $request->input($key, ''));
