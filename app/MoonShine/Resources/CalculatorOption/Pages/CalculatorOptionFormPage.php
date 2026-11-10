@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources\CalculatorOption\Pages;
 use App\Models\CalculatorOption;
 use App\MoonShine\Concerns\ValidatesUploadedImages;
 use App\MoonShine\Resources\CalculatorOption\CalculatorOptionResource;
+use App\Support\CalculatorExplainer;
 use MoonShine\Contracts\Core\TypeCasts\DataWrapperContract;
 use MoonShine\Contracts\UI\ComponentContract;
 use MoonShine\Contracts\UI\FieldContract;
@@ -38,7 +39,7 @@ class CalculatorOptionFormPage extends FormPage
                 Text::make('Назва', 'name')->required(),
                 Number::make('Значення', 'value')
                     ->step(0.0001)
-                    ->hint('Собівартість за 1 мл (вид продукту), множник (складність формули) або ціна за штуку (тара, етикетка, коробка).')
+                    ->hint($this->valueHint())
                     ->required(),
                 Image::make('Зображення', 'image')->dir('images')->disk('public_root')
                     ->hint('Лише для тари — показується в калькуляторі.'),
@@ -47,6 +48,23 @@ class CalculatorOptionFormPage extends FormPage
                 Switcher::make('Активна', 'is_active'),
             ]),
         ];
+    }
+
+    /**
+     * Одиниця «значення» залежить від групи, тому підказка перелічує всі —
+     * інакше в полі стоїть число без жодного натяку, що воно означає.
+     */
+    private function valueHint(): string
+    {
+        $parts = [];
+
+        foreach (CalculatorOption::GROUPS as $group => $label) {
+            $name = trim((string) preg_replace('/\s*\(.*\)$/u', '', $label));
+            $parts[] = $name.' — '.CalculatorExplainer::VALUE_MEANING[$group][0];
+        }
+
+        return implode('; ', $parts)
+            .'. Формула й приклад розрахунку — у блоці «Як працює калькулятор» у списку опцій.';
     }
 
     protected function rules(DataWrapperContract $item): array

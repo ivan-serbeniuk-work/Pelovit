@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Pages;
 
 use App\Models\Setting;
+use App\Support\CalculatorExplainer;
 use MoonShine\Laravel\Pages\Page;
 use MoonShine\UI\Components\FlexibleRender;
 use MoonShine\UI\Components\Layout\Box;
@@ -98,6 +99,10 @@ class SettingsPage extends Page
             </details>";
         }
 
+        // Три поля нижче впливають на результат разом зі ставками з інших
+        // розділів, тому поруч лежить та сама пояснювалка, що й там.
+        $calcExplainer = app(CalculatorExplainer::class)->render();
+
         $formHtml = "
         {$success}
         <form method='POST' action='{$action}'>
@@ -127,6 +132,10 @@ class SettingsPage extends Page
             <div style='margin-top:8px'>
                 <div style='font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--color-base-text);opacity:.45;margin-bottom:16px'>Калькулятор контрактного виробництва</div>
                 <p style='font-size:12px;color:var(--color-base-text);opacity:.55;margin-bottom:16px'>Ставки за продукти, тару та знижки за тираж редагуються в розділах «Калькулятор: опції» та «Калькулятор: знижки за тираж».</p>
+                <details style='margin-bottom:16px;border:1px solid var(--color-base-stroke);border-radius:8px;overflow:hidden'>
+                    <summary style='padding:12px 16px;font-size:13px;font-weight:600;cursor:pointer;background:var(--color-body2,var(--color-body));list-style:none'>Як це вважається — формула і приклад</summary>
+                    <div style='padding:16px'>{$calcExplainer}</div>
+                </details>
                 {$calcHtml}
             </div>
             <div style='margin-top:8px'>
