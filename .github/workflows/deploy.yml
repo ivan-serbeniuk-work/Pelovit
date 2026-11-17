@@ -115,4 +115,7 @@ jobs:
             docker compose up -d --no-build
 
             docker logout ghcr.io
-            docker image prune -f
+            # -a: прибрати й старі образи з тегами-SHA (просте prune чіпає лише
+            # безіменні, тож по 1.5 ГБ на деплой накопичувалось до повного диска).
+            # Відкат — передеплой потрібного коміту, образи лишаються в GHCR.
+            docker image prune -af
